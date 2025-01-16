@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: system
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: ${system.datasource.driver-class-name}
+    url: jdbc:mysql://${system.datasource.host}:${system.datasource.port}/${system.datasource.database}?serverTimezone=UTC
+    username: ${system.datasource.username}
+    password: ${system.datasource.password}
+  data:
+    redis:
+      host: ${system.data.redis.host}
+      port: ${system.data.redis.port}
+      database: ${system.data.redis.database}
+
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
+  type-aliases-package: com.reaosen.management_system.Model
+  mapper-locations: classpath:Mapper/*.xml
+
