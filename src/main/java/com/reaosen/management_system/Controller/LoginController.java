@@ -16,7 +16,7 @@ public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
     public Object Login(@RequestBody UserDTO userDTO, HttpServletResponse response){
-
+        loginService.login(userDTO, response);
         return ResultDTO.okOf();
     }
 }
