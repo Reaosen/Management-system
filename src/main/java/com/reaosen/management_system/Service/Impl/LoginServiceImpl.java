@@ -34,6 +34,7 @@ public class LoginServiceImpl implements LoginService {
         if (users.size() == 0) {
             throw new CustomizeException(CustomizeErrorCode.PASSWORD_OR_EMAIL_WRONG);
         }
+
         // 登录成功 写cookie和session
         User user = users.get(0);
         user.setToken(UUID.randomUUID().toString());
