@@ -30,7 +30,7 @@ public class LoginController {
             return new ResponseEntity<>(resultDTO, HttpStatus.valueOf(ex.getHttpStatus()));
         }
     }
-
+    //用户登出
     @GetMapping("/logout")
     public Object logout(HttpServletRequest request,
                                             HttpServletResponse response) {
