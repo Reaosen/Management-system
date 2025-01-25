@@ -1,9 +1,4 @@
-package com.reaosen.management_system.Tools;
-
-import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
+package com.reaosen.management_system.Utils;
 
 /**
  * 发邮件工具类

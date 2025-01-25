@@ -1,7 +1,7 @@
 package com.reaosen.management_system.Service.Impl;
 
 import cn.hutool.core.lang.UUID;
-import com.reaosen.management_system.DTO.UserDTO;
+import com.reaosen.management_system.DTO.TempUserDTO;
 import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
@@ -22,7 +22,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private UserMapper userMapper;
 
-    public void login(UserDTO userDTO, HttpServletResponse response) {
+    public void login(TempUserDTO userDTO, HttpServletResponse response) {
         if (StrUtil.isBlank(userDTO.getEmail()) || StrUtil.isBlank(userDTO.getPassword())) {
             throw new CustomizeException(CustomizeErrorCode.IS_EMPTY);
         }
@@ -37,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
 
         // 登录成功 写cookie和session
         User user = users.get(0);
+        //TODO JWT token 更新
         user.setToken(UUID.randomUUID().toString());
         userMapper.updateByPrimaryKey(user);
         response.addCookie(new Cookie("token", user.getToken()));
