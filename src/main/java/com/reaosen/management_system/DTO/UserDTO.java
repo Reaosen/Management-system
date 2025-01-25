@@ -13,4 +13,5 @@ public class UserDTO {
     private String name;
     private String bio;
     private String avatarUrl;
+    private Long mobile;
 }

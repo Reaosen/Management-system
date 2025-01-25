@@ -1,56 +1,42 @@
 package com.reaosen.management_system.Model;
 
 public class User {
-    private Long id;
+    private Integer id;
 
-    private Long accountId;
-
-    private String email;
-
-    private String password;
+    private Integer accountId;
 
     private String name;
 
-    private String token;
+    private String password;
+
+    private String email;
 
     private Long gmtCreate;
 
     private Long gmtModified;
 
-    private String avatarUrl;
+    private Integer avatarUrl;
+
+    private String token;
 
     private String bio;
 
-    public Long getId() {
+    private Long tel;
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
-    public Long getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Long accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getName() {
@@ -61,12 +47,20 @@ public class User {
         this.name = name;
     }
 
-    public String getToken() {
-        return token;
+    public String getPassword() {
+        return password;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public Long getGmtCreate() {
@@ -85,12 +79,20 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
-    public String getAvatarUrl() {
+    public Integer getAvatarUrl() {
         return avatarUrl;
     }
 
-    public void setAvatarUrl(String avatarUrl) {
+    public void setAvatarUrl(Integer avatarUrl) {
         this.avatarUrl = avatarUrl;
+    }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     public String getBio() {
@@ -99,5 +101,13 @@ public class User {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public Long getTel() {
+        return tel;
+    }
+
+    public void setTel(Long tel) {
+        this.tel = tel;
     }
 }
