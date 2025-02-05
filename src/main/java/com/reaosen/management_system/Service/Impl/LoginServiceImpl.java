@@ -39,7 +39,6 @@ public class LoginServiceImpl implements LoginService {
 
         // 登录成功 写cookie和session
         User user = users.get(0);
-        //TODO JWT token 更新
         Integer accountId = user.getAccountId();
         HashMap<String, Object> claims = new HashMap<>();
         claims.put("username", user.getName());
