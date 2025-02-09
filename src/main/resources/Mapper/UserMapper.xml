@@ -9,7 +9,7 @@
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="gmt_create" jdbcType="BIGINT" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="BIGINT" property="gmtModified" />
-    <result column="avatar_url" jdbcType="INTEGER" property="avatarUrl" />
+    <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="bio" jdbcType="VARCHAR" property="bio" />
     <result column="tel" jdbcType="BIGINT" property="tel" />
@@ -113,7 +113,7 @@
       bio, tel)
     values (#{id,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=BIGINT}, 
-      #{gmtModified,jdbcType=BIGINT}, #{avatarUrl,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR}, 
+      #{gmtModified,jdbcType=BIGINT}, #{avatarUrl,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
       #{bio,jdbcType=VARCHAR}, #{tel,jdbcType=BIGINT})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.User">
@@ -176,7 +176,7 @@
         #{gmtModified,jdbcType=BIGINT},
       </if>
       <if test="avatarUrl != null">
-        #{avatarUrl,jdbcType=INTEGER},
+        #{avatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
         #{token,jdbcType=VARCHAR},
@@ -220,7 +220,7 @@
         gmt_modified = #{record.gmtModified,jdbcType=BIGINT},
       </if>
       <if test="record.avatarUrl != null">
-        avatar_url = #{record.avatarUrl,jdbcType=INTEGER},
+        avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="record.token != null">
         token = #{record.token,jdbcType=VARCHAR},
@@ -245,7 +245,7 @@
       email = #{record.email,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{record.gmtModified,jdbcType=BIGINT},
-      avatar_url = #{record.avatarUrl,jdbcType=INTEGER},
+      avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
       token = #{record.token,jdbcType=VARCHAR},
       bio = #{record.bio,jdbcType=VARCHAR},
       tel = #{record.tel,jdbcType=BIGINT}
@@ -275,7 +275,7 @@
         gmt_modified = #{gmtModified,jdbcType=BIGINT},
       </if>
       <if test="avatarUrl != null">
-        avatar_url = #{avatarUrl,jdbcType=INTEGER},
+        avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       </if>
       <if test="token != null">
         token = #{token,jdbcType=VARCHAR},
@@ -297,7 +297,7 @@
       email = #{email,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=BIGINT},
       gmt_modified = #{gmtModified,jdbcType=BIGINT},
-      avatar_url = #{avatarUrl,jdbcType=INTEGER},
+      avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       token = #{token,jdbcType=VARCHAR},
       bio = #{bio,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=BIGINT}

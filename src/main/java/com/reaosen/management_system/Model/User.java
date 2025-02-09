@@ -15,7 +15,7 @@ public class User {
 
     private Long gmtModified;
 
-    private Integer avatarUrl;
+    private String avatarUrl;
 
     private String token;
 
@@ -79,11 +79,11 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
-    public Integer getAvatarUrl() {
+    public String getAvatarUrl() {
         return avatarUrl;
     }
 
-    public void setAvatarUrl(Integer avatarUrl) {
+    public void setAvatarUrl(String avatarUrl) {
         this.avatarUrl = avatarUrl;
     }
 

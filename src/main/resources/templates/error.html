@@ -24,9 +24,7 @@
 <section>
     <div class="container ">
 
-        <section class="error-wrapper text-center">th:if="${session.user != null}"
-            <h1 th:if="${httpStatus != 404}"><img alt="" src="/images/500-error.png"></h1>
-            <h1 th:if="${httpStatus == 404}"><img alt="" src="/images/404-error.png"></h1>
+        <section class="error-wrapper text-center">
             <h2>啊哦!!!</h2>
             <h3>出错啦！</h3>
             <p class="nrml-txt" th:text="${message}">服务太热门啦，要不稍等一下试试呢~</p>
