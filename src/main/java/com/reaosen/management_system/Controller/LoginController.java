@@ -21,25 +21,21 @@ public class LoginController {
     LoginService loginService;
 
     @GetMapping("/login")
-    public String login(){
+    public String login() {
         return "login";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     @ResponseBody
-    public Object Login(@RequestBody TempUserDTO tempUserDTO, HttpServletResponse response){
-        try {
-            loginService.login(tempUserDTO, response);
-            return ResponseEntity.ok(ResultDTO.okOf());
-        } catch (CustomizeException ex) {
-            ResultDTO resultDTO = ResultDTO.errorOf(ex);
-            return new ResponseEntity<>(resultDTO, HttpStatus.valueOf(ex.getHttpStatus()));
-        }
+    public Object Login(@RequestBody TempUserDTO tempUserDTO, HttpServletResponse response) {
+        loginService.login(tempUserDTO, response);
+        return ResultDTO.okOf();
     }
+
     //用户登出
     @GetMapping("/logout")
     public Object logout(HttpServletRequest request,
-                                            HttpServletResponse response) {
+                         HttpServletResponse response) {
         request.getSession().removeAttribute("user");
         Cookie cookie = new Cookie("token", null);
         cookie.setMaxAge(0);

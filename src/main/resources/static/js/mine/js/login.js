@@ -16,7 +16,7 @@ function login() {
         success: function (response) {
             if (response.code === 200) {
                 window.location.href = "/";
-            }else {
+            } else {
                 alert(response.message);
             }
         },

@@ -17,27 +17,23 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class CustomizeExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handle(Throwable ex, HttpServletRequest request) {
+    @ResponseBody
+    Object handle(Throwable ex, Model model, HttpServletRequest request) {
         String contentType = request.getContentType();
-        if ("application/json".equals(contentType)) {
-            if (ex instanceof CustomizeException) {
-                CustomizeException customizeException = (CustomizeException) ex;
-                ResultDTO resultDTO = (ResultDTO) ResultDTO.errorOf(customizeException);
-                return new ResponseEntity<>(resultDTO, HttpStatus.valueOf(customizeException.getCode()));
-            } else {
-                ResultDTO resultDTO = ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR, 500);
-                return new ResponseEntity<>(resultDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+        if("application/json".equals(contentType)){
+            if (ex instanceof CustomizeException){
+                return ResultDTO.errorOf((CustomizeException) ex);
+            }else {
+                return ResultDTO.errorOf(CustomizeErrorCode.SYS_ERROR);
             }
-        } else {
-            if (ex instanceof CustomizeException) {
-                ModelAndView modelAndView = new ModelAndView("error");
-                modelAndView.addObject("message", ex.getMessage());
-                return new ResponseEntity<>(modelAndView, HttpStatus.valueOf(((CustomizeException) ex).getCode()));
-            } else {
-                ModelAndView modelAndView = new ModelAndView("error");
-                modelAndView.addObject("message", CustomizeErrorCode.SYS_ERROR.getMessage());
-                return new ResponseEntity<>(modelAndView, HttpStatus.INTERNAL_SERVER_ERROR);
+        }else {
+            if (ex instanceof CustomizeException){
+                model.addAttribute("message",ex.getMessage());
+            }else {
+                model.addAttribute("message",CustomizeErrorCode.SYS_ERROR.getMessage());
             }
+            return new ModelAndView("error");
         }
+
     }
 }
