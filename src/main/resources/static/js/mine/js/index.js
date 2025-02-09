@@ -3,8 +3,8 @@ import Cookies from '/js/mine/js/js.cookie.min.mjs';
 // 引入 jwtUtils 工具
 import jwtUtils from '/js/mine/utils/jwtUtils.js';
 
-// 检查 Token, 加载即运行
-window.onLoad = function() {
+document.addEventListener('DOMContentLoaded', function () {
+    // 检查 Token, 加载即运行
     const token = Cookies.get('token');
     if (!token) {
         // 如果没有 token，跳转到登录页面
@@ -25,12 +25,14 @@ window.onLoad = function() {
                     if (nameElement) {
                         nameElement.textContent = parsed.payload.username;
                     }
-                }else {
+                } else {
                     alert(response.message);
                 }
             },
             dataType: "json"
         });
     }
-}
+});
+
+
 
