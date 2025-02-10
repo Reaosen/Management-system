@@ -198,8 +198,7 @@
             </li>
             <li>
                 <a href="#" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
-<!--                    <img src="images/photos/user-avatar.png" alt=""/>-->
-                    <img th:src="${{session.user.getAvatarUrl()}}" alt=""/>
+                    <img th:src="${session.user.getAvatarUrl()}" alt=""/>
                     [[${session.user.getName()}]]
                     <span class="caret"></span>
                 </a>

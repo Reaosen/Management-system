@@ -1,7 +1,7 @@
 package com.reaosen.management_system.Service;
 
-import com.reaosen.management_system.DTO.UserDTO;
+import jakarta.servlet.http.HttpServletRequest;
 
 public interface IndexService {
-    Object index(UserDTO token);
+    String index(HttpServletRequest request);
 }
