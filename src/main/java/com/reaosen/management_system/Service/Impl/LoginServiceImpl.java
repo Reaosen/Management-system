@@ -33,7 +33,7 @@ public class LoginServiceImpl implements LoginService {
                 .andEmailEqualTo(userDTO.getEmail())
                 .andPasswordEqualTo(userDTO.getPassword());
         List<User> users = userMapper.selectByExample(example);
-        if (users.size() == 0) {
+        if (users.isEmpty()) {
             throw new CustomizeException(CustomizeErrorCode.PASSWORD_OR_EMAIL_WRONG);
         }
 
@@ -41,8 +41,8 @@ public class LoginServiceImpl implements LoginService {
         User user = users.get(0);
         Integer accountId = user.getAccountId();
         HashMap<String, Object> claims = new HashMap<>();
-        claims.put("username", user.getName());
-        claims.put("tel", user.getTel());
+        claims.put("username", user.getUsername());
+        claims.put("phone", user.getPhone());
         String token = JwtUtils.createToken(String.valueOf(accountId), claims, 86400);
         user.setToken(token);
         userMapper.updateByPrimaryKey(user);

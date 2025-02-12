@@ -34,7 +34,12 @@
         <javaClientGenerator type="XMLMAPPER" targetPackage="com.reaosen.management_system.Mapper" targetProject="src/main/java"/>
 
         <!-- 要生成对应表配置 -->
-        <table tableName="user" domainObjectName="User"/>
+        <table tableName="User" domainObjectName="User"/>
+        <table tableName="CollectionPoint" domainObjectName="CollectionPoint"/>
+        <table tableName="DisposalRecord" domainObjectName="DisposalRecord"/>
+        <table tableName="TransportRecord" domainObjectName="TransportRecord"/>
+        <table tableName="WasteRecord" domainObjectName="WasteRecord"/>
+        <table tableName="WasteType" domainObjectName="WasteType"/>
             <!-- 自增主键列 -->
 <!--            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>-->
             <!-- tinyint映射为Integer -->

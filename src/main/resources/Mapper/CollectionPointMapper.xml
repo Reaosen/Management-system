@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reaosen.management_system.Mapper.CollectionPointMapper">
+  <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.CollectionPoint">
+    <id column="CollectionPointID" jdbcType="INTEGER" property="collectionpointid" />
+    <result column="Address" jdbcType="VARCHAR" property="address" />
+    <result column="Contact" jdbcType="VARCHAR" property="contact" />
+    <result column="ResponsiblePerson" jdbcType="VARCHAR" property="responsibleperson" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CollectionPointID, Address, Contact, ResponsiblePerson, account_id, gmt_create, gmt_modified
+  </sql>
+  <select id="selectByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CollectionPoint
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from CollectionPoint
+    where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from CollectionPoint
+    where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample">
+    delete from CollectionPoint
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.reaosen.management_system.Model.CollectionPoint">
+    insert into CollectionPoint (CollectionPointID, Address, Contact, 
+      ResponsiblePerson, account_id, gmt_create, 
+      gmt_modified)
+    values (#{collectionpointid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{responsibleperson,jdbcType=VARCHAR}, #{accountId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=INTEGER}, 
+      #{gmtModified,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
+    insert into CollectionPoint
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="collectionpointid != null">
+        CollectionPointID,
+      </if>
+      <if test="address != null">
+        Address,
+      </if>
+      <if test="contact != null">
+        Contact,
+      </if>
+      <if test="responsibleperson != null">
+        ResponsiblePerson,
+      </if>
+      <if test="accountId != null">
+        account_id,
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create,
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="collectionpointid != null">
+        #{collectionpointid,jdbcType=INTEGER},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleperson != null">
+        #{responsibleperson,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        #{gmtCreate,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModified != null">
+        #{gmtModified,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultType="java.lang.Long">
+    select count(*) from CollectionPoint
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update CollectionPoint
+    <set>
+      <if test="record.collectionpointid != null">
+        CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
+      </if>
+      <if test="record.address != null">
+        Address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contact != null">
+        Contact = #{record.contact,jdbcType=VARCHAR},
+      </if>
+      <if test="record.responsibleperson != null">
+        ResponsiblePerson = #{record.responsibleperson,jdbcType=VARCHAR},
+      </if>
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=INTEGER},
+      </if>
+      <if test="record.gmtCreate != null">
+        gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
+      </if>
+      <if test="record.gmtModified != null">
+        gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update CollectionPoint
+    set CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
+      Address = #{record.address,jdbcType=VARCHAR},
+      Contact = #{record.contact,jdbcType=VARCHAR},
+      ResponsiblePerson = #{record.responsibleperson,jdbcType=VARCHAR},
+      account_id = #{record.accountId,jdbcType=INTEGER},
+      gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
+      gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
+    update CollectionPoint
+    <set>
+      <if test="address != null">
+        Address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="contact != null">
+        Contact = #{contact,jdbcType=VARCHAR},
+      </if>
+      <if test="responsibleperson != null">
+        ResponsiblePerson = #{responsibleperson,jdbcType=VARCHAR},
+      </if>
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
+      </if>
+      <if test="gmtCreate != null">
+        gmt_create = #{gmtCreate,jdbcType=INTEGER},
+      </if>
+      <if test="gmtModified != null">
+        gmt_modified = #{gmtModified,jdbcType=INTEGER},
+      </if>
+    </set>
+    where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.CollectionPoint">
+    update CollectionPoint
+    set Address = #{address,jdbcType=VARCHAR},
+      Contact = #{contact,jdbcType=VARCHAR},
+      ResponsiblePerson = #{responsibleperson,jdbcType=VARCHAR},
+      account_id = #{accountId,jdbcType=INTEGER},
+      gmt_create = #{gmtCreate,jdbcType=INTEGER},
+      gmt_modified = #{gmtModified,jdbcType=INTEGER}
+    where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
+  </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CollectionPoint
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+</mapper>

@@ -5,23 +5,23 @@ public class User {
 
     private Integer accountId;
 
-    private String name;
+    private String username;
 
     private String password;
 
     private String email;
 
-    private Long gmtCreate;
+    private String phone;
 
-    private Long gmtModified;
+    private String role;
 
     private String avatarUrl;
 
+    private Integer gmtCreate;
+
+    private Integer gmtModified;
+
     private String token;
-
-    private String bio;
-
-    private Long tel;
 
     public Integer getId() {
         return id;
@@ -39,12 +39,12 @@ public class User {
         this.accountId = accountId;
     }
 
-    public String getName() {
-        return name;
+    public String getUsername() {
+        return username;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -63,20 +63,20 @@ public class User {
         this.email = email;
     }
 
-    public Long getGmtCreate() {
-        return gmtCreate;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setGmtCreate(Long gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public Long getGmtModified() {
-        return gmtModified;
+    public String getRole() {
+        return role;
     }
 
-    public void setGmtModified(Long gmtModified) {
-        this.gmtModified = gmtModified;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public String getAvatarUrl() {
@@ -87,27 +87,27 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
+    public Integer getGmtCreate() {
+        return gmtCreate;
+    }
+
+    public void setGmtCreate(Integer gmtCreate) {
+        this.gmtCreate = gmtCreate;
+    }
+
+    public Integer getGmtModified() {
+        return gmtModified;
+    }
+
+    public void setGmtModified(Integer gmtModified) {
+        this.gmtModified = gmtModified;
+    }
+
     public String getToken() {
         return token;
     }
 
     public void setToken(String token) {
         this.token = token;
-    }
-
-    public String getBio() {
-        return bio;
-    }
-
-    public void setBio(String bio) {
-        this.bio = bio;
-    }
-
-    public Long getTel() {
-        return tel;
-    }
-
-    public void setTel(Long tel) {
-        this.tel = tel;
     }
 }
