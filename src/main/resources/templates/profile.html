@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="cn">
 
 <head>
     <meta charset="utf-8">
@@ -50,7 +50,7 @@
                             <div class="panel">
                                 <div class="panel-body">
                                     <div class="profile-pic text-center">
-                                        <img alt="" src="/images/photos/user1.png">
+                                        <img alt="" th:src="${session.user.getAvatarUrl()}">
                                     </div>
                                 </div>
                             </div>
@@ -61,23 +61,19 @@
                                     <ul class="p-info">
                                         <li>
                                             <div class="title">姓名</div>
-                                            <div class="desk">Reaosen</div>
-                                        </li>
-                                        <li>
-                                            <div class="title">部门</div>
-                                            <div class="desk">ABC Inc.</div>
+                                            <div class="desk">[[${session.user.getUsername}]]</div>
                                         </li>
                                         <li>
                                             <div class="title">职务</div>
-                                            <div class="desk">BSC. in CSE</div>
+                                            <div class="desk">[[${session.user.getRole}]]</div>
                                         </li>
                                         <li>
                                             <div class="title">手机号</div>
-                                            <div class="desk">50+</div>
+                                            <div class="desk">[[${session.user.getPhone}]]</div>
                                         </li>
                                         <li>
                                             <div class="title">邮箱地址</div>
-                                            <div class="desk">HTML, CSS, JavaScript.</div>
+                                            <div class="desk">[[${session.user.getEmail}]]</div>
                                         </li>
                                     </ul>
                                 </div>
@@ -86,6 +82,7 @@
                         <div class="col-md-12">
                             <div class="panel">
                                 <div class="panel-body p-states">
+                                    `<!--TODO 动态展示录入数据总结--> `
                                     <div class="summary pull-left">
                                         <h4>今日 <span>录入</span></h4>
                                         <span>总计</span>
@@ -139,6 +136,7 @@
                                                 <img src="images/photos/user1.png" alt=""/>
                                             </div>
                                             <div class="activity-desk">
+                                                <!--TODO 动态展示录入数据-->
                                                 <h5><a href="#">Jonathan Smith</a> <span>Uploaded 5 new
                                                             photos</span></h5>
                                                 <p class="text-muted">7 minutes ago near Alaska, USA</p>
