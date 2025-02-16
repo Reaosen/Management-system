@@ -77,7 +77,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from CollectionPoint
+    from collectionpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -88,21 +88,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from CollectionPoint
+    from collectionpoint
     where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from CollectionPoint
+    delete from collectionpoint
     where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample">
-    delete from CollectionPoint
+    delete from collectionpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    insert into CollectionPoint (CollectionPointID, Address, Contact, 
+    insert into collectionpoint (CollectionPointID, Address, Contact, 
       ResponsiblePerson, account_id, gmt_create, 
       gmt_modified)
     values (#{collectionpointid,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
@@ -110,7 +110,7 @@
       #{gmtModified,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    insert into CollectionPoint
+    insert into collectionpoint
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="collectionpointid != null">
         CollectionPointID,
@@ -159,13 +159,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultType="java.lang.Long">
-    select count(*) from CollectionPoint
+    select count(*) from collectionpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update CollectionPoint
+    update collectionpoint
     <set>
       <if test="record.collectionpointid != null">
         CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
@@ -194,7 +194,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update CollectionPoint
+    update collectionpoint
     set CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
       Address = #{record.address,jdbcType=VARCHAR},
       Contact = #{record.contact,jdbcType=VARCHAR},
@@ -207,7 +207,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    update CollectionPoint
+    update collectionpoint
     <set>
       <if test="address != null">
         Address = #{address,jdbcType=VARCHAR},
@@ -231,7 +231,7 @@
     where CollectionPointID = #{collectionpointid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    update CollectionPoint
+    update collectionpoint
     set Address = #{address,jdbcType=VARCHAR},
       Contact = #{contact,jdbcType=VARCHAR},
       ResponsiblePerson = #{responsibleperson,jdbcType=VARCHAR},
@@ -246,7 +246,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from CollectionPoint
+    from collectionpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

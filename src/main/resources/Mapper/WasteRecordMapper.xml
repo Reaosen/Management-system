@@ -80,7 +80,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from WasteRecord
+    from wasterecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -91,21 +91,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from WasteRecord
+    from wasterecord
     where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from WasteRecord
+    delete from wasterecord
     where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.WasteRecordExample">
-    delete from WasteRecord
+    delete from wasterecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.WasteRecord">
-    insert into WasteRecord (WasteRecordID, WasteTypeID, CollectionPointID, 
+    insert into wasterecord (WasteRecordID, WasteTypeID, CollectionPointID, 
       CollectionTime, Weight, Status, 
       account_id, gmt_create, gmt_modified
       )
@@ -115,7 +115,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.WasteRecord">
-    insert into WasteRecord
+    insert into wasterecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="wasterecordid != null">
         WasteRecordID,
@@ -176,13 +176,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.WasteRecordExample" resultType="java.lang.Long">
-    select count(*) from WasteRecord
+    select count(*) from wasterecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update WasteRecord
+    update wasterecord
     <set>
       <if test="record.wasterecordid != null">
         WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
@@ -217,7 +217,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update WasteRecord
+    update wasterecord
     set WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
       WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
       CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
@@ -232,7 +232,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.WasteRecord">
-    update WasteRecord
+    update wasterecord
     <set>
       <if test="wastetypeid != null">
         WasteTypeID = #{wastetypeid,jdbcType=INTEGER},
@@ -262,7 +262,7 @@
     where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.WasteRecord">
-    update WasteRecord
+    update wasterecord
     set WasteTypeID = #{wastetypeid,jdbcType=INTEGER},
       CollectionPointID = #{collectionpointid,jdbcType=INTEGER},
       CollectionTime = #{collectiontime,jdbcType=INTEGER},
@@ -279,7 +279,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from WasteRecord
+    from wasterecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -79,7 +79,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from DisposalRecord
+    from disposalrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,21 +90,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from DisposalRecord
+    from disposalrecord
     where DisposalID = #{disposalid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from DisposalRecord
+    delete from disposalrecord
     where DisposalID = #{disposalid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.DisposalRecordExample">
-    delete from DisposalRecord
+    delete from disposalrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.DisposalRecord">
-    insert into DisposalRecord (DisposalID, WasteRecordID, DisposalTime, 
+    insert into disposalrecord (DisposalID, WasteRecordID, DisposalTime, 
       DisposalMethod, DisposalLocation, account_id, 
       gmt_create, gmt_modified)
     values (#{disposalid,jdbcType=INTEGER}, #{wasterecordid,jdbcType=INTEGER}, #{disposaltime,jdbcType=INTEGER}, 
@@ -112,7 +112,7 @@
       #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.DisposalRecord">
-    insert into DisposalRecord
+    insert into disposalrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="disposalid != null">
         DisposalID,
@@ -167,13 +167,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.DisposalRecordExample" resultType="java.lang.Long">
-    select count(*) from DisposalRecord
+    select count(*) from disposalrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update DisposalRecord
+    update disposalrecord
     <set>
       <if test="record.disposalid != null">
         DisposalID = #{record.disposalid,jdbcType=INTEGER},
@@ -205,7 +205,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update DisposalRecord
+    update disposalrecord
     set DisposalID = #{record.disposalid,jdbcType=INTEGER},
       WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
       DisposalTime = #{record.disposaltime,jdbcType=INTEGER},
@@ -219,7 +219,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.DisposalRecord">
-    update DisposalRecord
+    update disposalrecord
     <set>
       <if test="wasterecordid != null">
         WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
     where DisposalID = #{disposalid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.DisposalRecord">
-    update DisposalRecord
+    update disposalrecord
     set WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
       DisposalTime = #{disposaltime,jdbcType=INTEGER},
       DisposalMethod = #{disposalmethod,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from DisposalRecord
+    from disposalrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

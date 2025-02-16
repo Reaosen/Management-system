@@ -17,11 +17,15 @@ public class User {
 
     private String avatarUrl;
 
+    private String token;
+
     private Integer gmtCreate;
 
     private Integer gmtModified;
 
-    private String token;
+    private String permission;
+
+    private String status;
 
     public Integer getId() {
         return id;
@@ -87,6 +91,14 @@ public class User {
         this.avatarUrl = avatarUrl;
     }
 
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public Integer getGmtCreate() {
         return gmtCreate;
     }
@@ -103,11 +115,19 @@ public class User {
         this.gmtModified = gmtModified;
     }
 
-    public String getToken() {
-        return token;
+    public String getPermission() {
+        return permission;
     }
 
-    public void setToken(String token) {
-        this.token = token;
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

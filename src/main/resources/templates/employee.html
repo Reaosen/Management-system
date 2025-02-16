@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>员工基本信息</title>
+
+  <!--dynamic table-->
+  <link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
+  <link href="/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
+  <link rel="stylesheet" href="/js/data-tables/DT_bootstrap.css" />
+
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/style-responsive.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- 左边栏开始-->
+    <div th:insert="~{leftSidebar :: leftSidebar}"></div>
+    <!-- 左边栏结束-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- 顶部搜索、用户栏开始-->
+        <div th:insert="~{header :: header}"></div>
+        <!-- 顶部搜索、用户栏结束-->
+
+        <!-- 页面起始开始-->
+        <div class="page-heading">
+            <h3>
+                员工基本信息
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="/">数据监控</a>
+                </li>
+                <li>
+                    <a href="#">员工管理</a>
+                </li>
+                <li class="active">员工基本信息</li>
+            </ul>
+        </div>
+        <!-- 页面起始结束-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+        <div class="row">
+        <div class="col-sm-12">
+        <section class="panel">
+        <header class="panel-heading">
+            员工列表
+            <span class="tools pull-right">
+                <a href="javascript:;" class="fa fa-chevron-down"></a>
+             </span>
+        </header>
+        <div class="panel-body">
+        <div class="adv-table">
+        <table  class="display table table-bordered table-striped" id="dynamic-table">
+        <thead>
+        <tr>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>电话号码</th>
+            <th>电子邮箱</th>
+            <th>权限设置</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr class="gradeC">
+<!--            示例-->
+            <td>amy</td>
+            <td>司机</td>
+            <td>1653557573</td>
+            <td>test2</td>
+            <td><a href="" class="btn btn-success  btn-sm" id="add-sticky">解禁用户</a></td>
+        </tr>
+
+
+        </tbody>
+        <tfoot>
+        <tr>
+            <th>姓名</th>
+            <th>职位</th>
+            <th>电话号码</th>
+            <th>电子邮箱</th>
+            <th>权限设置</th>
+        </tr>
+        </tfoot>
+        </table>
+        </div>
+        </div>
+        </section>
+        </div>
+        </div>
+        </div>
+        <!--body wrapper end-->
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/jquery.nicescroll.js"></script>
+
+<!--dynamic table-->
+<script type="text/javascript" language="javascript" src="/js/advanced-datatable/js/jquery.dataTables.js"></script>
+<script type="text/javascript" src="/js/data-tables/DT_bootstrap.js"></script>
+<script type="text/javascript" src="/js/mine/js/dataTable_init.js"></script>
+<!--dynamic table initialization -->
+<script src="/js/dynamic_table_init.js"></script>
+
+<!--common scripts for all pages-->
+<script src="/js/scripts.js"></script>
+
+
+
+</body>
+</html>

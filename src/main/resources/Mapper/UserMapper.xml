@@ -10,9 +10,11 @@
     <result column="phone" jdbcType="VARCHAR" property="phone" />
     <result column="role" jdbcType="VARCHAR" property="role" />
     <result column="avatar_url" jdbcType="VARCHAR" property="avatarUrl" />
+    <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
-    <result column="token" jdbcType="VARCHAR" property="token" />
+    <result column="permission" jdbcType="VARCHAR" property="permission" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +75,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, account_id, username, password, email, phone, role, avatar_url, gmt_create, gmt_modified, 
-    token
+    id, account_id, username, password, email, phone, role, avatar_url, token, gmt_create, 
+    gmt_modified, permission, status
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.UserExample" resultMap="BaseResultMap">
     select
@@ -82,7 +84,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from User
+    from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,31 +95,33 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from User
+    from user
     where id = #{id,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from User
+    delete from user
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.UserExample">
-    delete from User
+    delete from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.User">
-    insert into User (id, account_id, username, 
+    insert into user (id, account_id, username, 
       password, email, phone, 
-      role, avatar_url, gmt_create, 
-      gmt_modified, token)
+      role, avatar_url, token, 
+      gmt_create, gmt_modified, permission, 
+      status)
     values (#{id,jdbcType=INTEGER}, #{accountId,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, 
       #{password,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, 
-      #{role,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=INTEGER}, 
-      #{gmtModified,jdbcType=INTEGER}, #{token,jdbcType=VARCHAR})
+      #{role,jdbcType=VARCHAR}, #{avatarUrl,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}, #{permission,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.User">
-    insert into User
+    insert into user
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -143,14 +147,20 @@
       <if test="avatarUrl != null">
         avatar_url,
       </if>
+      <if test="token != null">
+        token,
+      </if>
       <if test="gmtCreate != null">
         gmt_create,
       </if>
       <if test="gmtModified != null">
         gmt_modified,
       </if>
-      <if test="token != null">
-        token,
+      <if test="permission != null">
+        permission,
+      </if>
+      <if test="status != null">
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -178,25 +188,31 @@
       <if test="avatarUrl != null">
         #{avatarUrl,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        #{token,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=INTEGER},
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=INTEGER},
       </if>
-      <if test="token != null">
-        #{token,jdbcType=VARCHAR},
+      <if test="permission != null">
+        #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.UserExample" resultType="java.lang.Long">
-    select count(*) from User
+    select count(*) from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update User
+    update user
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=INTEGER},
@@ -222,14 +238,20 @@
       <if test="record.avatarUrl != null">
         avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
       </if>
+      <if test="record.token != null">
+        token = #{record.token,jdbcType=VARCHAR},
+      </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       </if>
       <if test="record.gmtModified != null">
         gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
       </if>
-      <if test="record.token != null">
-        token = #{record.token,jdbcType=VARCHAR},
+      <if test="record.permission != null">
+        permission = #{record.permission,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null">
+        status = #{record.status,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -237,7 +259,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update User
+    update user
     set id = #{record.id,jdbcType=INTEGER},
       account_id = #{record.accountId,jdbcType=INTEGER},
       username = #{record.username,jdbcType=VARCHAR},
@@ -246,15 +268,17 @@
       phone = #{record.phone,jdbcType=VARCHAR},
       role = #{record.role,jdbcType=VARCHAR},
       avatar_url = #{record.avatarUrl,jdbcType=VARCHAR},
+      token = #{record.token,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
-      token = #{record.token,jdbcType=VARCHAR}
+      permission = #{record.permission,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.User">
-    update User
+    update user
     <set>
       <if test="accountId != null">
         account_id = #{accountId,jdbcType=INTEGER},
@@ -277,20 +301,26 @@
       <if test="avatarUrl != null">
         avatar_url = #{avatarUrl,jdbcType=VARCHAR},
       </if>
+      <if test="token != null">
+        token = #{token,jdbcType=VARCHAR},
+      </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=INTEGER},
       </if>
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
-      <if test="token != null">
-        token = #{token,jdbcType=VARCHAR},
+      <if test="permission != null">
+        permission = #{permission,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.User">
-    update User
+    update user
     set account_id = #{accountId,jdbcType=INTEGER},
       username = #{username,jdbcType=VARCHAR},
       password = #{password,jdbcType=VARCHAR},
@@ -298,9 +328,11 @@
       phone = #{phone,jdbcType=VARCHAR},
       role = #{role,jdbcType=VARCHAR},
       avatar_url = #{avatarUrl,jdbcType=VARCHAR},
+      token = #{token,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER},
-      token = #{token,jdbcType=VARCHAR}
+      permission = #{permission,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.UserExample" resultMap="BaseResultMap">
@@ -309,7 +341,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from User
+    from user
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -79,7 +79,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from TransportRecord
+    from transportrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,21 +90,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from TransportRecord
+    from transportrecord
     where TransportID = #{transportid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from TransportRecord
+    delete from transportrecord
     where TransportID = #{transportid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.TransportRecordExample">
-    delete from TransportRecord
+    delete from transportrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.TransportRecord">
-    insert into TransportRecord (TransportID, WasteRecordID, TransportTime, 
+    insert into transportrecord (TransportID, WasteRecordID, TransportTime, 
       TransportVehicle, DriverName, account_id, 
       gmt_create, gmt_modified)
     values (#{transportid,jdbcType=INTEGER}, #{wasterecordid,jdbcType=INTEGER}, #{transporttime,jdbcType=INTEGER}, 
@@ -112,7 +112,7 @@
       #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.TransportRecord">
-    insert into TransportRecord
+    insert into transportrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="transportid != null">
         TransportID,
@@ -167,13 +167,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.TransportRecordExample" resultType="java.lang.Long">
-    select count(*) from TransportRecord
+    select count(*) from transportrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update TransportRecord
+    update transportrecord
     <set>
       <if test="record.transportid != null">
         TransportID = #{record.transportid,jdbcType=INTEGER},
@@ -205,7 +205,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update TransportRecord
+    update transportrecord
     set TransportID = #{record.transportid,jdbcType=INTEGER},
       WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
       TransportTime = #{record.transporttime,jdbcType=INTEGER},
@@ -219,7 +219,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.TransportRecord">
-    update TransportRecord
+    update transportrecord
     <set>
       <if test="wasterecordid != null">
         WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
@@ -246,7 +246,7 @@
     where TransportID = #{transportid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.TransportRecord">
-    update TransportRecord
+    update transportrecord
     set WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
       TransportTime = #{transporttime,jdbcType=INTEGER},
       TransportVehicle = #{transportvehicle,jdbcType=VARCHAR},
@@ -262,7 +262,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from TransportRecord
+    from transportrecord
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

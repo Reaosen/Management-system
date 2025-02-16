@@ -82,7 +82,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from WasteType
+    from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -96,7 +96,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from WasteType
+    from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -109,27 +109,27 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from WasteType
+    from wastetype
     where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from WasteType
+    delete from wastetype
     where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.WasteTypeExample">
-    delete from WasteType
+    delete from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.WasteType">
-    insert into WasteType (WasteTypeID, TypeName, gmt_create, 
+    insert into wastetype (WasteTypeID, TypeName, gmt_create, 
       gmt_modified, Description)
     values (#{wastetypeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=INTEGER}, 
       #{gmtModified,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.WasteType">
-    insert into WasteType
+    insert into wastetype
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="wastetypeid != null">
         WasteTypeID,
@@ -166,13 +166,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.reaosen.management_system.Model.WasteTypeExample" resultType="java.lang.Long">
-    select count(*) from WasteType
+    select count(*) from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update WasteType
+    update wastetype
     <set>
       <if test="record.wastetypeid != null">
         WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
@@ -195,7 +195,7 @@
     </if>
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
-    update WasteType
+    update wastetype
     set WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
       TypeName = #{record.typename,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -206,7 +206,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update WasteType
+    update wastetype
     set WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
       TypeName = #{record.typename,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -216,7 +216,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.WasteType">
-    update WasteType
+    update wastetype
     <set>
       <if test="typename != null">
         TypeName = #{typename,jdbcType=VARCHAR},
@@ -234,7 +234,7 @@
     where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.reaosen.management_system.Model.WasteType">
-    update WasteType
+    update wastetype
     set TypeName = #{typename,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER},
@@ -242,7 +242,7 @@
     where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.WasteType">
-    update WasteType
+    update wastetype
     set TypeName = #{typename,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}
@@ -256,7 +256,7 @@
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
-    from WasteType
+    from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -270,7 +270,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from WasteType
+    from wastetype
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

@@ -9,9 +9,11 @@ public class UserDTO {
     @JSONField(name = "id")
     private Long accountId;
     private String email;
-    private String userName;
+    private String username;
     private String avatarUrl;
     private String role;
-    private Long phone;
+    private String phone;
     private String token;
+    private String permission;
+    private String status;
 }
