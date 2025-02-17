@@ -5,27 +5,26 @@ import com.reaosen.management_system.DTO.UserDTO;
 import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
-import com.reaosen.management_system.Service.EmployeeService;
+import com.reaosen.management_system.Service.UserService;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class EmployeeServiceImpl implements EmployeeService {
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
 
     @Override
     public PaginationDTO<UserDTO> pagination(Integer sEcho,
-                                          Integer iDisplayStart,
-                                          Integer iDisplayLength,
-                                          String sSearch) {
+                                             Integer iDisplayStart,
+                                             Integer iDisplayLength,
+                                             String sSearch) {
         // 获取总记录数（不考虑搜索条件）
         Long totalRecords = userMapper.countByExample(new UserExample());
 
@@ -69,5 +68,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         Pagination.setAaData(userDTOs);
 
         return Pagination;
+    }
+
+    @Override
+    public void updateStatusByAccountId(UserDTO userDTO) {
+        Integer accountId = userDTO.getAccountId();
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andAccountIdEqualTo(accountId);
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
+        user.setStatus(userDTO.getStatus());
+        userMapper.updateByExample(user, userExample);
     }
 }

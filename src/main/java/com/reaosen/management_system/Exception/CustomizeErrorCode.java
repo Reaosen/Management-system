@@ -7,7 +7,11 @@ public enum CustomizeErrorCode implements ICustomizeErrorCode{
     IS_EMPTY(2003, "输入内容不能为空。"),
     PASSWORD_OR_EMAIL_WRONG(2004, "用户名或密码错误。"),
     USER_NOT_FOUND(2005, "用户不存在，请联系管理员"),
-    COMMENT_NOT_FOUND(2006, "评论不存在。");
+    //TODO 账户禁用检测
+    ACCOUNT_DISABLED(2006, "您的账户已被禁用，请联系管理员"),
+    //TODO 账户权限检测
+    NO_AUTHORITY(2007, "您无此操作的权限，请联系管理员")
+    ;
 
 
     private String message;

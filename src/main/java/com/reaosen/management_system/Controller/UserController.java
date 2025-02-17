@@ -2,20 +2,19 @@ package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
-import com.reaosen.management_system.Service.EmployeeService;
+import com.reaosen.management_system.DTO.UserDTO;
+import com.reaosen.management_system.Service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
-public class EmployeeController {
+public class UserController {
 
     @Autowired
-    private EmployeeService employeeService;
+    private UserService employeeService;
 
     @GetMapping("/employee")
     public String Employee() {
@@ -34,5 +33,14 @@ public class EmployeeController {
         model.addAttribute("pagination", pagination);
 
         return pagination;
+    }
+
+    @PostMapping("/employee/updateStatus")
+    @ResponseBody
+    public ResultDTO lockOrUnlock(@RequestBody UserDTO userDTO){
+
+        employeeService.updateStatusByAccountId(userDTO);
+
+        return ResultDTO.okOf();
     }
 }
