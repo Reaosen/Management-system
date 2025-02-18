@@ -23,14 +23,33 @@ public class UserController {
 
     @GetMapping("/employee/pagination")
     @ResponseBody
-    public PaginationDTO pagination(HttpServletRequest request,
-                              Model model,
-                              @RequestParam(value = "sEcho") Integer sEcho,
-                              @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
-                              @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
-                              @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
-        PaginationDTO pagination = employeeService.pagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
+    public PaginationDTO employeePagination(HttpServletRequest request,
+                                            Model model,
+                                            @RequestParam(value = "sEcho") Integer sEcho,
+                                            @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
+                                            @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
+                                            @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
+        PaginationDTO pagination = employeeService.employeePagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
         model.addAttribute("pagination", pagination);
+
+        return pagination;
+    }
+
+    @GetMapping("/employee/work")
+    public String EmployeeWork() {
+        return "employeeWork";
+    }
+
+    @GetMapping("/employee/work/pagination")
+    @ResponseBody
+    public PaginationDTO employeeWorkPagination(HttpServletRequest request,
+                                         Model model,
+                                         @RequestParam(value = "sEcho") Integer sEcho,
+                                         @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
+                                         @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
+                                         @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
+
+        PaginationDTO pagination = employeeService.employeeWorkPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
 
         return pagination;
     }

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var oTable = $('#dynamic-table').dataTable({
+    var oTable = $('#employee-table').dataTable({
         "aaSorting": [[0, "asc"]],
         "bProcessing": false,
         "bServerSide": true,
@@ -54,7 +54,6 @@ $(document).ready(function() {
         }
     });
 
-    // TODO 为权限设置按钮添加事件监听器
     $('#dynamic-table tbody').on('click', 'button', function() {
         var button = $(this);
         var nTr = button.closest('tr')[0];

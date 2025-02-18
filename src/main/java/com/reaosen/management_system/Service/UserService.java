@@ -5,10 +5,9 @@ import com.reaosen.management_system.DTO.PaginationDTO;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public interface UserService {
-    PaginationDTO pagination(@RequestParam(value = "sEcho") Integer sEcho,
-                             @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
-                             @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
-                             @RequestParam(value = "sSearch", defaultValue = "") String sSearch);
+    PaginationDTO employeePagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 
     void updateStatusByAccountId(UserDTO userDTO);
+
+    PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 }

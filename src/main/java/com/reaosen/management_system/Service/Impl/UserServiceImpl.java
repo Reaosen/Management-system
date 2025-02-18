@@ -21,10 +21,10 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public PaginationDTO<UserDTO> pagination(Integer sEcho,
-                                             Integer iDisplayStart,
-                                             Integer iDisplayLength,
-                                             String sSearch) {
+    public PaginationDTO<UserDTO> employeePagination(Integer sEcho,
+                                                     Integer iDisplayStart,
+                                                     Integer iDisplayLength,
+                                                     String sSearch) {
         // 获取总记录数（不考虑搜索条件）
         Long totalRecords = userMapper.countByExample(new UserExample());
 
@@ -80,5 +80,14 @@ public class UserServiceImpl implements UserService {
         User user = users.get(0);
         user.setStatus(userDTO.getStatus());
         userMapper.updateByExample(user, userExample);
+    }
+
+    @Override
+    public PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
+
+        //TODO 未完成的员工工作分页查询
+
+        PaginationDTO<Object> pagination = new PaginationDTO<>();
+        return pagination;
     }
 }
