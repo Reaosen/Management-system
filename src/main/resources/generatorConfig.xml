@@ -37,6 +37,7 @@
         <table tableName="User" domainObjectName="User"/>
         <table tableName="CollectionPoint" domainObjectName="CollectionPoint"/>
         <table tableName="DisposalRecord" domainObjectName="DisposalRecord"/>
+        <table tableName="DisposalPoint" domainObjectName="DisposalPoint"/>
         <table tableName="TransportRecord" domainObjectName="TransportRecord"/>
         <table tableName="WasteRecord" domainObjectName="WasteRecord"/>
         <table tableName="WasteType" domainObjectName="WasteType"/>
@@ -47,3 +48,4 @@
 
     </context>
 </generatorConfiguration>
+

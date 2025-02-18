@@ -1,7 +1,7 @@
 package com.reaosen.management_system.Model;
 
-public class CollectionPoint {
-    private Integer collectionPointId;
+public class DisposalPoint {
+    private Integer disposalPointId;
 
     private String address;
 
@@ -9,18 +9,18 @@ public class CollectionPoint {
 
     private String responsiblePerson;
 
-    private Integer collectionAccountId;
+    private Integer accountId;
 
     private Integer gmtCreate;
 
     private Integer gmtModified;
 
-    public Integer getCollectionPointId() {
-        return collectionPointId;
+    public Integer getDisposalPointId() {
+        return disposalPointId;
     }
 
-    public void setCollectionPointId(Integer collectionPointId) {
-        this.collectionPointId = collectionPointId;
+    public void setDisposalPointId(Integer disposalPointId) {
+        this.disposalPointId = disposalPointId;
     }
 
     public String getAddress() {
@@ -47,12 +47,12 @@ public class CollectionPoint {
         this.responsiblePerson = responsiblePerson;
     }
 
-    public Integer getCollectionAccountId() {
-        return collectionAccountId;
+    public Integer getAccountId() {
+        return accountId;
     }
 
-    public void setCollectionAccountId(Integer collectionAccountId) {
-        this.collectionAccountId = collectionAccountId;
+    public void setAccountId(Integer accountId) {
+        this.accountId = accountId;
     }
 
     public Integer getGmtCreate() {

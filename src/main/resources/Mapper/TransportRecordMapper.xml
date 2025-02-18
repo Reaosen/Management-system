@@ -2,12 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.reaosen.management_system.Mapper.TransportRecordMapper">
   <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.TransportRecord">
-    <id column="TransportID" jdbcType="INTEGER" property="transportid" />
-    <result column="WasteRecordID" jdbcType="INTEGER" property="wasterecordid" />
-    <result column="TransportTime" jdbcType="INTEGER" property="transporttime" />
-    <result column="TransportVehicle" jdbcType="VARCHAR" property="transportvehicle" />
-    <result column="DriverName" jdbcType="VARCHAR" property="drivername" />
-    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <id column="transport_id" jdbcType="INTEGER" property="transportId" />
+    <result column="waste_record_id" jdbcType="INTEGER" property="wasteRecordId" />
+    <result column="transport_time" jdbcType="INTEGER" property="transportTime" />
+    <result column="transport_vehicle" jdbcType="VARCHAR" property="transportVehicle" />
+    <result column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
+    <result column="disposal_point_id" jdbcType="INTEGER" property="disposalPointId" />
+    <result column="transportUsername" jdbcType="VARCHAR" property="transportusername" />
+    <result column="transport_account_id" jdbcType="INTEGER" property="transportAccountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
   </resultMap>
@@ -70,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    TransportID, WasteRecordID, TransportTime, TransportVehicle, DriverName, account_id, 
-    gmt_create, gmt_modified
+    transport_id, waste_record_id, transport_time, transport_vehicle, collection_point_id, 
+    disposal_point_id, transportUsername, transport_account_id, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.TransportRecordExample" resultMap="BaseResultMap">
     select
@@ -91,11 +93,11 @@
     select 
     <include refid="Base_Column_List" />
     from transportrecord
-    where TransportID = #{transportid,jdbcType=INTEGER}
+    where transport_id = #{transportId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from transportrecord
-    where TransportID = #{transportid,jdbcType=INTEGER}
+    where transport_id = #{transportId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.TransportRecordExample">
     delete from transportrecord
@@ -104,33 +106,41 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.TransportRecord">
-    insert into transportrecord (TransportID, WasteRecordID, TransportTime, 
-      TransportVehicle, DriverName, account_id, 
+    insert into transportrecord (transport_id, waste_record_id, transport_time, 
+      transport_vehicle, collection_point_id, disposal_point_id, 
+      transportUsername, transport_account_id, 
       gmt_create, gmt_modified)
-    values (#{transportid,jdbcType=INTEGER}, #{wasterecordid,jdbcType=INTEGER}, #{transporttime,jdbcType=INTEGER}, 
-      #{transportvehicle,jdbcType=VARCHAR}, #{drivername,jdbcType=VARCHAR}, #{accountId,jdbcType=INTEGER}, 
+    values (#{transportId,jdbcType=INTEGER}, #{wasteRecordId,jdbcType=INTEGER}, #{transportTime,jdbcType=INTEGER}, 
+      #{transportVehicle,jdbcType=VARCHAR}, #{collectionPointId,jdbcType=INTEGER}, #{disposalPointId,jdbcType=INTEGER}, 
+      #{transportusername,jdbcType=VARCHAR}, #{transportAccountId,jdbcType=INTEGER}, 
       #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.TransportRecord">
     insert into transportrecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="transportid != null">
-        TransportID,
+      <if test="transportId != null">
+        transport_id,
       </if>
-      <if test="wasterecordid != null">
-        WasteRecordID,
+      <if test="wasteRecordId != null">
+        waste_record_id,
       </if>
-      <if test="transporttime != null">
-        TransportTime,
+      <if test="transportTime != null">
+        transport_time,
       </if>
-      <if test="transportvehicle != null">
-        TransportVehicle,
+      <if test="transportVehicle != null">
+        transport_vehicle,
       </if>
-      <if test="drivername != null">
-        DriverName,
+      <if test="collectionPointId != null">
+        collection_point_id,
       </if>
-      <if test="accountId != null">
-        account_id,
+      <if test="disposalPointId != null">
+        disposal_point_id,
+      </if>
+      <if test="transportusername != null">
+        transportUsername,
+      </if>
+      <if test="transportAccountId != null">
+        transport_account_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -140,23 +150,29 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="transportid != null">
-        #{transportid,jdbcType=INTEGER},
+      <if test="transportId != null">
+        #{transportId,jdbcType=INTEGER},
       </if>
-      <if test="wasterecordid != null">
-        #{wasterecordid,jdbcType=INTEGER},
+      <if test="wasteRecordId != null">
+        #{wasteRecordId,jdbcType=INTEGER},
       </if>
-      <if test="transporttime != null">
-        #{transporttime,jdbcType=INTEGER},
+      <if test="transportTime != null">
+        #{transportTime,jdbcType=INTEGER},
       </if>
-      <if test="transportvehicle != null">
-        #{transportvehicle,jdbcType=VARCHAR},
+      <if test="transportVehicle != null">
+        #{transportVehicle,jdbcType=VARCHAR},
       </if>
-      <if test="drivername != null">
-        #{drivername,jdbcType=VARCHAR},
+      <if test="collectionPointId != null">
+        #{collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="accountId != null">
-        #{accountId,jdbcType=INTEGER},
+      <if test="disposalPointId != null">
+        #{disposalPointId,jdbcType=INTEGER},
+      </if>
+      <if test="transportusername != null">
+        #{transportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="transportAccountId != null">
+        #{transportAccountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=INTEGER},
@@ -175,23 +191,29 @@
   <update id="updateByExampleSelective" parameterType="map">
     update transportrecord
     <set>
-      <if test="record.transportid != null">
-        TransportID = #{record.transportid,jdbcType=INTEGER},
+      <if test="record.transportId != null">
+        transport_id = #{record.transportId,jdbcType=INTEGER},
       </if>
-      <if test="record.wasterecordid != null">
-        WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
+      <if test="record.wasteRecordId != null">
+        waste_record_id = #{record.wasteRecordId,jdbcType=INTEGER},
       </if>
-      <if test="record.transporttime != null">
-        TransportTime = #{record.transporttime,jdbcType=INTEGER},
+      <if test="record.transportTime != null">
+        transport_time = #{record.transportTime,jdbcType=INTEGER},
       </if>
-      <if test="record.transportvehicle != null">
-        TransportVehicle = #{record.transportvehicle,jdbcType=VARCHAR},
+      <if test="record.transportVehicle != null">
+        transport_vehicle = #{record.transportVehicle,jdbcType=VARCHAR},
       </if>
-      <if test="record.drivername != null">
-        DriverName = #{record.drivername,jdbcType=VARCHAR},
+      <if test="record.collectionPointId != null">
+        collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="record.accountId != null">
-        account_id = #{record.accountId,jdbcType=INTEGER},
+      <if test="record.disposalPointId != null">
+        disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
+      </if>
+      <if test="record.transportusername != null">
+        transportUsername = #{record.transportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="record.transportAccountId != null">
+        transport_account_id = #{record.transportAccountId,jdbcType=INTEGER},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -206,12 +228,14 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update transportrecord
-    set TransportID = #{record.transportid,jdbcType=INTEGER},
-      WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
-      TransportTime = #{record.transporttime,jdbcType=INTEGER},
-      TransportVehicle = #{record.transportvehicle,jdbcType=VARCHAR},
-      DriverName = #{record.drivername,jdbcType=VARCHAR},
-      account_id = #{record.accountId,jdbcType=INTEGER},
+    set transport_id = #{record.transportId,jdbcType=INTEGER},
+      waste_record_id = #{record.wasteRecordId,jdbcType=INTEGER},
+      transport_time = #{record.transportTime,jdbcType=INTEGER},
+      transport_vehicle = #{record.transportVehicle,jdbcType=VARCHAR},
+      collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
+      disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
+      transportUsername = #{record.transportusername,jdbcType=VARCHAR},
+      transport_account_id = #{record.transportAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -221,20 +245,26 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.TransportRecord">
     update transportrecord
     <set>
-      <if test="wasterecordid != null">
-        WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
+      <if test="wasteRecordId != null">
+        waste_record_id = #{wasteRecordId,jdbcType=INTEGER},
       </if>
-      <if test="transporttime != null">
-        TransportTime = #{transporttime,jdbcType=INTEGER},
+      <if test="transportTime != null">
+        transport_time = #{transportTime,jdbcType=INTEGER},
       </if>
-      <if test="transportvehicle != null">
-        TransportVehicle = #{transportvehicle,jdbcType=VARCHAR},
+      <if test="transportVehicle != null">
+        transport_vehicle = #{transportVehicle,jdbcType=VARCHAR},
       </if>
-      <if test="drivername != null">
-        DriverName = #{drivername,jdbcType=VARCHAR},
+      <if test="collectionPointId != null">
+        collection_point_id = #{collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="accountId != null">
-        account_id = #{accountId,jdbcType=INTEGER},
+      <if test="disposalPointId != null">
+        disposal_point_id = #{disposalPointId,jdbcType=INTEGER},
+      </if>
+      <if test="transportusername != null">
+        transportUsername = #{transportusername,jdbcType=VARCHAR},
+      </if>
+      <if test="transportAccountId != null">
+        transport_account_id = #{transportAccountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=INTEGER},
@@ -243,18 +273,20 @@
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
     </set>
-    where TransportID = #{transportid,jdbcType=INTEGER}
+    where transport_id = #{transportId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.TransportRecord">
     update transportrecord
-    set WasteRecordID = #{wasterecordid,jdbcType=INTEGER},
-      TransportTime = #{transporttime,jdbcType=INTEGER},
-      TransportVehicle = #{transportvehicle,jdbcType=VARCHAR},
-      DriverName = #{drivername,jdbcType=VARCHAR},
-      account_id = #{accountId,jdbcType=INTEGER},
+    set waste_record_id = #{wasteRecordId,jdbcType=INTEGER},
+      transport_time = #{transportTime,jdbcType=INTEGER},
+      transport_vehicle = #{transportVehicle,jdbcType=VARCHAR},
+      collection_point_id = #{collectionPointId,jdbcType=INTEGER},
+      disposal_point_id = #{disposalPointId,jdbcType=INTEGER},
+      transportUsername = #{transportusername,jdbcType=VARCHAR},
+      transport_account_id = #{transportAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}
-    where TransportID = #{transportid,jdbcType=INTEGER}
+    where transport_id = #{transportId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.TransportRecordExample" resultMap="BaseResultMap">
     select

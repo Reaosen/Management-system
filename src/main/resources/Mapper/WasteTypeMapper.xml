@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.reaosen.management_system.Mapper.WasteTypeMapper">
   <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.WasteType">
-    <id column="WasteTypeID" jdbcType="INTEGER" property="wastetypeid" />
-    <result column="TypeName" jdbcType="VARCHAR" property="typename" />
+    <id column="waste_type_id" jdbcType="INTEGER" property="wasteTypeId" />
+    <result column="type_name" jdbcType="VARCHAR" property="typeName" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
   </resultMap>
   <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.reaosen.management_system.Model.WasteType">
-    <result column="Description" jdbcType="LONGVARCHAR" property="description" />
+    <result column="description" jdbcType="LONGVARCHAR" property="description" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,10 +69,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    WasteTypeID, TypeName, gmt_create, gmt_modified
+    waste_type_id, type_name, gmt_create, gmt_modified
   </sql>
   <sql id="Blob_Column_List">
-    Description
+    description
   </sql>
   <select id="selectByExampleWithBLOBs" parameterType="com.reaosen.management_system.Model.WasteTypeExample" resultMap="ResultMapWithBLOBs">
     select
@@ -110,11 +110,11 @@
     ,
     <include refid="Blob_Column_List" />
     from wastetype
-    where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
+    where waste_type_id = #{wasteTypeId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wastetype
-    where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
+    where waste_type_id = #{wasteTypeId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.WasteTypeExample">
     delete from wastetype
@@ -123,19 +123,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.WasteType">
-    insert into wastetype (WasteTypeID, TypeName, gmt_create, 
-      gmt_modified, Description)
-    values (#{wastetypeid,jdbcType=INTEGER}, #{typename,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=INTEGER}, 
+    insert into wastetype (waste_type_id, type_name, gmt_create, 
+      gmt_modified, description)
+    values (#{wasteTypeId,jdbcType=INTEGER}, #{typeName,jdbcType=VARCHAR}, #{gmtCreate,jdbcType=INTEGER}, 
       #{gmtModified,jdbcType=INTEGER}, #{description,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.WasteType">
     insert into wastetype
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="wastetypeid != null">
-        WasteTypeID,
+      <if test="wasteTypeId != null">
+        waste_type_id,
       </if>
-      <if test="typename != null">
-        TypeName,
+      <if test="typeName != null">
+        type_name,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -144,15 +144,15 @@
         gmt_modified,
       </if>
       <if test="description != null">
-        Description,
+        description,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="wastetypeid != null">
-        #{wastetypeid,jdbcType=INTEGER},
+      <if test="wasteTypeId != null">
+        #{wasteTypeId,jdbcType=INTEGER},
       </if>
-      <if test="typename != null">
-        #{typename,jdbcType=VARCHAR},
+      <if test="typeName != null">
+        #{typeName,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=INTEGER},
@@ -174,11 +174,11 @@
   <update id="updateByExampleSelective" parameterType="map">
     update wastetype
     <set>
-      <if test="record.wastetypeid != null">
-        WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
+      <if test="record.wasteTypeId != null">
+        waste_type_id = #{record.wasteTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.typename != null">
-        TypeName = #{record.typename,jdbcType=VARCHAR},
+      <if test="record.typeName != null">
+        type_name = #{record.typeName,jdbcType=VARCHAR},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -187,7 +187,7 @@
         gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
       </if>
       <if test="record.description != null">
-        Description = #{record.description,jdbcType=LONGVARCHAR},
+        description = #{record.description,jdbcType=LONGVARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -196,19 +196,19 @@
   </update>
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update wastetype
-    set WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
-      TypeName = #{record.typename,jdbcType=VARCHAR},
+    set waste_type_id = #{record.wasteTypeId,jdbcType=INTEGER},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
-      Description = #{record.description,jdbcType=LONGVARCHAR}
+      description = #{record.description,jdbcType=LONGVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
     update wastetype
-    set WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
-      TypeName = #{record.typename,jdbcType=VARCHAR},
+    set waste_type_id = #{record.wasteTypeId,jdbcType=INTEGER},
+      type_name = #{record.typeName,jdbcType=VARCHAR},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -218,8 +218,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.WasteType">
     update wastetype
     <set>
-      <if test="typename != null">
-        TypeName = #{typename,jdbcType=VARCHAR},
+      <if test="typeName != null">
+        type_name = #{typeName,jdbcType=VARCHAR},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=INTEGER},
@@ -228,25 +228,25 @@
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
       <if test="description != null">
-        Description = #{description,jdbcType=LONGVARCHAR},
+        description = #{description,jdbcType=LONGVARCHAR},
       </if>
     </set>
-    where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
+    where waste_type_id = #{wasteTypeId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.reaosen.management_system.Model.WasteType">
     update wastetype
-    set TypeName = #{typename,jdbcType=VARCHAR},
+    set type_name = #{typeName,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER},
-      Description = #{description,jdbcType=LONGVARCHAR}
-    where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
+      description = #{description,jdbcType=LONGVARCHAR}
+    where waste_type_id = #{wasteTypeId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.WasteType">
     update wastetype
-    set TypeName = #{typename,jdbcType=VARCHAR},
+    set type_name = #{typeName,jdbcType=VARCHAR},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}
-    where WasteTypeID = #{wastetypeid,jdbcType=INTEGER}
+    where waste_type_id = #{wasteTypeId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithBLOBsWithRowbounds" parameterType="com.reaosen.management_system.Model.WasteTypeExample" resultMap="ResultMapWithBLOBs">
     select

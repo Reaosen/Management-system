@@ -1,68 +1,68 @@
 package com.reaosen.management_system.Model;
 
 public class DisposalRecord {
-    private Integer disposalid;
+    private Integer disposalId;
 
-    private Integer wasterecordid;
+    private Integer wasteRecordId;
 
-    private Integer disposaltime;
+    private Integer disposalTime;
 
-    private String disposalmethod;
+    private String disposalMethod;
 
-    private String disposallocation;
+    private Integer disposalPointId;
 
-    private Integer accountId;
+    private Integer disposalAccountId;
 
     private Integer gmtCreate;
 
     private Integer gmtModified;
 
-    public Integer getDisposalid() {
-        return disposalid;
+    public Integer getDisposalId() {
+        return disposalId;
     }
 
-    public void setDisposalid(Integer disposalid) {
-        this.disposalid = disposalid;
+    public void setDisposalId(Integer disposalId) {
+        this.disposalId = disposalId;
     }
 
-    public Integer getWasterecordid() {
-        return wasterecordid;
+    public Integer getWasteRecordId() {
+        return wasteRecordId;
     }
 
-    public void setWasterecordid(Integer wasterecordid) {
-        this.wasterecordid = wasterecordid;
+    public void setWasteRecordId(Integer wasteRecordId) {
+        this.wasteRecordId = wasteRecordId;
     }
 
-    public Integer getDisposaltime() {
-        return disposaltime;
+    public Integer getDisposalTime() {
+        return disposalTime;
     }
 
-    public void setDisposaltime(Integer disposaltime) {
-        this.disposaltime = disposaltime;
+    public void setDisposalTime(Integer disposalTime) {
+        this.disposalTime = disposalTime;
     }
 
-    public String getDisposalmethod() {
-        return disposalmethod;
+    public String getDisposalMethod() {
+        return disposalMethod;
     }
 
-    public void setDisposalmethod(String disposalmethod) {
-        this.disposalmethod = disposalmethod;
+    public void setDisposalMethod(String disposalMethod) {
+        this.disposalMethod = disposalMethod;
     }
 
-    public String getDisposallocation() {
-        return disposallocation;
+    public Integer getDisposalPointId() {
+        return disposalPointId;
     }
 
-    public void setDisposallocation(String disposallocation) {
-        this.disposallocation = disposallocation;
+    public void setDisposalPointId(Integer disposalPointId) {
+        this.disposalPointId = disposalPointId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Integer getDisposalAccountId() {
+        return disposalAccountId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setDisposalAccountId(Integer disposalAccountId) {
+        this.disposalAccountId = disposalAccountId;
     }
 
     public Integer getGmtCreate() {

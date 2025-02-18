@@ -11,7 +11,7 @@ public interface WasteRecordMapper {
 
     int deleteByExample(WasteRecordExample example);
 
-    int deleteByPrimaryKey(Integer wasterecordid);
+    int deleteByPrimaryKey(Integer wasteRecordId);
 
     int insert(WasteRecord record);
 
@@ -21,7 +21,7 @@ public interface WasteRecordMapper {
 
     List<WasteRecord> selectByExample(WasteRecordExample example);
 
-    WasteRecord selectByPrimaryKey(Integer wasterecordid);
+    WasteRecord selectByPrimaryKey(Integer wasteRecordId);
 
     int updateByExampleSelective(@Param("record") WasteRecord record, @Param("example") WasteRecordExample example);
 

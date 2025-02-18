@@ -1,9 +1,9 @@
 package com.reaosen.management_system.Model;
 
 public class WasteType {
-    private Integer wastetypeid;
+    private Integer wasteTypeId;
 
-    private String typename;
+    private String typeName;
 
     private Integer gmtCreate;
 
@@ -11,20 +11,20 @@ public class WasteType {
 
     private String description;
 
-    public Integer getWastetypeid() {
-        return wastetypeid;
+    public Integer getWasteTypeId() {
+        return wasteTypeId;
     }
 
-    public void setWastetypeid(Integer wastetypeid) {
-        this.wastetypeid = wastetypeid;
+    public void setWasteTypeId(Integer wasteTypeId) {
+        this.wasteTypeId = wasteTypeId;
     }
 
-    public String getTypename() {
-        return typename;
+    public String getTypeName() {
+        return typeName;
     }
 
-    public void setTypename(String typename) {
-        this.typename = typename;
+    public void setTypeName(String typeName) {
+        this.typeName = typeName;
     }
 
     public Integer getGmtCreate() {

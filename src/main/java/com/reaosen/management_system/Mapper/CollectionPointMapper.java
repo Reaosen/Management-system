@@ -11,7 +11,7 @@ public interface CollectionPointMapper {
 
     int deleteByExample(CollectionPointExample example);
 
-    int deleteByPrimaryKey(Integer collectionpointid);
+    int deleteByPrimaryKey(Integer collectionPointId);
 
     int insert(CollectionPoint record);
 
@@ -21,7 +21,7 @@ public interface CollectionPointMapper {
 
     List<CollectionPoint> selectByExample(CollectionPointExample example);
 
-    CollectionPoint selectByPrimaryKey(Integer collectionpointid);
+    CollectionPoint selectByPrimaryKey(Integer collectionPointId);
 
     int updateByExampleSelective(@Param("record") CollectionPoint record, @Param("example") CollectionPointExample example);
 

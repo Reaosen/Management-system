@@ -104,133 +104,133 @@ public class WasteTypeExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andWastetypeidIsNull() {
-            addCriterion("WasteTypeID is null");
+        public Criteria andWasteTypeIdIsNull() {
+            addCriterion("waste_type_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidIsNotNull() {
-            addCriterion("WasteTypeID is not null");
+        public Criteria andWasteTypeIdIsNotNull() {
+            addCriterion("waste_type_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidEqualTo(Integer value) {
-            addCriterion("WasteTypeID =", value, "wastetypeid");
+        public Criteria andWasteTypeIdEqualTo(Integer value) {
+            addCriterion("waste_type_id =", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidNotEqualTo(Integer value) {
-            addCriterion("WasteTypeID <>", value, "wastetypeid");
+        public Criteria andWasteTypeIdNotEqualTo(Integer value) {
+            addCriterion("waste_type_id <>", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidGreaterThan(Integer value) {
-            addCriterion("WasteTypeID >", value, "wastetypeid");
+        public Criteria andWasteTypeIdGreaterThan(Integer value) {
+            addCriterion("waste_type_id >", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidGreaterThanOrEqualTo(Integer value) {
-            addCriterion("WasteTypeID >=", value, "wastetypeid");
+        public Criteria andWasteTypeIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("waste_type_id >=", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidLessThan(Integer value) {
-            addCriterion("WasteTypeID <", value, "wastetypeid");
+        public Criteria andWasteTypeIdLessThan(Integer value) {
+            addCriterion("waste_type_id <", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidLessThanOrEqualTo(Integer value) {
-            addCriterion("WasteTypeID <=", value, "wastetypeid");
+        public Criteria andWasteTypeIdLessThanOrEqualTo(Integer value) {
+            addCriterion("waste_type_id <=", value, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidIn(List<Integer> values) {
-            addCriterion("WasteTypeID in", values, "wastetypeid");
+        public Criteria andWasteTypeIdIn(List<Integer> values) {
+            addCriterion("waste_type_id in", values, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidNotIn(List<Integer> values) {
-            addCriterion("WasteTypeID not in", values, "wastetypeid");
+        public Criteria andWasteTypeIdNotIn(List<Integer> values) {
+            addCriterion("waste_type_id not in", values, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidBetween(Integer value1, Integer value2) {
-            addCriterion("WasteTypeID between", value1, value2, "wastetypeid");
+        public Criteria andWasteTypeIdBetween(Integer value1, Integer value2) {
+            addCriterion("waste_type_id between", value1, value2, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andWastetypeidNotBetween(Integer value1, Integer value2) {
-            addCriterion("WasteTypeID not between", value1, value2, "wastetypeid");
+        public Criteria andWasteTypeIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("waste_type_id not between", value1, value2, "wasteTypeId");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameIsNull() {
-            addCriterion("TypeName is null");
+        public Criteria andTypeNameIsNull() {
+            addCriterion("type_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameIsNotNull() {
-            addCriterion("TypeName is not null");
+        public Criteria andTypeNameIsNotNull() {
+            addCriterion("type_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameEqualTo(String value) {
-            addCriterion("TypeName =", value, "typename");
+        public Criteria andTypeNameEqualTo(String value) {
+            addCriterion("type_name =", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameNotEqualTo(String value) {
-            addCriterion("TypeName <>", value, "typename");
+        public Criteria andTypeNameNotEqualTo(String value) {
+            addCriterion("type_name <>", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameGreaterThan(String value) {
-            addCriterion("TypeName >", value, "typename");
+        public Criteria andTypeNameGreaterThan(String value) {
+            addCriterion("type_name >", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameGreaterThanOrEqualTo(String value) {
-            addCriterion("TypeName >=", value, "typename");
+        public Criteria andTypeNameGreaterThanOrEqualTo(String value) {
+            addCriterion("type_name >=", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameLessThan(String value) {
-            addCriterion("TypeName <", value, "typename");
+        public Criteria andTypeNameLessThan(String value) {
+            addCriterion("type_name <", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameLessThanOrEqualTo(String value) {
-            addCriterion("TypeName <=", value, "typename");
+        public Criteria andTypeNameLessThanOrEqualTo(String value) {
+            addCriterion("type_name <=", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameLike(String value) {
-            addCriterion("TypeName like", value, "typename");
+        public Criteria andTypeNameLike(String value) {
+            addCriterion("type_name like", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameNotLike(String value) {
-            addCriterion("TypeName not like", value, "typename");
+        public Criteria andTypeNameNotLike(String value) {
+            addCriterion("type_name not like", value, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameIn(List<String> values) {
-            addCriterion("TypeName in", values, "typename");
+        public Criteria andTypeNameIn(List<String> values) {
+            addCriterion("type_name in", values, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameNotIn(List<String> values) {
-            addCriterion("TypeName not in", values, "typename");
+        public Criteria andTypeNameNotIn(List<String> values) {
+            addCriterion("type_name not in", values, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameBetween(String value1, String value2) {
-            addCriterion("TypeName between", value1, value2, "typename");
+        public Criteria andTypeNameBetween(String value1, String value2) {
+            addCriterion("type_name between", value1, value2, "typeName");
             return (Criteria) this;
         }
 
-        public Criteria andTypenameNotBetween(String value1, String value2) {
-            addCriterion("TypeName not between", value1, value2, "typename");
+        public Criteria andTypeNameNotBetween(String value1, String value2) {
+            addCriterion("type_name not between", value1, value2, "typeName");
             return (Criteria) this;
         }
 

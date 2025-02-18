@@ -11,7 +11,7 @@ public interface TransportRecordMapper {
 
     int deleteByExample(TransportRecordExample example);
 
-    int deleteByPrimaryKey(Integer transportid);
+    int deleteByPrimaryKey(Integer transportId);
 
     int insert(TransportRecord record);
 
@@ -21,7 +21,7 @@ public interface TransportRecordMapper {
 
     List<TransportRecord> selectByExample(TransportRecordExample example);
 
-    TransportRecord selectByPrimaryKey(Integer transportid);
+    TransportRecord selectByPrimaryKey(Integer transportId);
 
     int updateByExampleSelective(@Param("record") TransportRecord record, @Param("example") TransportRecordExample example);
 

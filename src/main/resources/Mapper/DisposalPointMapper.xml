@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.reaosen.management_system.Mapper.CollectionPointMapper">
-  <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.CollectionPoint">
-    <id column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
+<mapper namespace="com.reaosen.management_system.Mapper.DisposalPointMapper">
+  <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.DisposalPoint">
+    <id column="disposal_point_id" jdbcType="INTEGER" property="disposalPointId" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="contact" jdbcType="VARCHAR" property="contact" />
     <result column="responsible_person" jdbcType="VARCHAR" property="responsiblePerson" />
-    <result column="collection_Account_id" jdbcType="INTEGER" property="collectionAccountId" />
+    <result column="account_id" jdbcType="INTEGER" property="accountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
   </resultMap>
@@ -69,16 +69,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    collection_point_id, address, contact, responsible_person, collection_Account_id, 
-    gmt_create, gmt_modified
+    disposal_point_id, address, contact, responsible_person, account_id, gmt_create, 
+    gmt_modified
   </sql>
-  <select id="selectByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.reaosen.management_system.Model.DisposalPointExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from collectionpoint
+    from disposalpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,32 +89,32 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from collectionpoint
-    where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
+    from disposalpoint
+    where disposal_point_id = #{disposalPointId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from collectionpoint
-    where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
+    delete from disposalpoint
+    where disposal_point_id = #{disposalPointId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample">
-    delete from collectionpoint
+  <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.DisposalPointExample">
+    delete from disposalpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    insert into collectionpoint (collection_point_id, address, contact, 
-      responsible_person, collection_Account_id, 
-      gmt_create, gmt_modified)
-    values (#{collectionPointId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
-      #{responsiblePerson,jdbcType=VARCHAR}, #{collectionAccountId,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
+  <insert id="insert" parameterType="com.reaosen.management_system.Model.DisposalPoint">
+    insert into disposalpoint (disposal_point_id, address, contact, 
+      responsible_person, account_id, gmt_create, 
+      gmt_modified)
+    values (#{disposalPointId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
+      #{responsiblePerson,jdbcType=VARCHAR}, #{accountId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=INTEGER}, 
+      #{gmtModified,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    insert into collectionpoint
+  <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.DisposalPoint">
+    insert into disposalpoint
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="collectionPointId != null">
-        collection_point_id,
+      <if test="disposalPointId != null">
+        disposal_point_id,
       </if>
       <if test="address != null">
         address,
@@ -125,8 +125,8 @@
       <if test="responsiblePerson != null">
         responsible_person,
       </if>
-      <if test="collectionAccountId != null">
-        collection_Account_id,
+      <if test="accountId != null">
+        account_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -136,8 +136,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="collectionPointId != null">
-        #{collectionPointId,jdbcType=INTEGER},
+      <if test="disposalPointId != null">
+        #{disposalPointId,jdbcType=INTEGER},
       </if>
       <if test="address != null">
         #{address,jdbcType=VARCHAR},
@@ -148,8 +148,8 @@
       <if test="responsiblePerson != null">
         #{responsiblePerson,jdbcType=VARCHAR},
       </if>
-      <if test="collectionAccountId != null">
-        #{collectionAccountId,jdbcType=INTEGER},
+      <if test="accountId != null">
+        #{accountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=INTEGER},
@@ -159,17 +159,17 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultType="java.lang.Long">
-    select count(*) from collectionpoint
+  <select id="countByExample" parameterType="com.reaosen.management_system.Model.DisposalPointExample" resultType="java.lang.Long">
+    select count(*) from disposalpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update collectionpoint
+    update disposalpoint
     <set>
-      <if test="record.collectionPointId != null">
-        collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
+      <if test="record.disposalPointId != null">
+        disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
       </if>
       <if test="record.address != null">
         address = #{record.address,jdbcType=VARCHAR},
@@ -180,8 +180,8 @@
       <if test="record.responsiblePerson != null">
         responsible_person = #{record.responsiblePerson,jdbcType=VARCHAR},
       </if>
-      <if test="record.collectionAccountId != null">
-        collection_Account_id = #{record.collectionAccountId,jdbcType=INTEGER},
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=INTEGER},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -195,20 +195,20 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update collectionpoint
-    set collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
+    update disposalpoint
+    set disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
       address = #{record.address,jdbcType=VARCHAR},
       contact = #{record.contact,jdbcType=VARCHAR},
       responsible_person = #{record.responsiblePerson,jdbcType=VARCHAR},
-      collection_Account_id = #{record.collectionAccountId,jdbcType=INTEGER},
+      account_id = #{record.accountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    update collectionpoint
+  <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.DisposalPoint">
+    update disposalpoint
     <set>
       <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
@@ -219,8 +219,8 @@
       <if test="responsiblePerson != null">
         responsible_person = #{responsiblePerson,jdbcType=VARCHAR},
       </if>
-      <if test="collectionAccountId != null">
-        collection_Account_id = #{collectionAccountId,jdbcType=INTEGER},
+      <if test="accountId != null">
+        account_id = #{accountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=INTEGER},
@@ -229,25 +229,25 @@
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
     </set>
-    where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
+    where disposal_point_id = #{disposalPointId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.CollectionPoint">
-    update collectionpoint
+  <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.DisposalPoint">
+    update disposalpoint
     set address = #{address,jdbcType=VARCHAR},
       contact = #{contact,jdbcType=VARCHAR},
       responsible_person = #{responsiblePerson,jdbcType=VARCHAR},
-      collection_Account_id = #{collectionAccountId,jdbcType=INTEGER},
+      account_id = #{accountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}
-    where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
+    where disposal_point_id = #{disposalPointId,jdbcType=INTEGER}
   </update>
-  <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">
+  <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.DisposalPointExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from collectionpoint
+    from disposalpoint
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>

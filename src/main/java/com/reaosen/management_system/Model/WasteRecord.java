@@ -3,54 +3,54 @@ package com.reaosen.management_system.Model;
 import java.math.BigDecimal;
 
 public class WasteRecord {
-    private Integer wasterecordid;
+    private Integer wasteRecordId;
 
-    private Integer wastetypeid;
+    private Integer wasteTypeId;
 
-    private Integer collectionpointid;
+    private Integer collectionPointId;
 
-    private Integer collectiontime;
+    private Integer collectionTime;
 
     private BigDecimal weight;
 
     private String status;
 
-    private Integer accountId;
+    private Integer collectionAccountId;
 
     private Integer gmtCreate;
 
     private Integer gmtModified;
 
-    public Integer getWasterecordid() {
-        return wasterecordid;
+    public Integer getWasteRecordId() {
+        return wasteRecordId;
     }
 
-    public void setWasterecordid(Integer wasterecordid) {
-        this.wasterecordid = wasterecordid;
+    public void setWasteRecordId(Integer wasteRecordId) {
+        this.wasteRecordId = wasteRecordId;
     }
 
-    public Integer getWastetypeid() {
-        return wastetypeid;
+    public Integer getWasteTypeId() {
+        return wasteTypeId;
     }
 
-    public void setWastetypeid(Integer wastetypeid) {
-        this.wastetypeid = wastetypeid;
+    public void setWasteTypeId(Integer wasteTypeId) {
+        this.wasteTypeId = wasteTypeId;
     }
 
-    public Integer getCollectionpointid() {
-        return collectionpointid;
+    public Integer getCollectionPointId() {
+        return collectionPointId;
     }
 
-    public void setCollectionpointid(Integer collectionpointid) {
-        this.collectionpointid = collectionpointid;
+    public void setCollectionPointId(Integer collectionPointId) {
+        this.collectionPointId = collectionPointId;
     }
 
-    public Integer getCollectiontime() {
-        return collectiontime;
+    public Integer getCollectionTime() {
+        return collectionTime;
     }
 
-    public void setCollectiontime(Integer collectiontime) {
-        this.collectiontime = collectiontime;
+    public void setCollectionTime(Integer collectionTime) {
+        this.collectionTime = collectionTime;
     }
 
     public BigDecimal getWeight() {
@@ -69,12 +69,12 @@ public class WasteRecord {
         this.status = status;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Integer getCollectionAccountId() {
+        return collectionAccountId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setCollectionAccountId(Integer collectionAccountId) {
+        this.collectionAccountId = collectionAccountId;
     }
 
     public Integer getGmtCreate() {

@@ -1,68 +1,88 @@
 package com.reaosen.management_system.Model;
 
 public class TransportRecord {
-    private Integer transportid;
+    private Integer transportId;
 
-    private Integer wasterecordid;
+    private Integer wasteRecordId;
 
-    private Integer transporttime;
+    private Integer transportTime;
 
-    private String transportvehicle;
+    private String transportVehicle;
 
-    private String drivername;
+    private Integer collectionPointId;
 
-    private Integer accountId;
+    private Integer disposalPointId;
+
+    private String transportusername;
+
+    private Integer transportAccountId;
 
     private Integer gmtCreate;
 
     private Integer gmtModified;
 
-    public Integer getTransportid() {
-        return transportid;
+    public Integer getTransportId() {
+        return transportId;
     }
 
-    public void setTransportid(Integer transportid) {
-        this.transportid = transportid;
+    public void setTransportId(Integer transportId) {
+        this.transportId = transportId;
     }
 
-    public Integer getWasterecordid() {
-        return wasterecordid;
+    public Integer getWasteRecordId() {
+        return wasteRecordId;
     }
 
-    public void setWasterecordid(Integer wasterecordid) {
-        this.wasterecordid = wasterecordid;
+    public void setWasteRecordId(Integer wasteRecordId) {
+        this.wasteRecordId = wasteRecordId;
     }
 
-    public Integer getTransporttime() {
-        return transporttime;
+    public Integer getTransportTime() {
+        return transportTime;
     }
 
-    public void setTransporttime(Integer transporttime) {
-        this.transporttime = transporttime;
+    public void setTransportTime(Integer transportTime) {
+        this.transportTime = transportTime;
     }
 
-    public String getTransportvehicle() {
-        return transportvehicle;
+    public String getTransportVehicle() {
+        return transportVehicle;
     }
 
-    public void setTransportvehicle(String transportvehicle) {
-        this.transportvehicle = transportvehicle;
+    public void setTransportVehicle(String transportVehicle) {
+        this.transportVehicle = transportVehicle;
     }
 
-    public String getDrivername() {
-        return drivername;
+    public Integer getCollectionPointId() {
+        return collectionPointId;
     }
 
-    public void setDrivername(String drivername) {
-        this.drivername = drivername;
+    public void setCollectionPointId(Integer collectionPointId) {
+        this.collectionPointId = collectionPointId;
     }
 
-    public Integer getAccountId() {
-        return accountId;
+    public Integer getDisposalPointId() {
+        return disposalPointId;
     }
 
-    public void setAccountId(Integer accountId) {
-        this.accountId = accountId;
+    public void setDisposalPointId(Integer disposalPointId) {
+        this.disposalPointId = disposalPointId;
+    }
+
+    public String getTransportusername() {
+        return transportusername;
+    }
+
+    public void setTransportusername(String transportusername) {
+        this.transportusername = transportusername;
+    }
+
+    public Integer getTransportAccountId() {
+        return transportAccountId;
+    }
+
+    public void setTransportAccountId(Integer transportAccountId) {
+        this.transportAccountId = transportAccountId;
     }
 
     public Integer getGmtCreate() {

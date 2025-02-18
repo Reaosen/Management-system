@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     @Autowired
-    private UserService employeeService;
+    private UserService userService;
 
     @GetMapping("/employee")
     public String Employee() {
@@ -29,7 +29,7 @@ public class UserController {
                                             @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
                                             @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
                                             @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
-        PaginationDTO pagination = employeeService.employeePagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
+        PaginationDTO pagination = userService.employeePagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
         model.addAttribute("pagination", pagination);
 
         return pagination;
@@ -49,7 +49,7 @@ public class UserController {
                                          @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
                                          @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
 
-        PaginationDTO pagination = employeeService.employeeWorkPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
+        PaginationDTO pagination = userService.employeeWorkPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
 
         return pagination;
     }
@@ -58,7 +58,7 @@ public class UserController {
     @ResponseBody
     public ResultDTO lockOrUnlock(@RequestBody UserDTO userDTO){
 
-        employeeService.updateStatusByAccountId(userDTO);
+        userService.updateStatusByAccountId(userDTO);
 
         return ResultDTO.okOf();
     }

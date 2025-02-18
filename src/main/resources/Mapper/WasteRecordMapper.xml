@@ -2,13 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.reaosen.management_system.Mapper.WasteRecordMapper">
   <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.WasteRecord">
-    <id column="WasteRecordID" jdbcType="INTEGER" property="wasterecordid" />
-    <result column="WasteTypeID" jdbcType="INTEGER" property="wastetypeid" />
-    <result column="CollectionPointID" jdbcType="INTEGER" property="collectionpointid" />
-    <result column="CollectionTime" jdbcType="INTEGER" property="collectiontime" />
-    <result column="Weight" jdbcType="DECIMAL" property="weight" />
-    <result column="Status" jdbcType="VARCHAR" property="status" />
-    <result column="account_id" jdbcType="INTEGER" property="accountId" />
+    <id column="waste_record_id" jdbcType="INTEGER" property="wasteRecordId" />
+    <result column="waste_type_id" jdbcType="INTEGER" property="wasteTypeId" />
+    <result column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
+    <result column="collection_time" jdbcType="INTEGER" property="collectionTime" />
+    <result column="weight" jdbcType="DECIMAL" property="weight" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="collection_account_id" jdbcType="INTEGER" property="collectionAccountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
   </resultMap>
@@ -71,8 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    WasteRecordID, WasteTypeID, CollectionPointID, CollectionTime, Weight, Status, account_id, 
-    gmt_create, gmt_modified
+    waste_record_id, waste_type_id, collection_point_id, collection_time, weight, status, 
+    collection_account_id, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.WasteRecordExample" resultMap="BaseResultMap">
     select
@@ -92,11 +92,11 @@
     select 
     <include refid="Base_Column_List" />
     from wasterecord
-    where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
+    where waste_record_id = #{wasteRecordId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from wasterecord
-    where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
+    where waste_record_id = #{wasteRecordId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.reaosen.management_system.Model.WasteRecordExample">
     delete from wasterecord
@@ -105,38 +105,38 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.WasteRecord">
-    insert into wasterecord (WasteRecordID, WasteTypeID, CollectionPointID, 
-      CollectionTime, Weight, Status, 
-      account_id, gmt_create, gmt_modified
+    insert into wasterecord (waste_record_id, waste_type_id, collection_point_id, 
+      collection_time, weight, status, 
+      collection_account_id, gmt_create, gmt_modified
       )
-    values (#{wasterecordid,jdbcType=INTEGER}, #{wastetypeid,jdbcType=INTEGER}, #{collectionpointid,jdbcType=INTEGER}, 
-      #{collectiontime,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
-      #{accountId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}
+    values (#{wasteRecordId,jdbcType=INTEGER}, #{wasteTypeId,jdbcType=INTEGER}, #{collectionPointId,jdbcType=INTEGER}, 
+      #{collectionTime,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{collectionAccountId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.WasteRecord">
     insert into wasterecord
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="wasterecordid != null">
-        WasteRecordID,
+      <if test="wasteRecordId != null">
+        waste_record_id,
       </if>
-      <if test="wastetypeid != null">
-        WasteTypeID,
+      <if test="wasteTypeId != null">
+        waste_type_id,
       </if>
-      <if test="collectionpointid != null">
-        CollectionPointID,
+      <if test="collectionPointId != null">
+        collection_point_id,
       </if>
-      <if test="collectiontime != null">
-        CollectionTime,
+      <if test="collectionTime != null">
+        collection_time,
       </if>
       <if test="weight != null">
-        Weight,
+        weight,
       </if>
       <if test="status != null">
-        Status,
+        status,
       </if>
-      <if test="accountId != null">
-        account_id,
+      <if test="collectionAccountId != null">
+        collection_account_id,
       </if>
       <if test="gmtCreate != null">
         gmt_create,
@@ -146,17 +146,17 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="wasterecordid != null">
-        #{wasterecordid,jdbcType=INTEGER},
+      <if test="wasteRecordId != null">
+        #{wasteRecordId,jdbcType=INTEGER},
       </if>
-      <if test="wastetypeid != null">
-        #{wastetypeid,jdbcType=INTEGER},
+      <if test="wasteTypeId != null">
+        #{wasteTypeId,jdbcType=INTEGER},
       </if>
-      <if test="collectionpointid != null">
-        #{collectionpointid,jdbcType=INTEGER},
+      <if test="collectionPointId != null">
+        #{collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="collectiontime != null">
-        #{collectiontime,jdbcType=INTEGER},
+      <if test="collectionTime != null">
+        #{collectionTime,jdbcType=INTEGER},
       </if>
       <if test="weight != null">
         #{weight,jdbcType=DECIMAL},
@@ -164,8 +164,8 @@
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
       </if>
-      <if test="accountId != null">
-        #{accountId,jdbcType=INTEGER},
+      <if test="collectionAccountId != null">
+        #{collectionAccountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         #{gmtCreate,jdbcType=INTEGER},
@@ -184,26 +184,26 @@
   <update id="updateByExampleSelective" parameterType="map">
     update wasterecord
     <set>
-      <if test="record.wasterecordid != null">
-        WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
+      <if test="record.wasteRecordId != null">
+        waste_record_id = #{record.wasteRecordId,jdbcType=INTEGER},
       </if>
-      <if test="record.wastetypeid != null">
-        WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
+      <if test="record.wasteTypeId != null">
+        waste_type_id = #{record.wasteTypeId,jdbcType=INTEGER},
       </if>
-      <if test="record.collectionpointid != null">
-        CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
+      <if test="record.collectionPointId != null">
+        collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="record.collectiontime != null">
-        CollectionTime = #{record.collectiontime,jdbcType=INTEGER},
+      <if test="record.collectionTime != null">
+        collection_time = #{record.collectionTime,jdbcType=INTEGER},
       </if>
       <if test="record.weight != null">
-        Weight = #{record.weight,jdbcType=DECIMAL},
+        weight = #{record.weight,jdbcType=DECIMAL},
       </if>
       <if test="record.status != null">
-        Status = #{record.status,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=VARCHAR},
       </if>
-      <if test="record.accountId != null">
-        account_id = #{record.accountId,jdbcType=INTEGER},
+      <if test="record.collectionAccountId != null">
+        collection_account_id = #{record.collectionAccountId,jdbcType=INTEGER},
       </if>
       <if test="record.gmtCreate != null">
         gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -218,13 +218,13 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update wasterecord
-    set WasteRecordID = #{record.wasterecordid,jdbcType=INTEGER},
-      WasteTypeID = #{record.wastetypeid,jdbcType=INTEGER},
-      CollectionPointID = #{record.collectionpointid,jdbcType=INTEGER},
-      CollectionTime = #{record.collectiontime,jdbcType=INTEGER},
-      Weight = #{record.weight,jdbcType=DECIMAL},
-      Status = #{record.status,jdbcType=VARCHAR},
-      account_id = #{record.accountId,jdbcType=INTEGER},
+    set waste_record_id = #{record.wasteRecordId,jdbcType=INTEGER},
+      waste_type_id = #{record.wasteTypeId,jdbcType=INTEGER},
+      collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
+      collection_time = #{record.collectionTime,jdbcType=INTEGER},
+      weight = #{record.weight,jdbcType=DECIMAL},
+      status = #{record.status,jdbcType=VARCHAR},
+      collection_account_id = #{record.collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -234,23 +234,23 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.reaosen.management_system.Model.WasteRecord">
     update wasterecord
     <set>
-      <if test="wastetypeid != null">
-        WasteTypeID = #{wastetypeid,jdbcType=INTEGER},
+      <if test="wasteTypeId != null">
+        waste_type_id = #{wasteTypeId,jdbcType=INTEGER},
       </if>
-      <if test="collectionpointid != null">
-        CollectionPointID = #{collectionpointid,jdbcType=INTEGER},
+      <if test="collectionPointId != null">
+        collection_point_id = #{collectionPointId,jdbcType=INTEGER},
       </if>
-      <if test="collectiontime != null">
-        CollectionTime = #{collectiontime,jdbcType=INTEGER},
+      <if test="collectionTime != null">
+        collection_time = #{collectionTime,jdbcType=INTEGER},
       </if>
       <if test="weight != null">
-        Weight = #{weight,jdbcType=DECIMAL},
+        weight = #{weight,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        Status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=VARCHAR},
       </if>
-      <if test="accountId != null">
-        account_id = #{accountId,jdbcType=INTEGER},
+      <if test="collectionAccountId != null">
+        collection_account_id = #{collectionAccountId,jdbcType=INTEGER},
       </if>
       <if test="gmtCreate != null">
         gmt_create = #{gmtCreate,jdbcType=INTEGER},
@@ -259,19 +259,19 @@
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
     </set>
-    where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
+    where waste_record_id = #{wasteRecordId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.reaosen.management_system.Model.WasteRecord">
     update wasterecord
-    set WasteTypeID = #{wastetypeid,jdbcType=INTEGER},
-      CollectionPointID = #{collectionpointid,jdbcType=INTEGER},
-      CollectionTime = #{collectiontime,jdbcType=INTEGER},
-      Weight = #{weight,jdbcType=DECIMAL},
-      Status = #{status,jdbcType=VARCHAR},
-      account_id = #{accountId,jdbcType=INTEGER},
+    set waste_type_id = #{wasteTypeId,jdbcType=INTEGER},
+      collection_point_id = #{collectionPointId,jdbcType=INTEGER},
+      collection_time = #{collectionTime,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=DECIMAL},
+      status = #{status,jdbcType=VARCHAR},
+      collection_account_id = #{collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}
-    where WasteRecordID = #{wasterecordid,jdbcType=INTEGER}
+    where waste_record_id = #{wasteRecordId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.WasteRecordExample" resultMap="BaseResultMap">
     select

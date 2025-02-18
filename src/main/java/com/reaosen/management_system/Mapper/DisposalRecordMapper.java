@@ -11,7 +11,7 @@ public interface DisposalRecordMapper {
 
     int deleteByExample(DisposalRecordExample example);
 
-    int deleteByPrimaryKey(Integer disposalid);
+    int deleteByPrimaryKey(Integer disposalId);
 
     int insert(DisposalRecord record);
 
@@ -21,7 +21,7 @@ public interface DisposalRecordMapper {
 
     List<DisposalRecord> selectByExample(DisposalRecordExample example);
 
-    DisposalRecord selectByPrimaryKey(Integer disposalid);
+    DisposalRecord selectByPrimaryKey(Integer disposalId);
 
     int updateByExampleSelective(@Param("record") DisposalRecord record, @Param("example") DisposalRecordExample example);
 
