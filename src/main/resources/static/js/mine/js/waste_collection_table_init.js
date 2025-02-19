@@ -4,7 +4,7 @@ $(document).ready(function () {
         "bProcessing": false,
         "bServerSide": true,
         "bInfo": false,
-        "sAjaxSource": "/waste/transportation/pagination",
+        "sAjaxSource": "/waste/collection/pagination",
         "fnServerData": function (sSource, aoData, fnCallback) {
             $.ajax({
                 "url": sSource,
@@ -17,18 +17,15 @@ $(document).ready(function () {
         },
         "aoColumns": [
             {"mData": "wasteRecordId"},
-            {"mData": "transportId"},
             {"mData": "wasteType"},
             {"mData": "weight"},
-            {"mData": "transportusername"},
+            {"mData": "collectionTime"},
             {"mData": "collectionPoint"},
-            {"mData": "disposalPoint"},
-            {"mData": "transportVehicle"},
-            {"mData": "transportTime"},
+            {"mData": "status"},
+            {"mData": "collectionusername"},
             {
                 "mData": null,
                 "fnRender": function (oObj, sType, sValue) {
-                    var transportId = oObj.aData.transportId;
                     var buttonHtml = '<button class="btn btn-info  btn-sm">查看详情</button>';
 
                     return buttonHtml; // 返回按钮的 HTML
@@ -55,11 +52,11 @@ $(document).ready(function () {
         var button = $(this);
         var nTr = button.closest('tr')[0];
         var aData = oTable.fnGetData(nTr); // 获取整行数据
-        var transportId = aData.transportId;
+        var wasteRecordId = aData.wasteRecordId;
 
         $.ajax({
             type: "GET",
-            url: "/waste/transportation/" + transportId,
+            url: "/waste/" + wasteRecordId,
             contentType: "application/json",
             data: JSON.stringify({
             }),
@@ -68,7 +65,7 @@ $(document).ready(function () {
 
                 } else {
                     // 操作失败，弹出错误信息
-                    alert(response.message || '禁用用户失败');
+                    alert(response.message);
                 }
             },
             error: function () {

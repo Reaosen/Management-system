@@ -42,6 +42,11 @@ public class UserServiceImpl implements UserService {
             // 创建第三个条件
             UserExample.Criteria criteria3 = userExample.or();
             criteria3.andPhoneLike("%" + sSearch + "%");
+
+            // 创建第四个条件
+            UserExample.Criteria criteria4 = userExample.or();
+            criteria4.andRoleLike("%" + sSearch + "%");
+
         }
 
         // 获取筛选后的记录数

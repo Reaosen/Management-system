@@ -7,7 +7,7 @@
     <result column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
     <result column="collection_time" jdbcType="INTEGER" property="collectionTime" />
     <result column="weight" jdbcType="DECIMAL" property="weight" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="status" jdbcType="INTEGER" property="status" />
     <result column="collection_account_id" jdbcType="INTEGER" property="collectionAccountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
@@ -110,7 +110,7 @@
       collection_account_id, gmt_create, gmt_modified
       )
     values (#{wasteRecordId,jdbcType=INTEGER}, #{wasteTypeId,jdbcType=INTEGER}, #{collectionPointId,jdbcType=INTEGER}, 
-      #{collectionTime,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL}, #{status,jdbcType=VARCHAR}, 
+      #{collectionTime,jdbcType=INTEGER}, #{weight,jdbcType=DECIMAL}, #{status,jdbcType=INTEGER}, 
       #{collectionAccountId,jdbcType=INTEGER}, #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}
       )
   </insert>
@@ -162,7 +162,7 @@
         #{weight,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        #{status,jdbcType=VARCHAR},
+        #{status,jdbcType=INTEGER},
       </if>
       <if test="collectionAccountId != null">
         #{collectionAccountId,jdbcType=INTEGER},
@@ -200,7 +200,7 @@
         weight = #{record.weight,jdbcType=DECIMAL},
       </if>
       <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
+        status = #{record.status,jdbcType=INTEGER},
       </if>
       <if test="record.collectionAccountId != null">
         collection_account_id = #{record.collectionAccountId,jdbcType=INTEGER},
@@ -223,7 +223,7 @@
       collection_point_id = #{record.collectionPointId,jdbcType=INTEGER},
       collection_time = #{record.collectionTime,jdbcType=INTEGER},
       weight = #{record.weight,jdbcType=DECIMAL},
-      status = #{record.status,jdbcType=VARCHAR},
+      status = #{record.status,jdbcType=INTEGER},
       collection_account_id = #{record.collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
@@ -247,7 +247,7 @@
         weight = #{weight,jdbcType=DECIMAL},
       </if>
       <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
+        status = #{status,jdbcType=INTEGER},
       </if>
       <if test="collectionAccountId != null">
         collection_account_id = #{collectionAccountId,jdbcType=INTEGER},
@@ -267,7 +267,7 @@
       collection_point_id = #{collectionPointId,jdbcType=INTEGER},
       collection_time = #{collectionTime,jdbcType=INTEGER},
       weight = #{weight,jdbcType=DECIMAL},
-      status = #{status,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER},
       collection_account_id = #{collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER}

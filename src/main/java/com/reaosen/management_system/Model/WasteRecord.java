@@ -13,7 +13,7 @@ public class WasteRecord {
 
     private BigDecimal weight;
 
-    private String status;
+    private Integer status;
 
     private Integer collectionAccountId;
 
@@ -61,11 +61,11 @@ public class WasteRecord {
         this.weight = weight;
     }
 
-    public String getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

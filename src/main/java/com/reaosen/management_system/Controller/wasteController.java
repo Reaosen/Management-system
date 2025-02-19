@@ -41,7 +41,33 @@ public class wasteController {
                                                        @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
                                                        @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
 
-        PaginationDTO pagination = wasteService.wasteTransportationPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
+        PaginationDTO pagination = wasteService.wasteTransportationPagination("transportation", sEcho, iDisplayStart, iDisplayLength, sSearch);
+        return pagination;
+    }
+
+    @GetMapping("/waste/disposal/pagination")
+    @ResponseBody
+    public PaginationDTO wasteDisposalPagination(HttpServletRequest request,
+                                                       Model model,
+                                                       @RequestParam(value = "sEcho") Integer sEcho,
+                                                       @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
+                                                       @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
+                                                       @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
+
+        PaginationDTO pagination = wasteService.wasteTransportationPagination("disposal", sEcho, iDisplayStart, iDisplayLength, sSearch);
+        return pagination;
+    }
+
+    @GetMapping("/waste/collection/pagination")
+    @ResponseBody
+    public PaginationDTO wasteCollectionPagination(HttpServletRequest request,
+                                                       Model model,
+                                                       @RequestParam(value = "sEcho") Integer sEcho,
+                                                       @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart,
+                                                       @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
+                                                       @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
+
+        PaginationDTO pagination = wasteService.wasteTransportationPagination("collection", sEcho, iDisplayStart, iDisplayLength, sSearch);
         return pagination;
     }
 

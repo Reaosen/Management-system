@@ -28,7 +28,6 @@ $(document).ready(function () {
             {
                 "mData": null,
                 "fnRender": function (oObj, sType, sValue) {
-                    var transportId = oObj.aData.transportId;
                     var buttonHtml = '<button class="btn btn-info  btn-sm">查看详情</button>';
 
                     return buttonHtml; // 返回按钮的 HTML
@@ -55,11 +54,11 @@ $(document).ready(function () {
         var button = $(this);
         var nTr = button.closest('tr')[0];
         var aData = oTable.fnGetData(nTr); // 获取整行数据
-        var transportId = aData.transportId;
+        var wasteRecordId = aData.wasteRecordId;
 
         $.ajax({
             type: "GET",
-            url: "/waste/transportation/" + transportId,
+            url: "/waste/" + wasteRecordId,
             contentType: "application/json",
             data: JSON.stringify({
             }),
