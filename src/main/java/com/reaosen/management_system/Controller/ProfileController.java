@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class ProfileController {
 
-    @GetMapping("/profile")
+    @GetMapping("/user/profile")
     public String profile(HttpServletRequest request,
                           Model model) {
         User user = (User) request.getSession().getAttribute("user");
@@ -17,6 +17,6 @@ public class ProfileController {
             //todo 未登录提醒
             return "redirect:/login";
         }
-        return "profile";
+        return "userProfile";
     }
 }

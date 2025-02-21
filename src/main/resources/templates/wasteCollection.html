@@ -1,27 +1,27 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="cn">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="ThemeBucket">
-  <link rel="shortcut icon" href="#" type="image/png">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
 
-  <title>员工基本信息</title>
+    <title>员工基本信息</title>
 
-  <!--dynamic table-->
-  <link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
-  <link href="/js/advanced-datatable/css/demo_table.css" rel="stylesheet" />
-  <link rel="stylesheet" href="/js/data-tables/DT_bootstrap.css" />
+    <!--dynamic table-->
+    <link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
+    <link href="/js/advanced-datatable/css/demo_table.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="/js/data-tables/DT_bootstrap.css"/>
 
-  <link href="/css/style.css" rel="stylesheet">
-  <link href="/css/style-responsive.css" rel="stylesheet">
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style-responsive.css" rel="stylesheet">
 
-  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-  <!--[if lt IE 9]>
-  <script src="/js/html5shiv.js"></script>
-  <script src="/js/respond.min.js"></script>
-  <![endif]-->
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
 </head>
 
 <body class="sticky-header">
@@ -32,7 +32,7 @@
     <!-- 左边栏结束-->
 
     <!-- main content start-->
-    <div class="main-content" >
+    <div class="main-content">
 
         <!-- 顶部搜索、用户栏开始-->
         <div th:insert="~{header :: header}"></div>
@@ -57,60 +57,62 @@
 
         <!--body wrapper start-->
         <div class="wrapper">
-        <div class="row">
-        <div class="col-sm-12">
-        <section class="panel">
-        <header class="panel-heading">
-            废弃物收集
-            <span class="tools pull-right">
+            <div class="row">
+                <a class="btn btn-info" type="button" style="margin: 15px" href="/waste/collection/form">新增数据 <i class="fa fa-plus"></i></a>
+                <div class="col-sm-12">
+                    <section class="panel">
+                        <header class="panel-heading">
+                            废弃物收集
+                            <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down"></a>
              </span>
-        </header>
-        <div class="panel-body">
-        <div class="adv-table">
-        <table  class="display table table-bordered table-striped" id="waste-collection-table">
-        <thead>
-        <tr>
-            <th>收集编号</th>
-            <th>废弃物类型</th>
-            <th>废弃物重量</th>
-            <th>收集时间</th>
-            <th>收集地点</th>
-            <th>状态</th>
-            <th>收集负责人</th>
-            <th>详情</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr class="gradeC">
-<!--            示例-->
-            <td>1</td>
-            <td>塑料</td>
-            <td>12</td>
-            <td>test唐三</td>
-            <td>金星</td>
-            <td>2099/9/9</td>
-            <td><a href="" class="btn btn-info  btn-sm" id="add-without-image">查看详情</a></td>
-        </tr>
-        </tbody>
-        <tfoot>
-        <tr>
-            <th>收集编号</th>
-            <th>废弃物类型</th>
-            <th>废弃物重量</th>
-            <th>收集时间</th>
-            <th>收集地点</th>
-            <th>状态</th>
-            <th>收集负责人</th>
-            <th>详情</th>
-        </tr>
-        </tfoot>
-        </table>
-        </div>
-        </div>
-        </section>
-        </div>
-        </div>
+                        </header>
+                        <div class="panel-body">
+                            <div class="adv-table">
+                                <table class="display table table-bordered table-striped" id="waste-collection-table">
+                                    <thead>
+                                    <tr>
+                                        <th>收集编号</th>
+                                        <th>废弃物类型</th>
+                                        <th>废弃物重量</th>
+                                        <th>收集时间</th>
+                                        <th>收集地点</th>
+                                        <th>状态</th>
+                                        <th>收集负责人</th>
+                                        <th>详情</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr class="gradeC">
+                                        <!--            示例-->
+                                        <td>1</td>
+                                        <td>塑料</td>
+                                        <td>12</td>
+                                        <td>test唐三</td>
+                                        <td>金星</td>
+                                        <td>2099/9/9</td>
+                                        <td><a href="" class="btn btn-info  btn-sm" id="add-without-image">查看详情</a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                    <tfoot>
+                                    <tr>
+                                        <th>收集编号</th>
+                                        <th>废弃物类型</th>
+                                        <th>废弃物重量</th>
+                                        <th>收集时间</th>
+                                        <th>收集地点</th>
+                                        <th>状态</th>
+                                        <th>收集负责人</th>
+                                        <th>详情</th>
+                                    </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
         </div>
         <!--body wrapper end-->
 
@@ -130,12 +132,11 @@
 <script type="text/javascript" language="javascript" src="/js/advanced-datatable/js/jquery.dataTables.js"></script>
 <script type="text/javascript" src="/js/data-tables/DT_bootstrap.js"></script>
 <script type="text/javascript" src="/js/mine/js/dataTable_init.js"></script>
-<!--dynamic table initialization -->
+<!--table initialization -->
 <script src="/js/mine/js/waste_collection_table_init.js"></script>
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>
-
 
 
 </body>

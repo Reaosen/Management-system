@@ -1,9 +1,7 @@
 package com.reaosen.management_system.Service.Impl;
 
 import cn.hutool.core.date.DateUtil;
-import com.reaosen.management_system.DTO.PaginationDTO;
-import com.reaosen.management_system.DTO.UserDTO;
-import com.reaosen.management_system.DTO.WasteDTO;
+import com.reaosen.management_system.DTO.*;
 import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.*;
 import com.reaosen.management_system.Service.wasteService;
@@ -12,8 +10,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class wasteServiceImpl implements wasteService {
@@ -41,7 +43,7 @@ public class wasteServiceImpl implements wasteService {
 
 
     @Override
-    public PaginationDTO wasteTransportationPagination(String type, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
+    public PaginationDTO wastePagination(String type, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
         // 获取总记录数（不考虑搜索条件）
         Long totalRecords = getTotalRecords(type);
         Long totalFiltered;
@@ -138,27 +140,31 @@ public class wasteServiceImpl implements wasteService {
                 wasteDTO.setTransportTime(DateUtil.format(DateUtil.date(transportTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
                 wasteDTO.setTransportVehicle(transportRecord.getTransportVehicle());
                 wasteDTO.setTransportusername(transportRecord.getTransportusername());
-            }
 
-            if (status == 3) {
-                DisposalRecordExample disposalRecordExample1 = new DisposalRecordExample();
-                disposalRecordExample1.createCriteria().andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
-                List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample1);
-                DisposalRecord disposalRecord = disposalRecords.get(0);
-                DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(disposalRecord.getDisposalPointId());
-
-
+                DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(transportRecord.getDisposalPointId());
                 wasteDTO.setDisposalPoint(disposalPoint.getAddress());
-                wasteDTO.setDisposalId(disposalRecord.getDisposalId());
+                if (status == 3) {
+                    DisposalRecordExample disposalRecordExample1 = new DisposalRecordExample();
+                    disposalRecordExample1.createCriteria().andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
+                    List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample1);
+                    DisposalRecord disposalRecord = disposalRecords.get(0);
 
-                UserExample userExample2 = new UserExample();
-                userExample2.createCriteria().andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
-                List<User> users2 = userMapper.selectByExample(userExample2);
-                wasteDTO.setDisposalusername(users2.get(0).getUsername());
-                Long disposalTimestamp = Long.valueOf(disposalRecord.getDisposalTime());
-                wasteDTO.setDisposalTime(DateUtil.format(DateUtil.date(disposalTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
-                wasteDTO.setDisposalMethod(disposalRecord.getDisposalMethod());
+
+
+
+                    wasteDTO.setDisposalId(disposalRecord.getDisposalId());
+
+                    UserExample userExample2 = new UserExample();
+                    userExample2.createCriteria().andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
+                    List<User> users2 = userMapper.selectByExample(userExample2);
+                    wasteDTO.setDisposalusername(users2.get(0).getUsername());
+                    Long disposalTimestamp = Long.valueOf(disposalRecord.getDisposalTime());
+                    wasteDTO.setDisposalTime(DateUtil.format(DateUtil.date(disposalTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
+                    wasteDTO.setDisposalMethod(disposalRecord.getDisposalMethod());
+                }
             }
+
+
             if (searchs.contains(wasteRecord.getWasteRecordId())) {
                 wasteDTOs.add(wasteDTO);
             }
@@ -173,6 +179,46 @@ public class wasteServiceImpl implements wasteService {
         return Pagination;
     }
 
+    @Override
+    public Map initCollectionForm() {
+        List<WasteType> wasteTypes = wasteTypeMapper.selectByExample(new WasteTypeExample());
+        List<WasteTypeDTO> wasteTypeLists = new ArrayList<>();
+        for (WasteType wasteType : wasteTypes) {
+            WasteTypeDTO wasteTypeDTO = new WasteTypeDTO();
+            BeanUtils.copyProperties(wasteType, wasteTypeDTO);
+            wasteTypeLists.add(wasteTypeDTO);
+        }
+
+        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
+        List<CollectionPointDTO> collectionPointLists = new ArrayList<>();
+        for (CollectionPoint collectionPoint : collectionPoints) {
+            CollectionPointDTO collectionPointDTO = new CollectionPointDTO();
+            BeanUtils.copyProperties(collectionPoint, collectionPointDTO);
+            collectionPointLists.add(collectionPointDTO);
+        }
+
+        Map<String, List> result = new HashMap<>();
+        result.put("wasteTypes", wasteTypeLists);
+        result.put("collectionPoints", collectionPointLists);
+
+        return result;
+    }
+
+    @Override
+    public void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId) {
+        WasteRecord record = new WasteRecord();
+        record.setStatus(1);
+        record.setCollectionAccountId(collectionAccountId);
+        record.setCollectionPointId(collectionPointId);
+        record.setWasteTypeId(wasteTypeId);
+        record.setWeight(weight);
+        //TODO 收集时间修改
+        long timeStepMillis = System.currentTimeMillis();
+        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
+        record.setCollectionTime(timeStep);
+        wasteRecordMapper.insert(record);
+    }
+
     private Long getTotalRecords(String type) {
         switch (type) {
             case "collection":
@@ -185,6 +231,7 @@ public class wasteServiceImpl implements wasteService {
                 throw new IllegalArgumentException("Invalid type: " + type);
         }
     }
+
 
 
 }
