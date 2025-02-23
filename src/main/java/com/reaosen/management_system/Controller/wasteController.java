@@ -98,5 +98,10 @@ public class wasteController {
         return result;
     }
 
+    @PostMapping("/waste/disposal/insert")
+    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam String disposalMethod, @RequestParam Integer collectionAccountId) {
+        wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethod, collectionAccountId);
+        return "redirect:/waste/disposal";
+    }
 
 }

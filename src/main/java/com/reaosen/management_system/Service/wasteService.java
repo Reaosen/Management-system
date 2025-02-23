@@ -19,4 +19,6 @@ public interface wasteService {
     List<DisposalPointDTO> initDisposalForm();
 
     List wasteDisposalFormSecondaryMenu(Integer disposalPointId);
+
+    void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId);
 }

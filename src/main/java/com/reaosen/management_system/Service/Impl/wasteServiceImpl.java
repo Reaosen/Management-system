@@ -116,8 +116,7 @@ public class wasteServiceImpl implements wasteService {
             wasteDTO.setCollectionPoint(collectionPoint.getAddress());
             if (wasteRecord.getStatus() == 1) {
                 wasteDTO.setStatus("已收集");
-            }
-            if (wasteRecord.getStatus() == 2) {
+            } else if (wasteRecord.getStatus() == 2) {
                 wasteDTO.setStatus("已运输");
             } else {
                 wasteDTO.setStatus("已处理");
@@ -212,7 +211,7 @@ public class wasteServiceImpl implements wasteService {
         record.setCollectionPointId(collectionPointId);
         record.setWasteTypeId(wasteTypeId);
         record.setWeight(weight);
-        //TODO 收集时间修改
+        //TODO 时间修改
         long timeStepMillis = System.currentTimeMillis();
         Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
         record.setCollectionTime(timeStep);
@@ -240,11 +239,32 @@ public class wasteServiceImpl implements wasteService {
         List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(example);
         List<WasteDTO> wasteDTOs = new ArrayList<>();
         for (TransportRecord transportRecord : transportRecords) {
+            WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(transportRecord.getWasteRecordId());
+            if (wasteRecord.getStatus() == 3) continue;
             WasteDTO wasteDTO = new WasteDTO();
             BeanUtils.copyProperties(transportRecord, wasteDTO);
             wasteDTOs.add(wasteDTO);
         }
         return wasteDTOs;
+    }
+
+    @Override
+    public void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId) {
+        DisposalRecord record = new DisposalRecord();
+        record.setWasteRecordId(wasteRecordId);
+        record.setDisposalAccountId(collectionAccountId);
+        record.setDisposalPointId(disposalPointId);
+        record.setDisposalMethod(disposalMethod);
+        //TODO 时间修改
+        long timeStepMillis = System.currentTimeMillis();
+        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
+        record.setDisposalTime(timeStep);
+
+        WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        wasteRecord.setStatus(3);
+        wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
+
+        disposalRecordMapper.insert(record);
     }
 
     private Long getTotalRecords(String type) {

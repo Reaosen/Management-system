@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#disposalPoint').change(function() {
+    $('#disposalPointId').change(function() {
         const selectedDisposalPointId = $(this).val();
         const wasteRecordSelect = $('#wasteRecordId');
 
