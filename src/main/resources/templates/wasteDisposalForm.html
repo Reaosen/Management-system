@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cn">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="ThemeBucket">
+  <link rel="shortcut icon" href="#" type="image/png">
+
+  <title>新增废弃物处理数据</title>
+
+  <link href="/css/style.css" rel="stylesheet">
+  <link href="/css/style-responsive.css" rel="stylesheet">
+
+  <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!--[if lt IE 9]>
+  <script src="/js/html5shiv.js"></script>
+  <script src="/js/respond.min.js"></script>
+  <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- 左侧导航栏开始-->
+    <!--左边栏开始 -->
+    <div th:insert="~{leftSidebar :: leftSidebar}"></div>
+    <!--左边栏结束-->
+    <!-- 左侧导航栏结束-->
+
+    <!-- main content start-->
+    <div class="main-content" >
+
+        <!-- 顶部搜索、用户栏开始-->
+        <div th:insert="~{header :: header}"></div>
+        <!-- 顶部搜索、用户栏结束-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                新增废弃物处理数据
+            </h3>
+            <ul class="breadcrumb">
+                <li>
+                    <a href="#">废弃物管理</a>
+                </li>
+                <li>
+                    <a href="/waste/disposal">废弃物处理</a>
+                </li>
+                <li class="active">新增数据</li>
+            </ul>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <section class="wrapper">
+        <!-- page start-->
+
+        <div class="row">
+        <div class="col-lg-12">
+        <section class="panel">
+            <header class="panel-heading">
+                新增废弃物表单
+            </header>
+            <div class="panel-body">
+                <form class="form-horizontal adminex-form" method="post" action="/waste/collection/insert">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label col-lg-2" for="disposalPoint">废弃物处理地点</label>
+                        <div class="col-lg-10">
+                            <select class="form-control m-bot15" name="disposalPoint" id="disposalPoint">
+                                <option value="">请选择处理地点</option>
+                                <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
+                                <option th:each="entry : ${initDisposalForm}"
+                                        th:value="${entry.disposalPointId}"
+                                        th:text="${entry.address}"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label col-lg-2" for="wasteRecordId">废弃物收集编号</label>
+                        <div class="col-lg-10"  id="wasteRecordIdDiv">
+                            <select class="form-control m-bot15" name="wasteRecordId" id="wasteRecordId">
+                                <option value="">请选择收集编号</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-2 control-label" for="weight">处理方法</label>
+                        <div class="col-sm-10">
+                            <input type="text"  class="form-control" placeholder="请填写处理方法……" name="weight" id="weight">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-sm-2 col-sm-2 control-label" for="collectionUsername">负责人姓名</label>
+                        <div class="col-sm-10">
+                            <input class="form-control" id="collectionUsername" type="text" th:placeholder="${session.user.getUsername()}" disabled>
+                            <input type="hidden" name="collectionAccountId" th:value="${session.user.getAccountId()}">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-offset-2 col-lg-10">
+                            <button class="btn btn-primary" type="submit">提交</button>
+                            <a class="btn btn-default" type="button" href="/waste/collection">取消</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        </div>
+        </div>
+        <!-- page end-->
+        </section>
+        <!--body wrapper end-->
+
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/jquery.nicescroll.js"></script>s
+
+
+<!--common scripts for all pages-->
+<script src="/js/scripts.js"></script>
+
+<script src="/js/mine/js/wasteForm.js"></script>
+</body>
+</html>

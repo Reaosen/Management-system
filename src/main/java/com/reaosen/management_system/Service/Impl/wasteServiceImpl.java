@@ -10,12 +10,12 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class wasteServiceImpl implements wasteService {
@@ -182,24 +182,24 @@ public class wasteServiceImpl implements wasteService {
     @Override
     public Map initCollectionForm() {
         List<WasteType> wasteTypes = wasteTypeMapper.selectByExample(new WasteTypeExample());
-        List<WasteTypeDTO> wasteTypeLists = new ArrayList<>();
+        List<WasteTypeDTO> wasteTypeDTOLists = new ArrayList<>();
         for (WasteType wasteType : wasteTypes) {
             WasteTypeDTO wasteTypeDTO = new WasteTypeDTO();
             BeanUtils.copyProperties(wasteType, wasteTypeDTO);
-            wasteTypeLists.add(wasteTypeDTO);
+            wasteTypeDTOLists.add(wasteTypeDTO);
         }
 
         List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
-        List<CollectionPointDTO> collectionPointLists = new ArrayList<>();
+        List<CollectionPointDTO> collectionPointDTOLists = new ArrayList<>();
         for (CollectionPoint collectionPoint : collectionPoints) {
             CollectionPointDTO collectionPointDTO = new CollectionPointDTO();
             BeanUtils.copyProperties(collectionPoint, collectionPointDTO);
-            collectionPointLists.add(collectionPointDTO);
+            collectionPointDTOLists.add(collectionPointDTO);
         }
 
         Map<String, List> result = new HashMap<>();
-        result.put("wasteTypes", wasteTypeLists);
-        result.put("collectionPoints", collectionPointLists);
+        result.put("wasteTypes", wasteTypeDTOLists);
+        result.put("collectionPoints", collectionPointDTOLists);
 
         return result;
     }
@@ -217,6 +217,34 @@ public class wasteServiceImpl implements wasteService {
         Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
         record.setCollectionTime(timeStep);
         wasteRecordMapper.insert(record);
+    }
+
+    @Override
+    public List<DisposalPointDTO> initDisposalForm() {
+        // 查询所有处置点
+        List<DisposalPoint> disposalPoints = disposalPointMapper.selectByExample(new DisposalPointExample());
+        List<DisposalPointDTO> disposalPointDTOs = new ArrayList<>();
+        for (DisposalPoint disposalPoint : disposalPoints) {
+            DisposalPointDTO disposalPointDTO = new DisposalPointDTO();
+            BeanUtils.copyProperties(disposalPoint, disposalPointDTO);
+            disposalPointDTOs.add(disposalPointDTO);
+        }
+
+        return disposalPointDTOs;
+    }
+
+    @Override
+    public List wasteDisposalFormSecondaryMenu(Integer disposalPointId) {
+        TransportRecordExample example = new TransportRecordExample();
+        example.createCriteria().andDisposalPointIdEqualTo(disposalPointId);
+        List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(example);
+        List<WasteDTO> wasteDTOs = new ArrayList<>();
+        for (TransportRecord transportRecord : transportRecords) {
+            WasteDTO wasteDTO = new WasteDTO();
+            BeanUtils.copyProperties(transportRecord, wasteDTO);
+            wasteDTOs.add(wasteDTO);
+        }
+        return wasteDTOs;
     }
 
     private Long getTotalRecords(String type) {
