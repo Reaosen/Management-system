@@ -2,6 +2,7 @@ package com.reaosen.management_system.Service;
 
 import com.reaosen.management_system.DTO.DisposalPointDTO;
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.DTO.WasteDTO;
 import com.reaosen.management_system.Model.DisposalPoint;
 import com.reaosen.management_system.Model.TransportRecord;
 
@@ -27,4 +28,6 @@ public interface wasteService {
     List wasteTransportationFormSecondaryMenu(Integer collectionPointId);
 
     void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId);
+
+    WasteDTO wasteProfile(Integer wasteRecordId);
 }

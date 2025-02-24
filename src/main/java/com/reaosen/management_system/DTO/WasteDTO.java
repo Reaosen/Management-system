@@ -11,6 +11,7 @@ public class WasteDTO {
     private String wasteType;//废弃物类型
     private BigDecimal weight;//质量
     private String status;//状态
+    private Integer statusId;//状态
     private String collectionPoint;//收集点
     private String collectionTime;//收集时间
     private String collectionusername;//收集人

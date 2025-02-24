@@ -2,6 +2,7 @@ package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
+import com.reaosen.management_system.DTO.WasteDTO;
 import com.reaosen.management_system.Model.DisposalPoint;
 import com.reaosen.management_system.Model.TransportRecord;
 import com.reaosen.management_system.Service.wasteService;
@@ -9,10 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.xml.transform.Result;
 import java.math.BigDecimal;
@@ -125,6 +123,13 @@ public class wasteController {
     public String wasteTransportationInsert(@RequestParam Integer collectionPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalPointId, @RequestParam BigDecimal weight, @RequestParam String transportVehicle, @RequestParam Integer collectionAccountId) {
         wasteService.wasteTransportationInsert(collectionPointId, wasteRecordId, disposalPointId, weight, transportVehicle, collectionAccountId);
         return "redirect:/waste/transportation";
+    }
+
+    @GetMapping("/waste/{wasteRecordId}")
+    public String wasteProfile(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
+        WasteDTO wasteDTO = wasteService.wasteProfile(wasteRecordId);
+        model.addAttribute("wasteDTO", wasteDTO);
+        return "wasteProfile";
     }
 
 }

@@ -25,7 +25,7 @@ $(document).ready(function() {
             {
                 "mData": null,
                 "fnRender": function (oObj, sType, sValue) {
-                    var buttonHtml = '<button class="btn btn-info  btn-sm">查看详情</button>';
+                    var buttonHtml = '<a class="btn btn-info  btn-sm" href="/waste/' + oObj.aData.wasteRecordId + '">查看详情</a>';
 
                     return buttonHtml; // 返回按钮的 HTML
                 }
