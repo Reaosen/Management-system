@@ -148,9 +148,6 @@ public class wasteServiceImpl implements wasteService {
                     List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample1);
                     DisposalRecord disposalRecord = disposalRecords.get(0);
 
-
-
-
                     wasteDTO.setDisposalId(disposalRecord.getDisposalId());
 
                     UserExample userExample2 = new UserExample();
@@ -265,6 +262,74 @@ public class wasteServiceImpl implements wasteService {
         wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
 
         disposalRecordMapper.insert(record);
+    }
+
+    @Override
+    public Map initTransportationForm() {
+        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
+        List<CollectionPointDTO> collectionPointDTOs = new ArrayList<>();
+        for (CollectionPoint collectionPoint : collectionPoints) {
+            CollectionPointDTO collectionPointDTO = new CollectionPointDTO();
+            BeanUtils.copyProperties(collectionPoint, collectionPointDTO);
+            collectionPointDTOs.add(collectionPointDTO);
+        }
+        List<DisposalPoint> disposalPoints = disposalPointMapper.selectByExample(new DisposalPointExample());
+        List<DisposalPointDTO> disposalPointDTOs = new ArrayList<>();
+        for (DisposalPoint disposalPoint : disposalPoints) {
+            DisposalPointDTO disposalPointDTO = new DisposalPointDTO();
+            BeanUtils.copyProperties(disposalPoint, disposalPointDTO);
+            disposalPointDTOs.add(disposalPointDTO);
+        }
+        Map<String, List> result = new HashMap<>();
+        result.put("collectionPoints", collectionPointDTOs);
+        result.put("disposalPoints", disposalPointDTOs);
+
+        return result;
+    }
+
+    @Override
+    public List wasteTransportationFormSecondaryMenu(Integer collectionPointId) {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                .andCollectionPointIdEqualTo(collectionPointId)
+                .andStatusEqualTo(1);
+        List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
+        List<WasteDTO> wasteDTOs = new ArrayList<>();
+        for (WasteRecord wasteRecord : wasteRecords) {
+            //TODO 详细信息
+            WasteDTO wasteDTO = new WasteDTO();
+            BeanUtils.copyProperties(wasteRecord, wasteDTO);
+            wasteDTOs.add(wasteDTO);
+        }
+
+        return wasteDTOs;
+    }
+
+    @Override
+    public void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId) {
+        TransportRecord record = new TransportRecord();
+        record.setWasteRecordId(wasteRecordId);
+        record.setDisposalPointId(disposalPointId);
+        record.setCollectionPointId(collectionPointId);
+        record.setTransportVehicle(transportVehicle);
+        record.setTransportAccountId(collectionAccountId);
+
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                        .andAccountIdEqualTo(collectionAccountId);
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
+        record.setTransportusername(user.getUsername());
+
+        //TODO 时间修改
+        long timeStepMillis = System.currentTimeMillis();
+        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
+        record.setTransportTime(timeStep);
+        transportRecordMapper.insertSelective(record);
+
+        WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        wasteRecord.setStatus(2);
+        wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
     }
 
     private Long getTotalRecords(String type) {

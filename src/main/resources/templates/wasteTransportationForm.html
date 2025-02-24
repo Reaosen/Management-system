@@ -7,7 +7,7 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
 
-    <title>新增废弃物收集数据</title>
+    <title>新增废弃物运输数据</title>
 
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/style-responsive.css" rel="stylesheet">
@@ -38,14 +38,14 @@
         <!-- page heading start-->
         <div class="page-heading">
             <h3>
-                新增废弃物收集数据
+                新增废弃物运输数据
             </h3>
             <ul class="breadcrumb">
                 <li>
                     <a href="#">废弃物管理</a>
                 </li>
                 <li>
-                    <a href="/waste/collection">废弃物收集</a>
+                    <a href="/waste/transportation">废弃物运输</a>
                 </li>
                 <li class="active">新增数据</li>
             </ul>
@@ -63,25 +63,39 @@
                             新增废弃物表单
                         </header>
                         <div class="panel-body">
-                            <form class="form-horizontal adminex-form" method="post" action="/waste/collection/insert">
+                            <form class="form-horizontal adminex-form" method="post"
+                                  action="/waste/transportation/insert">
                                 <div class="form-group">
-                                    <label class="col-sm-2 control-label col-lg-2" for="wasteTypeId">废弃物类型</label>
+                                    <label class="col-sm-2 control-label col-lg-2"
+                                           for="collectionPointId">起始地</label>
                                     <div class="col-lg-10">
-                                        <select class="form-control m-bot15" name="wasteTypeId" id="wasteTypeId">
-                                            <option th:each="wasteType : ${wasteTypes}" th:text="${wasteType.typeName}"
-                                                    th:value="${wasteType.wasteTypeId}"></option>
+                                        <select class="form-control m-bot15" name="collectionPointId"
+                                                id="collectionPointId">
+                                            <option value="">请选择起始地</option>
+                                            <option th:each="collectionPoint : ${collectionPoints}"
+                                                    th:text="${collectionPoint.address}"
+                                                    th:value="${collectionPoint.collectionPointId}"></option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-sm-2 control-label col-lg-2"
-                                           for="collectionPointId">收集地点</label>
+                                           for="wasteRecordId">废弃物收集编号</label>
                                     <div class="col-lg-10">
-                                        <select class="form-control m-bot15" name="collectionPointId"
-                                                id="collectionPointId">
-                                            <option th:each="collectionPoint : ${collectionPoints}"
-                                                    th:text="${collectionPoint.address}"
-                                                    th:value="${collectionPoint.collectionPointId}"></option>
+                                        <select class="form-control m-bot15" name="wasteRecordId" id="wasteRecordId">
+                                            <option value="">请选择收集编号</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 control-label col-lg-2" for="disposalPointId">目的地</label>
+                                    <div class="col-lg-10">
+                                        <select class="form-control m-bot15" name="disposalPointId"
+                                                id="disposalPointId">
+                                            <option value="">请选择目的地</option>
+                                            <option th:each="disposalPoint : ${disposalPoints}"
+                                                    th:text="${disposalPoint.address}"
+                                                    th:value="${disposalPoint.disposalPointId}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -90,6 +104,13 @@
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="废弃物收集总质量"
                                                name="weight" id="weight">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-sm-2 col-sm-2 control-label" for="transportVehicle">车牌号</label>
+                                    <div class="col-sm-10">
+                                        <input type="text" class="form-control" placeholder="运输车辆车牌号"
+                                               name="transportVehicle" id="transportVehicle">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -105,7 +126,7 @@
                                 <div class="form-group">
                                     <div class="col-lg-offset-2 col-lg-10">
                                         <button class="btn btn-primary" type="submit">提交</button>
-                                        <a class="btn btn-default" type="button" href="/waste/collection">取消</a>
+                                        <a class="btn btn-default" type="button" href="/waste/transportation">取消</a>
                                     </div>
                                 </div>
                             </form>
@@ -133,6 +154,8 @@
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>
+
+<script src="/js/mine/js/wasteTransportationForm.js"></script>
 
 </body>
 </html>

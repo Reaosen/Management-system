@@ -104,4 +104,27 @@ public class wasteController {
         return "redirect:/waste/disposal";
     }
 
+    @GetMapping("/waste/transportation/form")
+    public String wasteTransportationForm(HttpServletRequest request, Model model) {
+        Map<String, List<String>> result = wasteService.initTransportationForm();
+        List<String> collectionPoints = new ArrayList<>(result.get("collectionPoints"));
+        List<String> disposalPoints = new ArrayList<>(result.get("disposalPoints"));
+        model.addAttribute("collectionPoints", collectionPoints);
+        model.addAttribute("disposalPoints", disposalPoints);
+        return "wasteTransportationForm";
+    }
+
+    @GetMapping("/waste/transportation/form/secondaryMenu")
+    @ResponseBody
+    public List wasteTransportationFormSecondaryMenu(@RequestParam Integer collectionPointId) {
+        List result = wasteService.wasteTransportationFormSecondaryMenu(collectionPointId);
+        return result;
+    }
+
+    @PostMapping("/waste/transportation/insert")
+    public String wasteTransportationInsert(@RequestParam Integer collectionPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalPointId, @RequestParam BigDecimal weight, @RequestParam String transportVehicle, @RequestParam Integer collectionAccountId) {
+        wasteService.wasteTransportationInsert(collectionPointId, wasteRecordId, disposalPointId, weight, transportVehicle, collectionAccountId);
+        return "redirect:/waste/transportation";
+    }
+
 }

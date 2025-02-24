@@ -21,4 +21,10 @@ public interface wasteService {
     List wasteDisposalFormSecondaryMenu(Integer disposalPointId);
 
     void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId);
+
+    Map initTransportationForm();
+
+    List wasteTransportationFormSecondaryMenu(Integer collectionPointId);
+
+    void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId);
 }
