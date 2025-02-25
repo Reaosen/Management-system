@@ -7,7 +7,7 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
 
-    <title>Blank Page</title>
+    <title>废弃物详情</title>
 
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/style-responsive.css" rel="stylesheet">
@@ -44,6 +44,8 @@
         <!--body wrapper start-->
         <div class="wrapper">
             <div class="row">
+                <a class="btn btn-info" type="button" style="margin: 15px" th:href="@{/waste/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据 <i class="fa fa-file"></i></a>
+                <a class="btn btn-danger" type="button" style="margin: -10px" th:href="@{/waste/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据 <i class="fa fa-times-circle"></i></a>
                 <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">

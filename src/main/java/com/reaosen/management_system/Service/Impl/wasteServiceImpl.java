@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 public class wasteServiceImpl implements wasteService {
@@ -176,7 +175,7 @@ public class wasteServiceImpl implements wasteService {
     }
 
     @Override
-    public Map initCollectionForm() {
+    public List getWasteTypes() {
         List<WasteType> wasteTypes = wasteTypeMapper.selectByExample(new WasteTypeExample());
         List<WasteTypeDTO> wasteTypeDTOLists = new ArrayList<>();
         for (WasteType wasteType : wasteTypes) {
@@ -184,7 +183,11 @@ public class wasteServiceImpl implements wasteService {
             BeanUtils.copyProperties(wasteType, wasteTypeDTO);
             wasteTypeDTOLists.add(wasteTypeDTO);
         }
+        return wasteTypeDTOLists;
+    }
 
+    @Override
+    public List getCollectionPoints() {
         List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
         List<CollectionPointDTO> collectionPointDTOLists = new ArrayList<>();
         for (CollectionPoint collectionPoint : collectionPoints) {
@@ -192,13 +195,9 @@ public class wasteServiceImpl implements wasteService {
             BeanUtils.copyProperties(collectionPoint, collectionPointDTO);
             collectionPointDTOLists.add(collectionPointDTO);
         }
-
-        Map<String, List> result = new HashMap<>();
-        result.put("wasteTypes", wasteTypeDTOLists);
-        result.put("collectionPoints", collectionPointDTOLists);
-
-        return result;
+        return collectionPointDTOLists;
     }
+
 
     @Override
     public void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId) {
@@ -216,8 +215,7 @@ public class wasteServiceImpl implements wasteService {
     }
 
     @Override
-    public List<DisposalPointDTO> initDisposalForm() {
-        // 查询所有处置点
+    public List getDisposalPoints() {
         List<DisposalPoint> disposalPoints = disposalPointMapper.selectByExample(new DisposalPointExample());
         List<DisposalPointDTO> disposalPointDTOs = new ArrayList<>();
         for (DisposalPoint disposalPoint : disposalPoints) {
@@ -225,12 +223,12 @@ public class wasteServiceImpl implements wasteService {
             BeanUtils.copyProperties(disposalPoint, disposalPointDTO);
             disposalPointDTOs.add(disposalPointDTO);
         }
-
         return disposalPointDTOs;
     }
 
+
     @Override
-    public List wasteDisposalFormSecondaryMenu(Integer disposalPointId) {
+    public List getWastesByDisposalPointId(Integer disposalPointId) {
         TransportRecordExample example = new TransportRecordExample();
         example.createCriteria().andDisposalPointIdEqualTo(disposalPointId);
         List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(example);
@@ -264,31 +262,8 @@ public class wasteServiceImpl implements wasteService {
         disposalRecordMapper.insert(record);
     }
 
-    @Override
-    public Map initTransportationForm() {
-        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
-        List<CollectionPointDTO> collectionPointDTOs = new ArrayList<>();
-        for (CollectionPoint collectionPoint : collectionPoints) {
-            CollectionPointDTO collectionPointDTO = new CollectionPointDTO();
-            BeanUtils.copyProperties(collectionPoint, collectionPointDTO);
-            collectionPointDTOs.add(collectionPointDTO);
-        }
-        List<DisposalPoint> disposalPoints = disposalPointMapper.selectByExample(new DisposalPointExample());
-        List<DisposalPointDTO> disposalPointDTOs = new ArrayList<>();
-        for (DisposalPoint disposalPoint : disposalPoints) {
-            DisposalPointDTO disposalPointDTO = new DisposalPointDTO();
-            BeanUtils.copyProperties(disposalPoint, disposalPointDTO);
-            disposalPointDTOs.add(disposalPointDTO);
-        }
-        Map<String, List> result = new HashMap<>();
-        result.put("collectionPoints", collectionPointDTOs);
-        result.put("disposalPoints", disposalPointDTOs);
 
-        return result;
-    }
-
-    @Override
-    public List wasteTransportationFormSecondaryMenu(Integer collectionPointId) {
+    public List getWastesByCollectionPointId(Integer collectionPointId) {
         WasteRecordExample example = new WasteRecordExample();
         example.createCriteria()
                 .andCollectionPointIdEqualTo(collectionPointId)
@@ -333,7 +308,7 @@ public class wasteServiceImpl implements wasteService {
     }
 
     @Override
-    public WasteDTO wasteProfile(Integer wasteRecordId) {
+    public WasteDTO getWasteByWasteRecordId(Integer wasteRecordId) {
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
         WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());

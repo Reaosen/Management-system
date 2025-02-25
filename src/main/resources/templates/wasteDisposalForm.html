@@ -70,9 +70,9 @@
                             <select class="form-control m-bot15" name="disposalPointId" id="disposalPointId">
                                 <option value="">请选择处理地点</option>
                                 <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
-                                <option th:each="entry : ${initDisposalForm}"
-                                        th:value="${entry.disposalPointId}"
-                                        th:text="${entry.address}"></option>
+                                <option th:each="disposalPoint : ${disposalPoints}"
+                                        th:value="${disposalPoint.disposalPointId}"
+                                        th:text="${disposalPoint.address}"></option>
                             </select>
                         </div>
                     </div>

@@ -1,10 +1,7 @@
 package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
-import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
-import com.reaosen.management_system.Model.DisposalPoint;
-import com.reaosen.management_system.Model.TransportRecord;
 import com.reaosen.management_system.Service.wasteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +9,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.transform.Result;
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 public class wasteController {
@@ -67,9 +60,8 @@ public class wasteController {
     @GetMapping("/waste/collection/form")
     public String wasteCollectionForm(HttpServletRequest request, Model model) {
 
-        Map<String, List<String>> result = wasteService.initCollectionForm();
-        List<String> wasteTypes = new ArrayList<>(result.get("wasteTypes"));
-        List<String> collectionPoints = new ArrayList<>(result.get("collectionPoints"));
+        List wasteTypes = wasteService.getWasteTypes();
+        List collectionPoints = wasteService.getCollectionPoints();
         model.addAttribute("wasteTypes", wasteTypes);
         model.addAttribute("collectionPoints", collectionPoints);
 
@@ -84,15 +76,15 @@ public class wasteController {
 
     @GetMapping("/waste/disposal/form")
     public String wasteDisposalForm(HttpServletRequest request, Model model) {
-        List result = wasteService.initDisposalForm();
-        model.addAttribute("initDisposalForm", result);
+        List disposalPoints = wasteService.getDisposalPoints();
+        model.addAttribute("disposalPoints", disposalPoints);
         return "wasteDisposalForm";
     }
 
     @GetMapping("/waste/disposal/form/secondaryMenu")
     @ResponseBody
     public List wasteDisposalFormSecondaryMenu(@RequestParam Integer disposalPointId) {
-        List result = wasteService.wasteDisposalFormSecondaryMenu(disposalPointId);
+        List result = wasteService.getWastesByDisposalPointId(disposalPointId);
         return result;
     }
 
@@ -104,9 +96,8 @@ public class wasteController {
 
     @GetMapping("/waste/transportation/form")
     public String wasteTransportationForm(HttpServletRequest request, Model model) {
-        Map<String, List<String>> result = wasteService.initTransportationForm();
-        List<String> collectionPoints = new ArrayList<>(result.get("collectionPoints"));
-        List<String> disposalPoints = new ArrayList<>(result.get("disposalPoints"));
+        List collectionPoints = wasteService.getCollectionPoints();
+        List disposalPoints = wasteService.getDisposalPoints();
         model.addAttribute("collectionPoints", collectionPoints);
         model.addAttribute("disposalPoints", disposalPoints);
         return "wasteTransportationForm";
@@ -115,7 +106,7 @@ public class wasteController {
     @GetMapping("/waste/transportation/form/secondaryMenu")
     @ResponseBody
     public List wasteTransportationFormSecondaryMenu(@RequestParam Integer collectionPointId) {
-        List result = wasteService.wasteTransportationFormSecondaryMenu(collectionPointId);
+        List result = wasteService.getWastesByCollectionPointId(collectionPointId);
         return result;
     }
 
@@ -127,9 +118,18 @@ public class wasteController {
 
     @GetMapping("/waste/{wasteRecordId}")
     public String wasteProfile(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
-        WasteDTO wasteDTO = wasteService.wasteProfile(wasteRecordId);
+        WasteDTO wasteDTO = wasteService.getWasteByWasteRecordId(wasteRecordId);
         model.addAttribute("wasteDTO", wasteDTO);
         return "wasteProfile";
     }
+
+    @GetMapping("/waste/modify/{wasteRecordId}")
+    public String wasteProfileModify(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
+        WasteDTO wasteDTO = wasteService.getWasteByWasteRecordId(wasteRecordId);
+        model.addAttribute("wasteDTO", wasteDTO);
+
+        return "wasteProfileModify";
+    }
+
 
 }

@@ -1,33 +1,31 @@
 package com.reaosen.management_system.Service;
 
-import com.reaosen.management_system.DTO.DisposalPointDTO;
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
-import com.reaosen.management_system.Model.DisposalPoint;
-import com.reaosen.management_system.Model.TransportRecord;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Map;
 
 public interface wasteService {
     PaginationDTO wastePagination(String type, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 
-    Map initCollectionForm();
-
     void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId);
-
-    List<DisposalPointDTO> initDisposalForm();
-
-    List wasteDisposalFormSecondaryMenu(Integer disposalPointId);
 
     void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId);
 
-    Map initTransportationForm();
-
-    List wasteTransportationFormSecondaryMenu(Integer collectionPointId);
-
     void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId);
 
-    WasteDTO wasteProfile(Integer wasteRecordId);
+    List getWastesByDisposalPointId(Integer disposalPointId);
+
+    List getWastesByCollectionPointId(Integer collectionPointId);
+
+    WasteDTO getWasteByWasteRecordId(Integer wasteRecordId);
+
+    List getWasteTypes();
+
+    List getCollectionPoints();
+
+    List getDisposalPoints();
+
+
 }
