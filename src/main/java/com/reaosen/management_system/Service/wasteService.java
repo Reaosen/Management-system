@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Service;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.DTO.StatusTypeDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
 
 import java.math.BigDecimal;
@@ -27,5 +28,13 @@ public interface wasteService {
 
     List getDisposalPoints();
 
+    List<StatusTypeDTO> getStatuses();
 
+    List getUsersByRole(String role);
+
+    void wasteRecordUpdate(Integer wasteRecordId, Integer wasteTypeId, BigDecimal weight, Integer collectionPointId, String collectionTime, Integer statusId, Integer collectionAccountId);
+
+    void transportRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer collectionPointId, Integer disposalPointId, String transportTime, String transportVehicle, Integer transportAccountId);
+
+    void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, String disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
 }

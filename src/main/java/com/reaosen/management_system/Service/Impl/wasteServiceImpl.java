@@ -12,9 +12,8 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class wasteServiceImpl implements wasteService {
@@ -39,6 +38,9 @@ public class wasteServiceImpl implements wasteService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private StatusTypeMapper statusTypeMapper;
 
 
     @Override
@@ -109,17 +111,13 @@ public class wasteServiceImpl implements wasteService {
             //收集信息获取
             WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
             CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+            StatusType statusType = statusTypeMapper.selectByPrimaryKey(wasteRecord.getStatus());
+
 
             wasteDTO.setWasteType(wasteType.getTypeName());
             wasteDTO.setWeight(wasteRecord.getWeight());
             wasteDTO.setCollectionPoint(collectionPoint.getAddress());
-            if (wasteRecord.getStatus() == 1) {
-                wasteDTO.setStatus("已收集");
-            } else if (wasteRecord.getStatus() == 2) {
-                wasteDTO.setStatus("已运输");
-            } else {
-                wasteDTO.setStatus("已处理");
-            }
+            wasteDTO.setStatus(statusType.getStatusTypeName());
             Long collectionTimestamp = Long.valueOf(wasteRecord.getCollectionTime());
             wasteDTO.setCollectionTime(DateUtil.format(DateUtil.date(collectionTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
             UserExample userExample1 = new UserExample();
@@ -291,7 +289,7 @@ public class wasteServiceImpl implements wasteService {
 
         UserExample userExample = new UserExample();
         userExample.createCriteria()
-                        .andAccountIdEqualTo(collectionAccountId);
+                .andAccountIdEqualTo(collectionAccountId);
         List<User> users = userMapper.selectByExample(userExample);
         User user = users.get(0);
         record.setTransportusername(user.getUsername());
@@ -323,15 +321,15 @@ public class wasteServiceImpl implements wasteService {
 
         UserExample collectionUserExample = new UserExample();
         collectionUserExample.createCriteria()
-                        .andAccountIdEqualTo(wasteRecord.getCollectionAccountId());
+                .andAccountIdEqualTo(wasteRecord.getCollectionAccountId());
         List<User> collectionUsers = userMapper.selectByExample(collectionUserExample);
         User collectionUser = collectionUsers.get(0);
         wasteDTO.setCollectionusername(collectionUser.getUsername());
 
-        if (wasteRecord.getStatus() != 1){
+        if (wasteRecord.getStatus() != 1) {
             TransportRecordExample transportRecordExample = new TransportRecordExample();
             transportRecordExample.createCriteria()
-                            .andWasteRecordIdEqualTo(wasteRecordId);
+                    .andWasteRecordIdEqualTo(wasteRecordId);
             List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(transportRecordExample);
             TransportRecord transportRecord = transportRecords.get(0);
             wasteDTO.setTransportId(transportRecord.getTransportId());
@@ -342,17 +340,17 @@ public class wasteServiceImpl implements wasteService {
 
             wasteDTO.setTransportVehicle(transportRecord.getTransportVehicle());
 
-            if (wasteRecord.getStatus() == 3){
+            if (wasteRecord.getStatus() == 3) {
                 DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
                 disposalRecordExample.createCriteria()
-                                .andWasteRecordIdEqualTo(wasteRecordId);
+                        .andWasteRecordIdEqualTo(wasteRecordId);
                 List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
                 DisposalRecord disposalRecord = disposalRecords.get(0);
                 DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(disposalRecord.getDisposalPointId());
                 wasteDTO.setDisposalId(disposalRecord.getDisposalId());
                 UserExample disposalUserExample = new UserExample();
                 disposalUserExample.createCriteria()
-                                .andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
+                        .andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
                 List<User> disposalUsers = userMapper.selectByExample(disposalUserExample);
                 User disposalUser = disposalUsers.get(0);
                 wasteDTO.setDisposalusername(disposalUser.getUsername());
@@ -369,6 +367,88 @@ public class wasteServiceImpl implements wasteService {
         return wasteDTO;
     }
 
+    @Override
+    public List<StatusTypeDTO> getStatuses() {
+        List<StatusType> statusTypes = statusTypeMapper.selectByExample(new StatusTypeExample());
+        List statusTypeDTOs = new ArrayList();
+        for (StatusType statusType : statusTypes) {
+            StatusTypeDTO statusTypeDTO = new StatusTypeDTO();
+            BeanUtils.copyProperties(statusType, statusTypeDTO);
+            statusTypeDTOs.add(statusTypeDTO);
+        }
+        return statusTypeDTOs;
+    }
+
+    public List getUsersByRole(String role) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andRoleEqualTo(role);
+        List<User> users = userMapper.selectByExample(userExample);
+        List<UserDTO> collectionUserDTOs = new ArrayList();
+        for (User user : users) {
+            UserDTO userDTO = new UserDTO();
+            BeanUtils.copyProperties(user, userDTO);
+            collectionUserDTOs.add(userDTO);
+        }
+        return collectionUserDTOs;
+    }
+
+    @Override
+    public void wasteRecordUpdate(Integer wasteRecordId, Integer wasteTypeId, BigDecimal weight, Integer collectionPointId, String collectionTime, Integer statusId, Integer collectionAccountId) {
+        WasteRecord record = new WasteRecord();
+        WasteRecord oldRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        BeanUtils.copyProperties(oldRecord, record);
+        record.setWasteRecordId(wasteRecordId);
+        record.setWasteTypeId(wasteTypeId);
+        record.setWeight(weight);
+        record.setCollectionPointId(collectionPointId);
+        Date date = DateUtil.parse(collectionTime, "yyyy-MM-dd HH:mm:ss");
+        Integer timestamp = Math.toIntExact(date.getTime());
+        record.setCollectionTime(timestamp);
+        record.setStatus(statusId);
+        record.setCollectionAccountId(collectionAccountId);
+        wasteRecordMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public void transportRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer collectionPointId, Integer disposalPointId, String transportTime, String transportVehicle, Integer transportAccountId) {
+        TransportRecordExample example = new TransportRecordExample();
+        example.createCriteria()
+                .andWasteRecordIdEqualTo(wasteRecordId);
+        List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(example);
+        TransportRecord oldRecord = transportRecords.get(0);
+
+        TransportRecord record = new TransportRecord();
+        BeanUtils.copyProperties(oldRecord, record);
+        record.setCollectionPointId(collectionPointId);
+        record.setDisposalPointId(disposalPointId);
+        Date date = DateUtil.parse(transportTime, "yyyy-MM-dd HH:mm:ss");
+        long timeStepMillis = date.getTime();
+        Integer timestamp = Math.toIntExact(timeStepMillis / 1000);
+        record.setTransportTime(timestamp);
+        record.setTransportVehicle(transportVehicle);
+        record.setTransportAccountId(transportAccountId);
+
+        transportRecordMapper.updateByPrimaryKey(record);
+
+    }
+
+    @Override
+    public void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, String disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId) {
+        DisposalRecord record = new DisposalRecord();
+        DisposalRecord oldRecord = disposalRecordMapper.selectByPrimaryKey(wasteRecordId);
+        BeanUtils.copyProperties(oldRecord, record);
+        record.setDisposalPointId(disposalPointId);
+        record.setDisposalMethod(disposalMethod);
+        record.setDisposalPointId(disposalPointId);
+        Date date = DateUtil.parse(disposalTime, "yyyy-MM-dd HH:mm:ss");
+        long timeStepMillis = date.getTime();
+        Integer timestamp = Math.toIntExact(timeStepMillis / 1000);
+        record.setDisposalTime(timestamp);
+        record.setDisposalAccountId(disposalAccountId);
+        disposalRecordMapper.updateByPrimaryKey(record);
+    }
+
     private Long getTotalRecords(String type) {
         switch (type) {
             case "collection":
@@ -381,7 +461,6 @@ public class wasteServiceImpl implements wasteService {
                 throw new IllegalArgumentException("Invalid type: " + type);
         }
     }
-
 
 
 }

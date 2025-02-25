@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.DTO.StatusTypeDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
 import com.reaosen.management_system.Service.wasteService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -13,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
-public class wasteController {
+public class WasteController {
 
     @Autowired
     private wasteService wasteService;
@@ -123,12 +124,91 @@ public class wasteController {
         return "wasteProfile";
     }
 
-    @GetMapping("/waste/modify/{wasteRecordId}")
-    public String wasteProfileModify(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
+    @GetMapping("/waste/collection/modify/{wasteRecordId}")
+    public String wasteProfileCollectionModify(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
         WasteDTO wasteDTO = wasteService.getWasteByWasteRecordId(wasteRecordId);
-        model.addAttribute("wasteDTO", wasteDTO);
+        List<StatusTypeDTO> statusTypeDTOs = wasteService.getStatuses();
+        List wasteTypes = wasteService.getWasteTypes();
+        List collectionPoints = wasteService.getCollectionPoints();
+        List collectionUsers = wasteService.getUsersByRole("收集工人");
 
-        return "wasteProfileModify";
+        model.addAttribute("wasteDTO", wasteDTO);
+        model.addAttribute("statusTypeDTOs", statusTypeDTOs);
+        model.addAttribute("wasteTypes", wasteTypes);
+        model.addAttribute("collectionPoints", collectionPoints);
+        model.addAttribute("collectionUsers", collectionUsers);
+        return "wasteProfileCollectionModify";
+    }
+
+    @GetMapping("/waste/transportation/modify/{wasteRecordId}")
+    public String wasteProfileTransportationModify(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
+        WasteDTO wasteDTO = wasteService.getWasteByWasteRecordId(wasteRecordId);
+        List<StatusTypeDTO> statusTypeDTOs = wasteService.getStatuses();
+        List wasteTypes = wasteService.getWasteTypes();
+        List collectionPoints = wasteService.getCollectionPoints();
+        List disposalPoints = wasteService.getDisposalPoints();
+        List transportationUsers = wasteService.getUsersByRole("司机");
+
+        model.addAttribute("wasteDTO", wasteDTO);
+        model.addAttribute("statusTypeDTOs", statusTypeDTOs);
+        model.addAttribute("wasteTypes", wasteTypes);
+        model.addAttribute("collectionPoints", collectionPoints);
+        model.addAttribute("disposalPoints", disposalPoints);
+        model.addAttribute("transportationUsers", transportationUsers);
+        return "wasteProfileTransportationModify";
+    }
+
+    @GetMapping("/waste/disposal/modify/{wasteRecordId}")
+    public String wasteProfileDisposalModify(@PathVariable(value = "wasteRecordId") Integer wasteRecordId, Model model) {
+        WasteDTO wasteDTO = wasteService.getWasteByWasteRecordId(wasteRecordId);
+        List<StatusTypeDTO> statusTypeDTOs = wasteService.getStatuses();
+        List wasteTypes = wasteService.getWasteTypes();
+        List disposalPoints = wasteService.getDisposalPoints();
+        List disposalUsers = wasteService.getUsersByRole("处理工人");
+
+        model.addAttribute("wasteDTO", wasteDTO);
+        model.addAttribute("statusTypeDTOs", statusTypeDTOs);
+        model.addAttribute("wasteTypes", wasteTypes);
+        model.addAttribute("disposalPoints", disposalPoints);
+        model.addAttribute("disposalUsers", disposalUsers);
+        return "wasteProfileDisposalModify";
+    }
+
+    @PostMapping("/waste/collection/update/{id}")
+    public String wasteProfileCollectionUpdate(@PathVariable(value = "id") Integer wasteRecordId,
+                                               @RequestParam Integer wasteTypeId,
+                                               @RequestParam BigDecimal weight,
+                                               @RequestParam Integer collectionPointId,
+                                               @RequestParam String collectionTime,
+                                               @RequestParam Integer statusId,
+                                               @RequestParam Integer collectionAccountId) {
+
+        wasteService.wasteRecordUpdate(wasteRecordId, wasteTypeId, weight, collectionPointId, collectionTime, statusId, collectionAccountId);
+
+        return "redirect:/waste/" + wasteRecordId;
+    }
+
+    @PostMapping("/waste/transportation/update/{id}")
+    public String wasteProfileTransportationUpdate(@PathVariable(value = "id") Integer wasteRecordId,
+                                                   @RequestParam Integer collectionPointId,
+                                                   @RequestParam Integer disposalPointId,
+                                                   @RequestParam String transportTime,
+                                                   @RequestParam String transportVehicle,
+                                                   @RequestParam Integer transportAccountId) {
+        wasteService.transportRecordUpdateByWasteRecordId(wasteRecordId, collectionPointId, disposalPointId, transportTime, transportVehicle, transportAccountId);
+
+        return "redirect:/waste/" + wasteRecordId;
+    }
+
+    @PostMapping("/waste/disposal/update/{id}")
+    public String wasteProfileDisposalUpdate(@PathVariable(value = "id") Integer wasteRecordId,
+                                             @RequestParam String disposalMethod,
+                                             @RequestParam Integer disposalPointId,
+                                             @RequestParam String disposalTime,
+                                             @RequestParam Integer disposalAccountId
+                                             ) {
+        wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethod, disposalPointId, disposalTime, disposalAccountId);
+        return "redirect:/waste/" + wasteRecordId;
     }
 
 

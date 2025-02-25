@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="ThemeBucket">
+    <link rel="shortcut icon" href="#" type="image/png">
+
+    <title>废弃物详情修改</title>
+
+    <link href="/css/style.css" rel="stylesheet">
+    <link href="/css/style-responsive.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="/js/html5shiv.js"></script>
+    <script src="/js/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body class="sticky-header">
+
+<section>
+    <!-- 左边栏开始-->
+    <div th:insert="~{leftSidebar :: leftSidebar}"></div>
+    <!-- 左边栏结束-->
+
+    <!-- main content start-->
+    <div class="main-content">
+
+        <!-- 顶部搜索、用户栏开始-->
+        <div th:insert="~{header :: header}"></div>
+        <!-- 顶部搜索、用户栏结束-->
+
+        <!-- page heading start-->
+        <div class="page-heading">
+            <h3>
+                废弃物数据详情修改
+            </h3>
+        </div>
+        <!-- page heading end-->
+
+        <!--body wrapper start-->
+        <div class="wrapper">
+            <form class="form-horizontal adminex-form" method="post" th:action="@{/waste/transportation/update/{id}(id=${wasteDTO.wasteRecordId})}">
+                <div class="row">
+                    <div class="col-md-12">
+                        <section class="panel">
+                            <header class="panel-heading">
+                                废弃物运输信息 <span class="label label-success"
+                                                     th:if="${wasteDTO.statusId != 1}">已运输</span><span
+                                    class="label label-danger" th:if="${wasteDTO.statusId == 1}">未运输</span>
+                                <span class="tools pull-right">
+                            <a class="fa fa-chevron-down" href="javascript:;"></a>
+                         </span>
+                            </header>
+                            <div class="panel-body" style="display: block;" th:if="${wasteDTO.statusId != 1}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                            <label class="col-md-3 control-label"
+                                                   for="transportId">废弃物运输编号：</label>
+                                            <div class="col-md-9 form-group">
+                                                <input type="text" class="form-control"
+                                                       th:value="${wasteDTO.transportId}" name="transportId"
+                                                       id="transportId" readonly="readonly" disabled>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="col-md-3 control-label"
+                                                   for="collectionPointId">起始地：</label>
+                                            <div class="col-md-9 form-group">
+                                                <select class="form-control m-bot15" name="collectionPointId"
+                                                        id="collectionPointId">
+                                                    <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
+                                                    <option th:each="collectionPoint : ${collectionPoints}"
+                                                            th:value="${collectionPoint.collectionPointId}"
+                                                            th:text="${collectionPoint.address}"
+                                                            th:selected="${wasteDTO.collectionPoint} == ${collectionPoint.address}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                            <label class="col-md-3 control-label" for="disposalPointId">目的地：</label>
+                                            <div class="col-md-9 form-group">
+                                                <select class="form-control m-bot15" name="disposalPointId"
+                                                        id="disposalPointId">
+                                                    <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
+                                                    <option th:each="disposalPoint : ${disposalPoints}"
+                                                            th:value="${disposalPoint.disposalPointId}"
+                                                            th:text="${disposalPoint.address}"
+                                                            th:selected="${wasteDTO.disposalPoint} == ${disposalPoint.address}"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                            <label class="col-md-3 control-label" for="transportTime">送达时间：</label>
+                                            <div class="col-md-9 form-group">
+                                                <input type="text" class="form-control"
+                                                       th:value="${wasteDTO.transportTime}" name="transportTime"
+                                                       id="transportTime">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12" style="margin-bottom: 10px;">
+                                            <label class="col-md-3 control-label" for="transportVehicle">车牌号：</label>
+                                            <div class="col-md-9 form-group">
+                                                <input type="text" class="form-control"
+                                                       th:value="${wasteDTO.transportVehicle}" name="transportVehicle"
+                                                       id="transportVehicle">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <label class="col-md-3 control-label"
+                                                   for="transportAccountId">废弃物运输负责人：</label>
+                                            <div class="col-md-9 form-group">
+                                                <select class="form-control m-bot15" name="transportAccountId"
+                                                        id="transportAccountId" readonly="readonly">
+                                                    <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
+                                                    <option th:each="transportationUser : ${transportationUsers}"
+                                                            th:value="${transportationUser.accountId}"
+                                                            th:text="${transportationUser.username}"
+                                                            th:selected="${wasteDTO.transportusername} == ${transportationUser.username}"></option>
+                                                </select>
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="col-md-10"></div>
+                                        <div class="col-md-2">
+                                            <button class="btn btn-info" type="submit" style="margin: 15px">提交修改 <i
+                                                    class="fa fa-file"></i></button>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+        <!--body wrapper end-->
+
+
+    </div>
+    <!-- main content end-->
+</section>
+
+<!-- Placed js at the end of the document so the pages load faster -->
+<script src="/js/jquery-1.10.2.min.js"></script>
+<script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
+<script src="/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script src="/js/modernizr.min.js"></script>
+<script src="/js/jquery.nicescroll.js"></script>
+
+
+<!--common scripts for all pages-->
+<script src="/js/scripts.js"></script>
+
+</body>
+</html>

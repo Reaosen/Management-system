@@ -41,6 +41,7 @@
         <table tableName="TransportRecord" domainObjectName="TransportRecord"/>
         <table tableName="WasteRecord" domainObjectName="WasteRecord"/>
         <table tableName="WasteType" domainObjectName="WasteType"/>
+        <table tableName="StatusType" domainObjectName="StatusType"/>
             <!-- 自增主键列 -->
 <!--            <generatedKey column="id" sqlStatement="MYSQL" identity="true"/>-->
             <!-- tinyint映射为Integer -->

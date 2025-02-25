@@ -44,8 +44,6 @@
         <!--body wrapper start-->
         <div class="wrapper">
             <div class="row">
-                <a class="btn btn-info" type="button" style="margin: 15px" th:href="@{/waste/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据 <i class="fa fa-file"></i></a>
-                <a class="btn btn-danger" type="button" style="margin: -10px" th:href="@{/waste/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据 <i class="fa fa-times-circle"></i></a>
                 <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">
@@ -81,14 +79,25 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">状态：</label>
-                                        <span class="label label-success" th:if="${wasteDTO.statusId == 3}">已处理</span>
-                                        <span class="label label-primary" th:if="${wasteDTO.statusId == 2}">已运输</span>
+                                        <span class="label label-success"
+                                              th:if="${wasteDTO.statusId == 3}">已处理</span>
+                                        <span class="label label-primary"
+                                              th:if="${wasteDTO.statusId == 2}">已运输</span>
                                         <span class="label label-info" th:if="${wasteDTO.statusId == 1}">已收集</span>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">废弃物收集负责人：</label>
                                         <span th:text="${wasteDTO.collectionusername}">Reaosen</span>
                                     </div>
+
+                                </div>
+                                <div class="col-md-12">
+                                    <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/collection/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
+                                        <i class="fa fa-file"></i></a>
+                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/collection/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
+                                        <i class="fa fa-times-circle"></i></a>
                                 </div>
 
                             </div>
@@ -98,7 +107,9 @@
                 <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            废弃物运输信息 <span class="label label-success" th:if="${wasteDTO.statusId != 1}">已运输</span><span class="label label-danger" th:if="${wasteDTO.statusId == 1}">未运输</span>
+                            废弃物运输信息 <span class="label label-success"
+                                                 th:if="${wasteDTO.statusId != 1}">已运输</span><span
+                                class="label label-danger" th:if="${wasteDTO.statusId == 1}">未运输</span>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
@@ -120,31 +131,41 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">目的地：</label>
-                                        <span  th:text="${wasteDTO.disposalPoint}">二里屯</span>
+                                        <span th:text="${wasteDTO.disposalPoint}">二里屯</span>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="col-md-12">
                                         <label class="control-label">送达时间：</label>
-                                        <span  th:text="${wasteDTO.transportTime}">2025/2/14</span>
+                                        <span th:text="${wasteDTO.transportTime}">2025/2/14</span>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">车牌号：</label>
-                                        <span  th:text="${wasteDTO.transportVehicle}">京66666</span>
+                                        <span th:text="${wasteDTO.transportVehicle}">京66666</span>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">废弃物运输负责人：</label>
                                         <span th:text="${wasteDTO.transportusername}">Reaosen</span>
                                     </div>
                                 </div>
-
+                                <div class="col-md-12">
+                                    <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/transportation/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
+                                        <i class="fa fa-file"></i></a>
+                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/transportation/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
+                                        <i class="fa fa-times-circle"></i></a>
+                                </div>
                             </div>
                         </div>
                     </section>
-                </div><div class="col-md-12">
+                </div>
+                <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            废弃物处理信息 <span class="label label-success" th:if="${wasteDTO.statusId == 3}">已处理</span><span class="label label-danger" th:if="${wasteDTO.statusId != 3}">未处理</span>
+                            废弃物处理信息 <span class="label label-success"
+                                                 th:if="${wasteDTO.statusId == 3}">已处理</span><span
+                                class="label label-danger" th:if="${wasteDTO.statusId != 3}">未处理</span>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
@@ -179,7 +200,14 @@
                                         <span th:text="${wasteDTO.disposalusername}">Reaosen</span>
                                     </div>
                                 </div>
-
+                                <div class="col-md-12">
+                                    <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/disposal/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
+                                        <i class="fa fa-file"></i></a>
+                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                       th:href="@{/waste/disposal/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
+                                        <i class="fa fa-times-circle"></i></a>
+                                </div>
                             </div>
                         </div>
                     </section>
