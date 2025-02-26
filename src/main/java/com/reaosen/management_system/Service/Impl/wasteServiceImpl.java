@@ -207,10 +207,13 @@ public class wasteServiceImpl implements wasteService {
         record.setCollectionPointId(collectionPointId);
         record.setWasteTypeId(wasteTypeId);
         record.setWeight(weight);
-        //TODO 时间修改
-        long timeStepMillis = System.currentTimeMillis();
-        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
-        record.setCollectionTime(timeStep);
+        long timeMillis = System.currentTimeMillis();
+        Integer timestamp = Math.toIntExact(timeMillis / 1000);
+        //收集时间
+        record.setCollectionTime(timestamp);
+        //TODO 公共字段填充-时间
+        record.setGmtCreate(timestamp);
+        record.setGmtModified(timestamp);
         wasteRecordMapper.insert(record);
     }
 
@@ -250,15 +253,20 @@ public class wasteServiceImpl implements wasteService {
         record.setDisposalAccountId(collectionAccountId);
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethod(disposalMethod);
-        //TODO 时间修改
-        long timeStepMillis = System.currentTimeMillis();
-        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
-        record.setDisposalTime(timeStep);
+        long timeMillis = System.currentTimeMillis();
+        Integer timestamp = Math.toIntExact(timeMillis / 1000);
+        //处理时间
+        record.setDisposalTime(timestamp);
 
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         wasteRecord.setStatus(3);
-        wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
+        //TODO 公共字段填充-时间
+        wasteRecord.setGmtModified(timestamp);
+        record.setGmtModified(timestamp);
+        record.setGmtCreate(timestamp);
 
+
+        wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
         disposalRecordMapper.insert(record);
     }
 
@@ -296,14 +304,22 @@ public class wasteServiceImpl implements wasteService {
         User user = users.get(0);
         record.setTransportusername(user.getUsername());
 
-        //TODO 时间修改
-        long timeStepMillis = System.currentTimeMillis();
-        Integer timeStep = Math.toIntExact(timeStepMillis / 1000);
-        record.setTransportTime(timeStep);
-        transportRecordMapper.insertSelective(record);
+
+        long timeMillis = System.currentTimeMillis();
+        Integer timeStamp = Math.toIntExact(timeMillis / 1000);
+        //运输时间
+        record.setTransportTime(timeStamp);
 
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         wasteRecord.setStatus(2);
+
+        //TODO 公共字段填充-时间
+
+        wasteRecord.setGmtModified(timeStamp);
+        record.setGmtModified(timeStamp);
+        record.setGmtCreate(timeStamp);
+
+        transportRecordMapper.insertSelective(record);
         wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
     }
 
@@ -404,11 +420,19 @@ public class wasteServiceImpl implements wasteService {
         record.setWasteTypeId(wasteTypeId);
         record.setWeight(weight);
         record.setCollectionPointId(collectionPointId);
+        //收集时间
         Date date = DateUtil.parse(collectionTime, "yyyy-MM-dd HH:mm:ss");
-        Integer timestamp = Math.toIntExact(date.getTime());
-        record.setCollectionTime(timestamp);
+        long collectionTimeStepMillis = date.getTime();
+        Integer collectionTimestamp = Math.toIntExact(collectionTimeStepMillis / 1000);
+        record.setCollectionTime(collectionTimestamp);
         record.setStatus(statusId);
         record.setCollectionAccountId(collectionAccountId);
+
+        //TODO 公共字段填充-时间
+        long timeMillis = System.currentTimeMillis();
+        Integer timestamp = Math.toIntExact(timeMillis / 1000);
+        record.setGmtModified(timestamp);
+
         wasteRecordMapper.updateByPrimaryKey(record);
     }
 
@@ -424,12 +448,18 @@ public class wasteServiceImpl implements wasteService {
         BeanUtils.copyProperties(oldRecord, record);
         record.setCollectionPointId(collectionPointId);
         record.setDisposalPointId(disposalPointId);
+        //运输时间
         Date date = DateUtil.parse(transportTime, "yyyy-MM-dd HH:mm:ss");
-        long timeStepMillis = date.getTime();
-        Integer timestamp = Math.toIntExact(timeStepMillis / 1000);
-        record.setTransportTime(timestamp);
+        long transportTimeStepMillis = date.getTime();
+        Integer transportTimestamp = Math.toIntExact(transportTimeStepMillis / 1000);
+        record.setTransportTime(transportTimestamp);
         record.setTransportVehicle(transportVehicle);
         record.setTransportAccountId(transportAccountId);
+
+        //TODO 公共字段填充-时间
+        long timeMillis = System.currentTimeMillis();
+        Integer timestamp = Math.toIntExact(timeMillis / 1000);
+        record.setGmtModified(timestamp);
 
         transportRecordMapper.updateByPrimaryKey(record);
 
@@ -443,11 +473,17 @@ public class wasteServiceImpl implements wasteService {
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethod(disposalMethod);
         record.setDisposalPointId(disposalPointId);
+        //处理时间
         Date date = DateUtil.parse(disposalTime, "yyyy-MM-dd HH:mm:ss");
-        long timeStepMillis = date.getTime();
-        Integer timestamp = Math.toIntExact(timeStepMillis / 1000);
-        record.setDisposalTime(timestamp);
+        long disposalTimeStepMillis = date.getTime();
+        Integer disposalTimestamp = Math.toIntExact(disposalTimeStepMillis / 1000);
+        record.setDisposalTime(disposalTimestamp);
         record.setDisposalAccountId(disposalAccountId);
+
+        //TODO 公共字段填充-时间
+        long timeMillis = System.currentTimeMillis();
+        Integer timestamp = Math.toIntExact(timeMillis / 1000);
+        record.setGmtModified(timestamp);
         disposalRecordMapper.updateByPrimaryKey(record);
     }
 

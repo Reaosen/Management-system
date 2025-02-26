@@ -1,7 +1,9 @@
 package com.reaosen.management_system.Service;
 
+import com.reaosen.management_system.Annotation.AutoFill;
 import com.reaosen.management_system.DTO.UserDTO;
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.Enumeration.OperationType;
 import org.springframework.web.bind.annotation.RequestParam;
 
 public interface UserService {

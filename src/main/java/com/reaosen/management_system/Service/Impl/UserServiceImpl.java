@@ -1,7 +1,10 @@
 package com.reaosen.management_system.Service.Impl;
 
+import com.reaosen.management_system.Annotation.AutoFill;
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.UserDTO;
+import com.reaosen.management_system.DTO.UserWorkDTO;
+import com.reaosen.management_system.Enumeration.OperationType;
 import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
@@ -89,9 +92,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
-
         //TODO 未完成的员工工作分页查询
+        List userWorkDTOs = new ArrayList();
+        List<User> users = userMapper.selectByExample(new UserExample());
+        for (User user : users) {
+            UserWorkDTO userWorkDTO = new UserWorkDTO();
+            BeanUtils.copyProperties(user, userWorkDTO);
 
+        }
         PaginationDTO<Object> pagination = new PaginationDTO<>();
         return pagination;
     }

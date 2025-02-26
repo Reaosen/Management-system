@@ -41,7 +41,7 @@ $(document).ready(function() {
     });
 
     /* 为打开和关闭详细信息添加事件侦听器 */
-    $(document).on('click', '#dynamic-table tbody td img', function() {
+    $(document).on('click', '#employee-table tbody td img', function() {
         var nTr = $(this).parents('tr')[0]; // 获取当前行的 DOM 元素
         if (oTable.fnIsOpen(nTr)) {
             // 如果当前行已经展开，关闭它
@@ -54,7 +54,7 @@ $(document).ready(function() {
         }
     });
 
-    $('#dynamic-table tbody').on('click', 'button', function() {
+    $('#employee-table tbody').on('click', 'button', function() {
         var button = $(this);
         var nTr = button.closest('tr')[0];
         var aData = oTable.fnGetData(nTr); // 获取整行数据
