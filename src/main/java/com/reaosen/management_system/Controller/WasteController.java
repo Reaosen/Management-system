@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.StatusTypeDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
 import com.reaosen.management_system.Service.wasteService;
@@ -209,6 +210,33 @@ public class WasteController {
                                              ) {
         wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethod, disposalPointId, disposalTime, disposalAccountId);
         return "redirect:/waste/" + wasteRecordId;
+    }
+
+    @DeleteMapping("/waste/collection/delete/{id}")
+    @ResponseBody
+    public ResultDTO wasteProfileCollectionDelete(@PathVariable(value = "id") Integer wasteRecordId){
+
+        wasteService.wasteRecordDelete(wasteRecordId);
+
+        return ResultDTO.okOf();
+    }
+
+    @DeleteMapping("/waste/transportation/delete/{id}")
+    @ResponseBody
+    public ResultDTO wasteProfileTransportationDelete(@PathVariable(value = "id") Integer wasteRecordId){
+
+        wasteService.transportRecordDeleteByWasteRecordId(wasteRecordId);
+
+        return ResultDTO.okOf();
+    }
+
+    @DeleteMapping("/waste/disposal/delete/{id}")
+    @ResponseBody
+    public ResultDTO wasteProfileDisposalDelete(@PathVariable(value = "id") Integer wasteRecordId){
+
+        wasteService.disposalRecordDeleteByWasteRecordId(wasteRecordId);
+
+        return ResultDTO.okOf();
     }
 
 

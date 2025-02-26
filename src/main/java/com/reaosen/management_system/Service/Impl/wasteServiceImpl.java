@@ -2,6 +2,8 @@ package com.reaosen.management_system.Service.Impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.reaosen.management_system.DTO.*;
+import com.reaosen.management_system.Exception.CustomizeErrorCode;
+import com.reaosen.management_system.Exception.CustomizeException;
 import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.*;
 import com.reaosen.management_system.Service.wasteService;
@@ -447,6 +449,45 @@ public class wasteServiceImpl implements wasteService {
         record.setDisposalTime(timestamp);
         record.setDisposalAccountId(disposalAccountId);
         disposalRecordMapper.updateByPrimaryKey(record);
+    }
+
+    @Override
+    public void wasteRecordDelete(Integer wasteRecordId) {
+        WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        if (wasteRecord.getStatus() != 1){
+            throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
+        }
+        wasteRecordMapper.deleteByPrimaryKey(wasteRecordId);
+    }
+
+    @Override
+    public void transportRecordDeleteByWasteRecordId(Integer wasteRecordId) {
+        WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        if (wasteRecord.getStatus() == 3){
+            throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
+        }
+        TransportRecordExample transportRecordExample = new TransportRecordExample();
+        transportRecordExample.createCriteria()
+                        .andWasteRecordIdEqualTo(wasteRecordId);
+        List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(transportRecordExample);
+        TransportRecord transportRecord = transportRecords.get(0);
+        transportRecordMapper.deleteByPrimaryKey(transportRecord.getTransportId());
+        wasteRecord.setStatus(1);
+        wasteRecordMapper.updateByPrimaryKey(wasteRecord);
+
+    }
+
+    @Override
+    public void disposalRecordDeleteByWasteRecordId(Integer wasteRecordId) {
+        WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
+        DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+        disposalRecordExample.createCriteria()
+                        .andWasteRecordIdEqualTo(wasteRecordId);
+        List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
+        DisposalRecord disposalRecord = disposalRecords.get(0);
+        disposalRecordMapper.deleteByPrimaryKey(disposalRecord.getDisposalId());
+        wasteRecord.setStatus(2);
+        wasteRecordMapper.updateByPrimaryKey(wasteRecord);
     }
 
     private Long getTotalRecords(String type) {

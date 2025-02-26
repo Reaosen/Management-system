@@ -93,11 +93,14 @@
                                 </div>
                                 <div class="col-md-12">
                                     <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
-                                       th:href="@{/waste/collection/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
+                                       th:href="@{/waste/collection/modify/{id}(id=${wasteDTO.wasteRecordId})}">修改数据
                                         <i class="fa fa-file"></i></a>
-                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
-                                       th:href="@{/waste/collection/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
-                                        <i class="fa fa-times-circle"></i></a>
+                                    <!--                                    TODO 删除功能-->
+                                    <button class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                            th:onclick="'javascript:deleteCollection(\''+${wasteDTO.wasteRecordId}+'\');'">
+                                        删除数据
+
+                                        <i class="fa fa-times-circle"></i></button>
                                 </div>
 
                             </div>
@@ -148,13 +151,16 @@
                                         <span th:text="${wasteDTO.transportusername}">Reaosen</span>
                                     </div>
                                 </div>
+                                <!--修改按钮、删除按钮-->
                                 <div class="col-md-12">
                                     <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
                                        th:href="@{/waste/transportation/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
                                         <i class="fa fa-file"></i></a>
-                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
-                                       th:href="@{/waste/transportation/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
-                                        <i class="fa fa-times-circle"></i></a>
+                                    <button class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                            th:onclick="'javascript:deleteTransportation(\''+${wasteDTO.wasteRecordId}+'\');'">
+                                        删除数据
+
+                                        <i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -204,9 +210,11 @@
                                     <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
                                        th:href="@{/waste/disposal/modify/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">修改数据
                                         <i class="fa fa-file"></i></a>
-                                    <a class="btn btn-danger btn-xs" type="button" style="margin: 15px"
-                                       th:href="@{/waste/disposal/delete/{wasteRecordId}(wasteRecordId=${wasteDTO.wasteRecordId})}">删除数据
-                                        <i class="fa fa-times-circle"></i></a>
+                                    <button class="btn btn-danger btn-xs" type="button" style="margin: 15px"
+                                            th:onclick="'javascript:deleteDisposal(\''+${wasteDTO.wasteRecordId}+'\');'">
+                                        删除数据
+
+                                        <i class="fa fa-times-circle"></i></button>
                                 </div>
                             </div>
                         </div>
@@ -222,6 +230,8 @@
     <!-- main content end-->
 </section>
 
+<script src="/js/mine/js/axios.min.js"></script>
+
 <!-- Placed js at the end of the document so the pages load faster -->
 <script src="/js/jquery-1.10.2.min.js"></script>
 <script src="/js/jquery-ui-1.9.2.custom.min.js"></script>
@@ -233,6 +243,8 @@
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>
+
+<script src="/js/mine/js/wasteProfile.js"></script>
 
 </body>
 </html>

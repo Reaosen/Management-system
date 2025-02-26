@@ -37,4 +37,10 @@ public interface wasteService {
     void transportRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer collectionPointId, Integer disposalPointId, String transportTime, String transportVehicle, Integer transportAccountId);
 
     void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, String disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
+
+    void wasteRecordDelete(Integer wasteRecordId);
+
+    void transportRecordDeleteByWasteRecordId(Integer wasteRecordId);
+
+    void disposalRecordDeleteByWasteRecordId(Integer wasteRecordId);
 }
