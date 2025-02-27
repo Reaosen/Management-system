@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Utils;
 
 import java.time.*;
+import java.time.temporal.TemporalAdjusters;
 
 public class TimestampUtils {
     public static Integer getTodayStartTimestamp() {
@@ -17,6 +18,18 @@ public class TimestampUtils {
         LocalDateTime startOfMonth = firstDayOfMonth.atStartOfDay();
         // 转换为时间戳
         long epochSecond = startOfMonth.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
+        return Math.toIntExact(epochSecond);
+    }
+
+    public static Integer getWeekStartTimestamp() {
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        // 获取本周周一的日期
+        LocalDate monday = today.with(TemporalAdjusters.previousOrSame(java.time.DayOfWeek.MONDAY));
+        // 将周一的日期设置为零点
+        LocalDateTime mondayAtStartOfDay = monday.atStartOfDay();
+        // 转换为时间戳
+        long epochSecond = mondayAtStartOfDay.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond();
         return Math.toIntExact(epochSecond);
     }
 

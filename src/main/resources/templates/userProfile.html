@@ -82,11 +82,10 @@
                         <div class="col-md-12">
                             <div class="panel">
                                 <div class="panel-body p-states">
-                                    `<!--TODO 动态展示录入数据总结--> `
                                     <div class="summary pull-left">
                                         <h4>今日 <span>录入</span></h4>
                                         <span>总计</span>
-                                        <h3>3 项</h3>
+                                        <h3>[[${todayTotal}]] 项</h3>
                                     </div>
                                     <div id="expense" class="chart-bar"></div>
                                 </div>
@@ -98,7 +97,7 @@
                                     <div class="summary pull-left">
                                         <h4>本周 <span>录入</span></h4>
                                         <span>总计</span>
-                                        <h3>9 项</h3>
+                                        <h3>[[${weekTotal}]] 项</h3>
                                     </div>
                                     <div id="pro-refund" class="chart-bar"></div>
                                 </div>
@@ -110,7 +109,7 @@
                                     <div class="summary pull-left">
                                         <h4>本月 <span>录入</span></h4>
                                         <span>总计</span>
-                                        <h3>41 项</h3>
+                                        <h3>[[${monthTotal}]] 项</h3>
                                     </div>
                                     <div id="expense2" class="chart-bar"></div>
                                 </div>
@@ -131,71 +130,34 @@
                                 <div class="panel-body">
 
                                     <ul class="activity-list">
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="images/photos/user1.png" alt=""/>
+                                        <li th:each="wasteDTO : ${wasteDTOs}">
+                                            <div class="activity-desk" th:if="${session.user.getRole().equals('收集工人')}">
+                                                <h5><span>录入了一条新的废弃物收集信息:
+                                                    已收集[[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] <a href="#">查看详情>></a></span></h5>
+                                                <p class="text-muted">[[${wasteDTO.collectionTime}]] 在 [[${wasteDTO.collectionPoint}]]</p>
+                                                <div class="album">
+                                                    <!-- 图片 -->
+                                                </div>
                                             </div>
-                                            <div class="activity-desk">
-                                                <!--TODO 动态展示录入数据-->
-                                                <h5><a href="#">Jonathan Smith</a> <span>Uploaded 5 new
-                                                            photos</span></h5>
-                                                <p class="text-muted">7 minutes ago near Alaska, USA</p>
+
+                                            <div class="activity-desk" th:if="${session.user.getRole().equals('司机')}">
+                                                <h5><span>录入了一条新的废弃物运输信息:
+                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 从 [[${wasteDTO.collectionPoint}]] 运往 [[${wasteDTO.disposalPoint}]] <a href="#">查看详情>></a></span></h5>
+                                                <p class="text-muted">于 [[${wasteDTO.transportTime}]] 到达 </p>
+                                                <div class="album">
+                                                    <!-- 图片 -->
+                                                </div>
+                                            </div>
+
+                                            <div class="activity-desk" th:if="${session.user.getRole().equals('处理工人')}">
+                                                <h5><span>录入了一条新的废弃物处理信息:
+                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 进行 [[${wasteDTO.disposalMethod}]] 处理 <a href="#">查看详情>></a></span></h5>
+                                                <p class="text-muted">[[${wasteDTO.disposalTime}]] 在 [[${wasteDTO.disposalPoint}]]</p>
                                                 <div class="album">
                                                     <!-- 图片 -->
                                                 </div>
                                             </div>
                                         </li>
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="images/photos/user2.png" alt=""/>
-                                            </div>
-                                            <div class="activity-desk">
-                                                <h5><a href="#">John Doe</a> <span>Completed the Sight visit.</span>
-                                                </h5>
-                                                <p class="text-muted">2 minutes ago near Alaska, USA</p>
-                                                <div class="location-map">
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="images/photos/user3.png" alt=""/>
-                                            </div>
-                                            <div class="activity-desk">
-
-                                                <h5><a href="#">Jonathan Smith</a> <span>attended a meeting
-                                                            with</span>
-                                                    <a href="#">John Doe.</a>
-                                                </h5>
-                                                <p class="text-muted">2 days ago near Alaska, USA</p>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="images/photos/user4.png" alt=""/>
-                                            </div>
-                                            <div class="activity-desk">
-
-                                                <h5><a href="#">Jonathan Smith</a> <span>completed the task
-                                                            “wireframe design” within the dead line</span></h5>
-                                                <p class="text-muted">4 days ago near Alaska, USA</p>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <div class="avatar">
-                                                <img src="images/photos/user5.png" alt=""/>
-                                            </div>
-                                            <div class="activity-desk">
-
-                                                <h5><a href="#">Jonathan Smith</a> <span>was absent office due to
-                                                            sickness</span></h5>
-                                                <p class="text-muted">4 days ago near Alaska, USA</p>
-                                            </div>
-                                        </li>
-
 
                                     </ul>
                                 </div>
@@ -208,11 +170,6 @@
         </div>
         <!--body wrapper end-->
 
-        <!--footer section start-->
-        <footer class="">
-            2014 &copy; AdminEx by <a href="http://www.mycodes.net/" target="_blank">源码之家</a>
-        </footer>
-        <!--footer section end-->
 
 
     </div>
@@ -231,35 +188,11 @@
 <script src="/js/sparkline/jquery.sparkline.js"></script>
 <script src="/js/sparkline/sparkline-init.js"></script>
 
-<!--google map-->
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&AMP;sensor=false"></script>
 
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>
 
-<script>
-
-    //google map
-    function initialize() {
-        var myLatlng = new google.maps.LatLng(-37.815207, 144.963937);
-        var mapOptions = {
-            zoom: 15,
-            scrollwheel: false,
-            center: myLatlng,
-            mapTypeId: google.maps.MapTypeId.ROADMAP
-        }
-        var map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-        var marker = new google.maps.Marker({
-            position: myLatlng,
-            map: map,
-            title: 'Hello World!'
-        });
-    }
-
-    google.maps.event.addDomListener(window, 'load', initialize);
-
-</script>
 
 </body>
 

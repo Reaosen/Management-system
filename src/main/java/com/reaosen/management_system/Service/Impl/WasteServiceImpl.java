@@ -68,7 +68,7 @@ public class WasteServiceImpl implements WasteService {
         DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
 
         ArrayList<Integer> searchs = new ArrayList<>();
-        //TODO 搜索框未完成
+        // TODO 搜索框未完成
         if (type.equals("transportation")) {
             WasteRecordExample.Criteria criteria = wasteRecordExample.createCriteria();
             criteria.andStatusBetween(2, 3);
@@ -117,7 +117,7 @@ public class WasteServiceImpl implements WasteService {
             WasteDTO wasteDTO = new WasteDTO();
             BeanUtils.copyProperties(wasteRecord, wasteDTO);
             Integer status = wasteRecord.getStatus();
-            //收集信息获取
+            // 收集信息获取
             WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
             CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
             StatusType statusType = statusTypeMapper.selectByPrimaryKey(wasteRecord.getStatus());
@@ -133,7 +133,7 @@ public class WasteServiceImpl implements WasteService {
             userExample1.createCriteria().andAccountIdEqualTo(wasteRecord.getCollectionAccountId());
             List<User> users1 = userMapper.selectByExample(userExample1);
             wasteDTO.setCollectionusername(users1.get(0).getUsername());
-            //运输信息获取
+            // 运输信息获取
             if (status != 1) {
                 TransportRecordExample transportRecordExample1 = new TransportRecordExample();
                 transportRecordExample1.createCriteria().andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
@@ -216,9 +216,9 @@ public class WasteServiceImpl implements WasteService {
         record.setWeight(weight);
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
-        //收集时间
+        // 收集时间
         record.setCollectionTime(timestamp);
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
         record.setGmtCreate(timestamp);
         record.setGmtModified(timestamp);
         wasteRecordMapper.insert(record);
@@ -262,12 +262,12 @@ public class WasteServiceImpl implements WasteService {
         record.setDisposalMethod(disposalMethod);
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
-        //处理时间
+        // 处理时间
         record.setDisposalTime(timestamp);
 
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         wasteRecord.setStatus(3);
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
         wasteRecord.setGmtModified(timestamp);
         record.setGmtModified(timestamp);
         record.setGmtCreate(timestamp);
@@ -286,7 +286,7 @@ public class WasteServiceImpl implements WasteService {
         List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
         List<WasteDTO> wasteDTOs = new ArrayList<>();
         for (WasteRecord wasteRecord : wasteRecords) {
-            //TODO 详细信息
+            // TODO 详细信息
             WasteDTO wasteDTO = new WasteDTO();
             BeanUtils.copyProperties(wasteRecord, wasteDTO);
             wasteDTOs.add(wasteDTO);
@@ -314,13 +314,13 @@ public class WasteServiceImpl implements WasteService {
 
         long timeMillis = System.currentTimeMillis();
         Integer timeStamp = Math.toIntExact(timeMillis / 1000);
-        //运输时间
+        // 运输时间
         record.setTransportTime(timeStamp);
 
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         wasteRecord.setStatus(2);
 
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
 
         wasteRecord.setGmtModified(timeStamp);
         record.setGmtModified(timeStamp);
@@ -427,7 +427,7 @@ public class WasteServiceImpl implements WasteService {
         record.setWasteTypeId(wasteTypeId);
         record.setWeight(weight);
         record.setCollectionPointId(collectionPointId);
-        //收集时间
+        // 收集时间
         Date date = DateUtil.parse(collectionTime, "yyyy-MM-dd HH:mm:ss");
         long collectionTimeStepMillis = date.getTime();
         Integer collectionTimestamp = Math.toIntExact(collectionTimeStepMillis / 1000);
@@ -435,7 +435,7 @@ public class WasteServiceImpl implements WasteService {
         record.setStatus(statusId);
         record.setCollectionAccountId(collectionAccountId);
 
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         record.setGmtModified(timestamp);
@@ -455,7 +455,7 @@ public class WasteServiceImpl implements WasteService {
         BeanUtils.copyProperties(oldRecord, record);
         record.setCollectionPointId(collectionPointId);
         record.setDisposalPointId(disposalPointId);
-        //运输时间
+        // 运输时间
         Date date = DateUtil.parse(transportTime, "yyyy-MM-dd HH:mm:ss");
         long transportTimeStepMillis = date.getTime();
         Integer transportTimestamp = Math.toIntExact(transportTimeStepMillis / 1000);
@@ -463,7 +463,7 @@ public class WasteServiceImpl implements WasteService {
         record.setTransportVehicle(transportVehicle);
         record.setTransportAccountId(transportAccountId);
 
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         record.setGmtModified(timestamp);
@@ -480,14 +480,14 @@ public class WasteServiceImpl implements WasteService {
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethod(disposalMethod);
         record.setDisposalPointId(disposalPointId);
-        //处理时间
+        // 处理时间
         Date date = DateUtil.parse(disposalTime, "yyyy-MM-dd HH:mm:ss");
         long disposalTimeStepMillis = date.getTime();
         Integer disposalTimestamp = Math.toIntExact(disposalTimeStepMillis / 1000);
         record.setDisposalTime(disposalTimestamp);
         record.setDisposalAccountId(disposalAccountId);
 
-        //TODO 公共字段填充-时间
+        // TODO 公共字段填充-时间
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         record.setGmtModified(timestamp);
@@ -497,7 +497,7 @@ public class WasteServiceImpl implements WasteService {
     @Override
     public void wasteRecordDelete(Integer wasteRecordId) {
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
-        if (wasteRecord.getStatus() != 1){
+        if (wasteRecord.getStatus() != 1) {
             throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
         }
         wasteRecordMapper.deleteByPrimaryKey(wasteRecordId);
@@ -506,12 +506,12 @@ public class WasteServiceImpl implements WasteService {
     @Override
     public void transportRecordDeleteByWasteRecordId(Integer wasteRecordId) {
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
-        if (wasteRecord.getStatus() == 3){
+        if (wasteRecord.getStatus() == 3) {
             throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
         }
         TransportRecordExample transportRecordExample = new TransportRecordExample();
         transportRecordExample.createCriteria()
-                        .andWasteRecordIdEqualTo(wasteRecordId);
+                .andWasteRecordIdEqualTo(wasteRecordId);
         List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(transportRecordExample);
         TransportRecord transportRecord = transportRecords.get(0);
         transportRecordMapper.deleteByPrimaryKey(transportRecord.getTransportId());
@@ -525,7 +525,7 @@ public class WasteServiceImpl implements WasteService {
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
         disposalRecordExample.createCriteria()
-                        .andWasteRecordIdEqualTo(wasteRecordId);
+                .andWasteRecordIdEqualTo(wasteRecordId);
         List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
         DisposalRecord disposalRecord = disposalRecords.get(0);
         disposalRecordMapper.deleteByPrimaryKey(disposalRecord.getDisposalId());
@@ -535,8 +535,6 @@ public class WasteServiceImpl implements WasteService {
 
     @Override
     public PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
-        //TODO 未完成的员工工作分页查询
-        // 获取总记录数（不考虑搜索条件）
         Long totalRecords = userMapper.countByExample(new UserExample());
         UserExample userExample = new UserExample();
         if (sSearch != null && !sSearch.trim().isEmpty()) {
@@ -568,26 +566,26 @@ public class WasteServiceImpl implements WasteService {
         for (User user : users) {
             UserWorkDTO userWorkDTO = new UserWorkDTO();
             BeanUtils.copyProperties(user, userWorkDTO);
-            if(user.getRole().equals("收集工人")){
+            if (user.getRole().equals("收集工人")) {
                 Integer countTodayData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
                 Integer countMonthData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
-            }else if (user.getRole().equals("司机")){
+            } else if (user.getRole().equals("司机")) {
                 Integer countTodayData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
                 Integer countMonthData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
-            }else if (user.getRole().equals("处理工人")){
+            } else if (user.getRole().equals("处理工人")) {
                 Integer countTodayData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
                 Integer countMonthData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
-            }else {
-                //管理员
+            } else {
+                // 管理员
                 userWorkDTO.setTodayTotal(999);
                 userWorkDTO.setMonthTotal(999);
             }
@@ -600,6 +598,126 @@ public class WasteServiceImpl implements WasteService {
         pagination.setITotalRecords(totalRecords);
         pagination.setITotalDisplayRecords(totalFiltered);
         return pagination;
+    }
+
+    @Override
+    public Integer getWorkTotalByTypeAndAccountId(String type, Integer accountId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(accountId);
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
+        Integer startTimestamp = 0;
+        if (type.equals("today")) {
+            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+        }else if (type.equals("month")) {
+            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+        }else if (type.equals("week")) {
+            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        }
+
+        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer countTodayData;
+
+
+        if (user.getRole().equals("收集工人")) {
+            countTodayData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+        } else if (user.getRole().equals("司机")) {
+            countTodayData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+        } else if (user.getRole().equals("处理工人")) {
+            countTodayData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+        } else {
+            // 管理员
+            countTodayData = 999;
+        }
+        return countTodayData;
+    }
+
+    @Override
+    public List<WasteDTO> getWorkDataByTypeAndAccountId(String type, Integer accountId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andAccountIdEqualTo(accountId);
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
+
+        Integer startTimestamp = 0;
+        if (type.equals("today")) {
+            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+        }else if (type.equals("month")) {
+            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+        }else if (type.equals("week")) {
+            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        }
+        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+
+        List wasteDTOs = new ArrayList();
+        if (user.getRole().equals("收集工人")) {
+            List<WasteRecord> wasteRecords = wasteRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            for (WasteRecord wasteRecord : wasteRecords) {
+                WasteDTO wasteDTO = new WasteDTO();
+                BeanUtils.copyProperties(wasteRecord, wasteDTO);
+                //时间戳格式化
+                Long collectionTimestamp = Long.valueOf(wasteRecord.getCollectionTime());
+                wasteDTO.setCollectionTime(DateUtil.format(DateUtil.date(collectionTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
+
+                WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
+                wasteDTO.setWasteType(wasteType.getTypeName());
+
+                CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+                wasteDTO.setCollectionPoint(collectionPoint.getAddress());
+
+                wasteDTOs.add(wasteDTO);
+            }
+        } else if (user.getRole().equals("司机")) {
+            List<TransportRecord> transportRecords = transportRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            for (TransportRecord transportRecord : transportRecords) {
+                WasteDTO wasteDTO = new WasteDTO();
+                BeanUtils.copyProperties(transportRecord, wasteDTO);
+
+                WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteDTO.getWasteRecordId());
+                WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
+                wasteDTO.setWasteType(wasteType.getTypeName());
+                CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+                wasteDTO.setCollectionPoint(collectionPoint.getAddress());
+                wasteDTO.setWeight(wasteRecord.getWeight());
+
+                Long transportTimestamp = Long.valueOf(transportRecord.getTransportTime());
+                wasteDTO.setTransportTime(DateUtil.format(DateUtil.date(transportTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
+
+                DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+                disposalRecordExample.createCriteria()
+                                .andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
+                DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(transportRecord.getDisposalPointId());
+                wasteDTO.setDisposalPoint(disposalPoint.getAddress());
+
+
+                wasteDTOs.add(wasteDTO);
+            }
+        } else if (user.getRole().equals("处理工人")) {
+            List<DisposalRecord> disposalRecords = disposalRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            for (DisposalRecord disposalRecord : disposalRecords) {
+                WasteDTO wasteDTO = new WasteDTO();
+                BeanUtils.copyProperties(disposalRecord, wasteDTO);
+
+                WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteDTO.getWasteRecordId());
+                wasteDTO.setWeight(wasteRecord.getWeight());
+                WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
+                wasteDTO.setWasteType(wasteType.getTypeName());
+
+                Long disposalTimestamp = Long.valueOf(disposalRecord.getDisposalTime());
+                wasteDTO.setDisposalTime(DateUtil.format(DateUtil.date(disposalTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
+
+                DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(disposalRecord.getDisposalPointId());
+                wasteDTO.setDisposalPoint(disposalPoint.getAddress());
+
+                wasteDTOs.add(wasteDTO);
+            }
+        } else {
+            // 管理员
+
+        }
+
+
+        return wasteDTOs;
     }
 
     private Long getTotalRecords(String type) {

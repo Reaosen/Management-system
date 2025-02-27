@@ -45,4 +45,8 @@ public interface WasteService {
     void disposalRecordDeleteByWasteRecordId(Integer wasteRecordId);
 
     PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
+
+    Integer getWorkTotalByTypeAndAccountId(String type, Integer accountId);
+
+    List<WasteDTO> getWorkDataByTypeAndAccountId(String type, Integer accountId);
 }
