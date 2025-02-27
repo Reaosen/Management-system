@@ -11,4 +11,5 @@ public interface UserService {
 
     void updateStatusByAccountId(UserDTO userDTO);
 
+    UserDTO getUserByAccountId(Integer accountId);
 }

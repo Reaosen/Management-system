@@ -91,5 +91,16 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByExample(user, userExample);
     }
 
+    @Override
+    public UserDTO getUserByAccountId(Integer accountId) {
+        UserExample userExample = new UserExample();
+        userExample.createCriteria()
+                .andAccountIdEqualTo(accountId);
+        List<User> users = userMapper.selectByExample(userExample);
+        User user = users.get(0);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user, userDTO);
 
+        return userDTO;
+    }
 }

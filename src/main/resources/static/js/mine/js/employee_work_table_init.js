@@ -24,7 +24,7 @@ $(document).ready(function() {
             {
                 "mData": null,
                 "fnRender": function (oObj, sType, sValue) {
-                    var buttonHtml = '<a class="btn btn-info  btn-sm" href="/user/' + oObj.aData.accountId + '">查看详情</a>';
+                    var buttonHtml = '<a class="btn btn-info  btn-sm" href="/user/profile/' + oObj.aData.accountId + '">查看详情</a>';
 
                     return buttonHtml; // 返回按钮的 HTML
                 }
