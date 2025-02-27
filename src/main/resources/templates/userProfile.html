@@ -133,7 +133,7 @@
                                         <li th:each="wasteDTO : ${wasteDTOs}">
                                             <div class="activity-desk" th:if="${userDTO.getRole().equals('收集工人')}">
                                                 <h5><span>录入了一条新的废弃物收集信息:
-                                                    已收集[[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] <a href="#">查看详情>></a></span></h5>
+                                                    已收集[[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] <a th:href="@{/waste/{id}(id=${wasteDTO.wasteRecordId})}">查看详情>></a></span></h5>
                                                 <p class="text-muted">[[${wasteDTO.collectionTime}]] 在 [[${wasteDTO.collectionPoint}]]</p>
                                                 <div class="album">
                                                     <!-- 图片 -->
@@ -142,7 +142,7 @@
 
                                             <div class="activity-desk" th:if="${userDTO.getRole().equals('司机')}">
                                                 <h5><span>录入了一条新的废弃物运输信息:
-                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 从 [[${wasteDTO.collectionPoint}]] 运往 [[${wasteDTO.disposalPoint}]] <a href="#">查看详情>></a></span></h5>
+                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 从 [[${wasteDTO.collectionPoint}]] 运往 [[${wasteDTO.disposalPoint}]] <a th:href="@{/waste/{id}(id=${wasteDTO.wasteRecordId})}">查看详情>></a></span></h5>
                                                 <p class="text-muted">于 [[${wasteDTO.transportTime}]] 到达 </p>
                                                 <div class="album">
                                                     <!-- 图片 -->
@@ -151,7 +151,7 @@
 
                                             <div class="activity-desk" th:if="${userDTO.getRole().equals('处理工人')}">
                                                 <h5><span>录入了一条新的废弃物处理信息:
-                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 进行 [[${wasteDTO.disposalMethod}]] 处理 <a href="#">查看详情>></a></span></h5>
+                                                    已将 [[${wasteDTO.weight}]] 公斤的 [[${wasteDTO.wasteType}]] 进行 [[${wasteDTO.disposalMethod}]] 处理 <a th:href="@{/waste/{id}(id=${wasteDTO.wasteRecordId})}">查看详情>></a></span></h5>
                                                 <p class="text-muted">[[${wasteDTO.disposalTime}]] 在 [[${wasteDTO.disposalPoint}]]</p>
                                                 <div class="album">
                                                     <!-- 图片 -->
