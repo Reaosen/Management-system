@@ -9,6 +9,7 @@ import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
 import com.reaosen.management_system.Service.UserService;
+import com.reaosen.management_system.Utils.TimestampUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,17 +91,5 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByExample(user, userExample);
     }
 
-    @Override
-    public PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
-        //TODO 未完成的员工工作分页查询
-        List userWorkDTOs = new ArrayList();
-        List<User> users = userMapper.selectByExample(new UserExample());
-        for (User user : users) {
-            UserWorkDTO userWorkDTO = new UserWorkDTO();
-            BeanUtils.copyProperties(user, userWorkDTO);
 
-        }
-        PaginationDTO<Object> pagination = new PaginationDTO<>();
-        return pagination;
-    }
 }

@@ -4,7 +4,7 @@ import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.StatusTypeDTO;
 import com.reaosen.management_system.DTO.WasteDTO;
-import com.reaosen.management_system.Service.wasteService;
+import com.reaosen.management_system.Service.WasteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,7 +18,7 @@ import java.util.List;
 public class WasteController {
 
     @Autowired
-    private wasteService wasteService;
+    private WasteService wasteService;
 
     @GetMapping("/waste/collection")
     public String wasteCollection() {

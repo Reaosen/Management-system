@@ -6,7 +6,8 @@ import com.reaosen.management_system.Exception.CustomizeErrorCode;
 import com.reaosen.management_system.Exception.CustomizeException;
 import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.*;
-import com.reaosen.management_system.Service.wasteService;
+import com.reaosen.management_system.Service.WasteService;
+import com.reaosen.management_system.Utils.TimestampUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Date;
 import java.util.List;
 
 @Service
-public class wasteServiceImpl implements wasteService {
+public class WasteServiceImpl implements WasteService {
 
     @Autowired
     private TransportRecordMapper transportRecordMapper;
@@ -43,6 +44,12 @@ public class wasteServiceImpl implements wasteService {
 
     @Autowired
     private StatusTypeMapper statusTypeMapper;
+    @Autowired
+    private WasteRecordExtMapper wasteRecordExtMapper;
+    @Autowired
+    private TransportRecordExtMapper transportRecordExtMapper;
+    @Autowired
+    private DisposalRecordExtMapper disposalRecordExtMapper;
 
 
     @Override
@@ -524,6 +531,75 @@ public class wasteServiceImpl implements wasteService {
         disposalRecordMapper.deleteByPrimaryKey(disposalRecord.getDisposalId());
         wasteRecord.setStatus(2);
         wasteRecordMapper.updateByPrimaryKey(wasteRecord);
+    }
+
+    @Override
+    public PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch) {
+        //TODO 未完成的员工工作分页查询
+        // 获取总记录数（不考虑搜索条件）
+        Long totalRecords = userMapper.countByExample(new UserExample());
+        UserExample userExample = new UserExample();
+        if (sSearch != null && !sSearch.trim().isEmpty()) {
+            // 创建第一个条件
+            UserExample.Criteria criteria1 = userExample.createCriteria();
+            criteria1.andUsernameLike("%" + sSearch + "%");
+
+            // 创建第四个条件
+            UserExample.Criteria criteria2 = userExample.or();
+            criteria2.andRoleLike("%" + sSearch + "%");
+
+        }
+        // 获取筛选后的记录数
+        Long totalFiltered = userMapper.countByExample(userExample);
+
+        // 计算分页的 offset
+        int offset = iDisplayStart == null ? 0 : iDisplayStart;
+        int size = iDisplayLength == null ? 10 : iDisplayLength;
+
+        // 获取当前页的数据
+        userExample.setOrderByClause("gmt_create desc");
+        List<User> users = userMapper.selectByExampleWithRowbounds(userExample, new RowBounds(offset, size));
+        List userWorkDTOs = new ArrayList();
+
+        Integer todayStartTimestamp = TimestampUtils.getTodayStartTimestamp();
+        Integer monthStartTimestamp = TimestampUtils.getMonthStartTimestamp();
+        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+
+        for (User user : users) {
+            UserWorkDTO userWorkDTO = new UserWorkDTO();
+            BeanUtils.copyProperties(user, userWorkDTO);
+            if(user.getRole().equals("收集工人")){
+                Integer countTodayData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                userWorkDTO.setTodayTotal(countTodayData);
+
+                Integer countMonthData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                userWorkDTO.setMonthTotal(countMonthData);
+            }else if (user.getRole().equals("司机")){
+                Integer countTodayData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                userWorkDTO.setTodayTotal(countTodayData);
+
+                Integer countMonthData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                userWorkDTO.setMonthTotal(countMonthData);
+            }else if (user.getRole().equals("处理工人")){
+                Integer countTodayData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                userWorkDTO.setTodayTotal(countTodayData);
+
+                Integer countMonthData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                userWorkDTO.setMonthTotal(countMonthData);
+            }else {
+                //管理员
+                userWorkDTO.setTodayTotal(999);
+                userWorkDTO.setMonthTotal(999);
+            }
+            userWorkDTOs.add(userWorkDTO);
+
+        }
+        PaginationDTO<Object> pagination = new PaginationDTO<>();
+        pagination.setAaData(userWorkDTOs);
+        pagination.setSEcho(sEcho); // DataTables 请求的次数
+        pagination.setITotalRecords(totalRecords);
+        pagination.setITotalDisplayRecords(totalFiltered);
+        return pagination;
     }
 
     private Long getTotalRecords(String type) {

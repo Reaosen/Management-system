@@ -11,5 +11,4 @@ public interface UserService {
 
     void updateStatusByAccountId(UserDTO userDTO);
 
-    PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 }

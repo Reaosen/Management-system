@@ -7,7 +7,7 @@ import com.reaosen.management_system.DTO.WasteDTO;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface wasteService {
+public interface WasteService {
     PaginationDTO wastePagination(String type, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 
     void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId);
@@ -43,4 +43,6 @@ public interface wasteService {
     void transportRecordDeleteByWasteRecordId(Integer wasteRecordId);
 
     void disposalRecordDeleteByWasteRecordId(Integer wasteRecordId);
+
+    PaginationDTO employeeWorkPagination(Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 }

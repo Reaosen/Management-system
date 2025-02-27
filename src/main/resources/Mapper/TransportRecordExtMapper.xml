@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reaosen.management_system.Mapper.TransportRecordExtMapper">
+  <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.TransportRecord">
+    <id column="transport_id" jdbcType="INTEGER" property="transportId" />
+    <result column="waste_record_id" jdbcType="INTEGER" property="wasteRecordId" />
+    <result column="transport_time" jdbcType="INTEGER" property="transportTime" />
+    <result column="transport_vehicle" jdbcType="VARCHAR" property="transportVehicle" />
+    <result column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
+    <result column="disposal_point_id" jdbcType="INTEGER" property="disposalPointId" />
+    <result column="transportUsername" jdbcType="VARCHAR" property="transportusername" />
+    <result column="transport_account_id" jdbcType="INTEGER" property="transportAccountId" />
+    <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
+    <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
+  </resultMap>
+  <!-- 查询今天的数据 -->
+  <select id="selectDataByTimes" parameterType="map" resultType="com.reaosen.management_system.Model.TransportRecord">
+    SELECT *
+    FROM transportrecord
+    WHERE transport_account_id = #{accountId}
+      AND gmt_create BETWEEN #{startTime} AND #{endTime}
+  </select>
+
+  <!-- 统计今天的数据条数 -->
+  <select id="countDataByTimes" parameterType="map" resultType="java.lang.Integer">
+    SELECT COUNT(*)
+    FROM transportrecord
+    WHERE transport_account_id = #{accountId}
+      AND gmt_create BETWEEN #{startTime} AND #{endTime}
+  </select>
+</mapper>

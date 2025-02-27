@@ -7,6 +7,6 @@ public class UserWorkDTO {
     private Integer accountId;
     private String username;
     private String role;
-    private Integer todayData;
-    private Integer monthData;
+    private Integer todayTotal;
+    private Integer monthTotal;
 }

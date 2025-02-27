@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.reaosen.management_system.Mapper.WasteRecordExtMapper">
+    <resultMap id="BaseResultMap" type="com.reaosen.management_system.Model.WasteRecord">
+        <id column="waste_record_id" jdbcType="INTEGER" property="wasteRecordId" />
+        <result column="waste_type_id" jdbcType="INTEGER" property="wasteTypeId" />
+        <result column="collection_point_id" jdbcType="INTEGER" property="collectionPointId" />
+        <result column="collection_time" jdbcType="INTEGER" property="collectionTime" />
+        <result column="weight" jdbcType="DECIMAL" property="weight" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="collection_account_id" jdbcType="INTEGER" property="collectionAccountId" />
+        <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
+        <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
+    </resultMap>
+    <select id="selectDataByTimes" parameterType="map" resultType="com.reaosen.management_system.Model.WasteRecord">
+        SELECT *
+        FROM wasterecord
+        WHERE collection_account_id = #{accountId}
+          AND gmt_create BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <!-- 统计今天的数据条数 -->
+    <select id="countDataByTimes" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM wasterecord
+        WHERE collection_account_id = #{accountId}
+          AND gmt_create BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+
+</mapper>

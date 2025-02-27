@@ -4,7 +4,7 @@ $(document).ready(function() {
         "bProcessing": false,
         "bServerSide": true,
         "bInfo": false,
-        "sAjaxSource": "/employee/pagination",
+        "sAjaxSource": "/employee/work/pagination",
         "fnServerData": function(sSource, aoData, fnCallback) {
             $.ajax({
                 "url": sSource,
@@ -22,18 +22,10 @@ $(document).ready(function() {
             { "mData": "todayTotal" },
             { "mData": "monthTotal" },
             {
-                "mData": "more",
-                "fnRender": function(oObj, sType, sValue) {
-                    var status = oObj.aData.status; // 获取原始状态值
-                    var accountId = oObj.aData.accountId;
-                    var buttonHtml = '';
-                    if (status === "disable") {
-                        buttonHtml = '<button class="btn btn-success btn-sm" data-status="disable" data-accountId="' + accountId +'">解禁用户</button>';
-                    } else if (status === "enable") {
-                        buttonHtml = '<button class="btn btn-danger btn-sm" data-status="enable" data-accountId="' + accountId +'">禁用用户</button>';
-                    } else {
-                        buttonHtml = '<span data-status="' + status + '">未知状态</span>'; // 保留状态值
-                    }
+                "mData": null,
+                "fnRender": function (oObj, sType, sValue) {
+                    var buttonHtml = '<a class="btn btn-info  btn-sm" href="/user/' + oObj.aData.accountId + '">查看详情</a>';
+
                     return buttonHtml; // 返回按钮的 HTML
                 }
             }

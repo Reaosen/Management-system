@@ -3,7 +3,9 @@ package com.reaosen.management_system.Controller;
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.UserDTO;
+import com.reaosen.management_system.Model.WasteType;
 import com.reaosen.management_system.Service.UserService;
+import com.reaosen.management_system.Service.WasteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +17,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private WasteService wasteService;
 
     @GetMapping("/employee")
     public String Employee() {
@@ -49,7 +54,7 @@ public class UserController {
                                          @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength,
                                          @RequestParam(value = "sSearch", defaultValue = "") String sSearch){
 
-        PaginationDTO pagination = userService.employeeWorkPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
+        PaginationDTO pagination = wasteService.employeeWorkPagination(sEcho, iDisplayStart, iDisplayLength, sSearch);
 
         return pagination;
     }
