@@ -1,8 +1,6 @@
 package com.reaosen.management_system.Service;
 
-import com.reaosen.management_system.DTO.PaginationDTO;
-import com.reaosen.management_system.DTO.StatusTypeDTO;
-import com.reaosen.management_system.DTO.WasteDTO;
+import com.reaosen.management_system.DTO.*;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -49,4 +47,10 @@ public interface WasteService {
     Integer getWorkTotalByTypeAndAccountId(String type, Integer accountId);
 
     List<WasteDTO> getWorkDataByTypeAndAccountId(String type, Integer accountId);
+
+    Integer getWasteTotalByTime(String timeType, String dataType);
+
+    List<PieChartDataDTO> getWasteTypeDistribute();
+
+    LineChartDataDTO getWeekDataByType(String timeType);
 }

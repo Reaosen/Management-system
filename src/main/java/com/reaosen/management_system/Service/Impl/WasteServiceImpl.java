@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -567,22 +570,22 @@ public class WasteServiceImpl implements WasteService {
             UserWorkDTO userWorkDTO = new UserWorkDTO();
             BeanUtils.copyProperties(user, userWorkDTO);
             if (user.getRole().equals("收集工人")) {
-                Integer countTodayData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                Integer countTodayData = wasteRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
-                Integer countMonthData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                Integer countMonthData = wasteRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
             } else if (user.getRole().equals("司机")) {
-                Integer countTodayData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                Integer countTodayData = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
-                Integer countMonthData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                Integer countMonthData = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
             } else if (user.getRole().equals("处理工人")) {
-                Integer countTodayData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
+                Integer countTodayData = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), todayStartTimestamp, nowTimestamp);
                 userWorkDTO.setTodayTotal(countTodayData);
 
-                Integer countMonthData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
+                Integer countMonthData = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), monthStartTimestamp, nowTimestamp);
                 userWorkDTO.setMonthTotal(countMonthData);
             } else {
                 // 管理员
@@ -609,9 +612,9 @@ public class WasteServiceImpl implements WasteService {
         Integer startTimestamp = 0;
         if (type.equals("today")) {
             startTimestamp = TimestampUtils.getTodayStartTimestamp();
-        }else if (type.equals("month")) {
+        } else if (type.equals("month")) {
             startTimestamp = TimestampUtils.getMonthStartTimestamp();
-        }else if (type.equals("week")) {
+        } else if (type.equals("week")) {
             startTimestamp = TimestampUtils.getWeekStartTimestamp();
         }
 
@@ -620,11 +623,11 @@ public class WasteServiceImpl implements WasteService {
 
 
         if (user.getRole().equals("收集工人")) {
-            countTodayData = wasteRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+            countTodayData = wasteRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
         } else if (user.getRole().equals("司机")) {
-            countTodayData = transportRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+            countTodayData = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
         } else if (user.getRole().equals("处理工人")) {
-            countTodayData = disposalRecordExtMapper.countDataByTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+            countTodayData = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
         } else {
             // 管理员
             countTodayData = 999;
@@ -642,20 +645,20 @@ public class WasteServiceImpl implements WasteService {
         Integer startTimestamp = 0;
         if (type.equals("today")) {
             startTimestamp = TimestampUtils.getTodayStartTimestamp();
-        }else if (type.equals("month")) {
+        } else if (type.equals("month")) {
             startTimestamp = TimestampUtils.getMonthStartTimestamp();
-        }else if (type.equals("week")) {
+        } else if (type.equals("week")) {
             startTimestamp = TimestampUtils.getWeekStartTimestamp();
         }
         Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
 
         List wasteDTOs = new ArrayList();
         if (user.getRole().equals("收集工人")) {
-            List<WasteRecord> wasteRecords = wasteRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            List<WasteRecord> wasteRecords = wasteRecordExtMapper.selectDataByAccountIdAndTimes(accountId, startTimestamp, nowTimestamp);
             for (WasteRecord wasteRecord : wasteRecords) {
                 WasteDTO wasteDTO = new WasteDTO();
                 BeanUtils.copyProperties(wasteRecord, wasteDTO);
-                //时间戳格式化
+                // 时间戳格式化
                 Long collectionTimestamp = Long.valueOf(wasteRecord.getCollectionTime());
                 wasteDTO.setCollectionTime(DateUtil.format(DateUtil.date(collectionTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
 
@@ -668,7 +671,7 @@ public class WasteServiceImpl implements WasteService {
                 wasteDTOs.add(wasteDTO);
             }
         } else if (user.getRole().equals("司机")) {
-            List<TransportRecord> transportRecords = transportRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            List<TransportRecord> transportRecords = transportRecordExtMapper.selectDataByAccountIdAndTimes(accountId, startTimestamp, nowTimestamp);
             for (TransportRecord transportRecord : transportRecords) {
                 WasteDTO wasteDTO = new WasteDTO();
                 BeanUtils.copyProperties(transportRecord, wasteDTO);
@@ -685,7 +688,7 @@ public class WasteServiceImpl implements WasteService {
 
                 DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
                 disposalRecordExample.createCriteria()
-                                .andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
+                        .andWasteRecordIdEqualTo(wasteRecord.getWasteRecordId());
                 DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(transportRecord.getDisposalPointId());
                 wasteDTO.setDisposalPoint(disposalPoint.getAddress());
 
@@ -693,7 +696,7 @@ public class WasteServiceImpl implements WasteService {
                 wasteDTOs.add(wasteDTO);
             }
         } else if (user.getRole().equals("处理工人")) {
-            List<DisposalRecord> disposalRecords = disposalRecordExtMapper.selectDataByTimes(accountId, startTimestamp, nowTimestamp);
+            List<DisposalRecord> disposalRecords = disposalRecordExtMapper.selectDataByAccountIdAndTimes(accountId, startTimestamp, nowTimestamp);
             for (DisposalRecord disposalRecord : disposalRecords) {
                 WasteDTO wasteDTO = new WasteDTO();
                 BeanUtils.copyProperties(disposalRecord, wasteDTO);
@@ -718,6 +721,132 @@ public class WasteServiceImpl implements WasteService {
 
 
         return wasteDTOs;
+    }
+
+    @Override
+    public Integer getWasteTotalByTime(String timeType, String dataType) {
+        Integer startTimestamp = 0;
+        if (timeType.equals("today")) {
+            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+        } else if (timeType.equals("month")) {
+            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+        } else if (timeType.equals("week")) {
+            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        }
+        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer result;
+        if (dataType.equals("collection")) {
+            result = wasteRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+        } else if (dataType.equals("disposal")) {
+            result = disposalRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+        } else if (dataType.equals("transport")) {
+            result = transportRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+        } else {
+            Integer collectionCountData = wasteRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+            Integer disposalCountData = disposalRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+            Integer transportCountData = transportRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
+            result = collectionCountData + disposalCountData + transportCountData;
+        }
+
+        return result;
+    }
+
+    @Override
+    public LineChartDataDTO getWeekDataByType(String dataType) {
+        List<String> categories = List.of("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
+        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        Integer endTimestamp;
+        List<LineSeriesDTO> series = new ArrayList<>();
+        List<Integer> thisWeekData = new ArrayList<>();
+        List<Integer> lastWeekData = new ArrayList<>();
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+        // 获取当前日期是星期几
+        DayOfWeek dayOfWeek = today.getDayOfWeek();
+        // 将 DayOfWeek 转换为索引值（星期一为 0，星期二为 1，依此类推）
+        int index = dayOfWeek.getValue() - 1;
+
+        if (dataType.equals("collection")) {
+            for (int i = 0; i <= index; i++) {
+                endTimestamp = startTimestamp + 86400;
+                Integer countDataByTimes = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+                thisWeekData.add(countDataByTimes);
+                startTimestamp += 86400;
+            }
+
+            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            for (int i = 0; i < 7; i++) {
+                endTimestamp = lastWeekStartTimestamp + 86400;
+                Integer countDataByTimes = wasteRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+                lastWeekData.add(countDataByTimes);
+                lastWeekStartTimestamp += 86400;
+            }
+
+            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            series.add(new LineSeriesDTO("本周废弃物收集", thisWeekData));
+            series.add(new LineSeriesDTO("上周废弃物收集", lastWeekData));
+        }else if (dataType.equals("transport")) {
+            for (int i = 0; i <= index; i++) {
+                endTimestamp = startTimestamp + 86400;
+                Integer countDataByTimes = transportRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+                thisWeekData.add(countDataByTimes);
+                startTimestamp += 86400;
+            }
+
+            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            for (int i = 0; i < 7; i++) {
+                endTimestamp = lastWeekStartTimestamp + 86400;
+                Integer countDataByTimes = transportRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+                lastWeekData.add(countDataByTimes);
+                lastWeekStartTimestamp += 86400;
+            }
+
+            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            series.add(new LineSeriesDTO("本周废弃物运输", thisWeekData));
+            series.add(new LineSeriesDTO("上周废弃物运输", lastWeekData));
+        }else {
+            for (int i = 0; i <= index; i++) {
+                endTimestamp = startTimestamp + 86400;
+                Integer countDataByTimes = disposalRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+                thisWeekData.add(countDataByTimes);
+                startTimestamp += 86400;
+            }
+
+            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            for (int i = 0; i < 7; i++) {
+                endTimestamp = lastWeekStartTimestamp + 86400;
+                Integer countDataByTimes = disposalRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+                lastWeekData.add(countDataByTimes);
+                lastWeekStartTimestamp += 86400;
+            }
+
+            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            series.add(new LineSeriesDTO("本周废弃物处理", thisWeekData));
+            series.add(new LineSeriesDTO("上周废弃物处理", lastWeekData));
+        }
+
+        // 封装为 ChartData 对象
+        LineChartDataDTO chartData = new LineChartDataDTO(categories, series);
+
+        return chartData;
+    }
+
+    @Override
+    public List<PieChartDataDTO> getWasteTypeDistribute() {
+        List<PieChartDataDTO> chartDataDTOs = new ArrayList<PieChartDataDTO>();
+        List<WasteType> wasteTypes = wasteTypeMapper.selectByExample(new WasteTypeExample());
+        for (WasteType wasteType : wasteTypes) {
+            WasteRecordExample example = new WasteRecordExample();
+            example.createCriteria()
+                    .andWasteTypeIdEqualTo(wasteType.getWasteTypeId());
+            List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
+            Integer size = wasteRecords.size();
+            PieChartDataDTO chartDataDTO = new PieChartDataDTO();
+            chartDataDTO.setName(wasteType.getTypeName());
+            chartDataDTO.setValue(size);
+            chartDataDTOs.add(chartDataDTO);
+        }
+        return chartDataDTOs;
     }
 
     private Long getTotalRecords(String type) {

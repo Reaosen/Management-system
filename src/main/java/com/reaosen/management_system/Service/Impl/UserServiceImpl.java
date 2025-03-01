@@ -1,11 +1,8 @@
 package com.reaosen.management_system.Service.Impl;
 
-import com.reaosen.management_system.Annotation.AutoFill;
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.UserDTO;
-import com.reaosen.management_system.DTO.UserWorkDTO;
-import com.reaosen.management_system.Enumeration.OperationType;
-import com.reaosen.management_system.Mapper.UserMapper;
+import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
 import com.reaosen.management_system.Service.UserService;
@@ -23,6 +20,15 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TransportRecordExtMapper transportRecordExtMapper;
+
+    @Autowired
+    private WasteRecordExtMapper wasteRecordExtMapper;
+
+    @Autowired
+    private DisposalRecordExtMapper disposalRecordExtMapper;
 
     @Override
     public PaginationDTO<UserDTO> employeePagination(Integer sEcho,
@@ -102,5 +108,39 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(user, userDTO);
 
         return userDTO;
+    }
+
+    @Override
+    public Integer getWorkUsersCountByTime(String timeType) {
+        Integer startTimestamp = 0;
+        if (timeType.equals("today")) {
+            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+        } else if (timeType.equals("month")) {
+            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+        } else if (timeType.equals("week")) {
+            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        }
+        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        List<User> users = userMapper.selectByExample(new UserExample());
+        Integer result = 0;
+        for (User user : users) {
+            if (user.getRole().equals("收集工人")) {
+                Integer countDataByTimes = wasteRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+                if (countDataByTimes > 0) {
+                    result++;
+                }
+            }else if (user.getRole().equals("司机")){
+                Integer countDataByTimes = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+                if (countDataByTimes > 0) {
+                    result++;
+                }
+            }else{
+                Integer countDataByTimes = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, nowTimestamp);
+                if (countDataByTimes > 0) {
+                    result++;
+                }
+            }
+        }
+        return result;
     }
 }

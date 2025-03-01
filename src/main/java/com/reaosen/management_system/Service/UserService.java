@@ -12,4 +12,6 @@ public interface UserService {
     void updateStatusByAccountId(UserDTO userDTO);
 
     UserDTO getUserByAccountId(Integer accountId);
+
+    Integer getWorkUsersCountByTime(String timeType);
 }

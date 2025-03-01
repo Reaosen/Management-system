@@ -12,19 +12,30 @@
         <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
     </resultMap>
     <!-- 查询今天的数据 -->
-    <select id="selectDataByTimes" parameterType="map" resultType="com.reaosen.management_system.Model.DisposalRecord">
+    <select id="selectDataByAccountIdAndTimes" parameterType="map" resultType="com.reaosen.management_system.Model.DisposalRecord">
         SELECT *
         FROM disposalrecord
         WHERE disposal_account_id = #{accountId}
           AND gmt_create BETWEEN #{startTime} AND #{endTime}
     </select>
+    <select id="selectDataByTimes" parameterType="map" resultType="com.reaosen.management_system.Model.DisposalRecord">
+        SELECT *
+        FROM disposalrecord
+        WHERE gmt_create BETWEEN #{startTime} AND #{endTime}
+    </select>
 
     <!-- 统计今天的数据条数 -->
-    <select id="countDataByTimes" parameterType="map" resultType="java.lang.Integer">
+    <select id="countDataByAccountIdAndTimes" parameterType="map" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM disposalrecord
         WHERE disposal_account_id = #{accountId}
           AND gmt_create BETWEEN #{startTime} AND #{endTime}
+    </select>
+
+    <select id="countDataByTimes" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM disposalrecord
+        WHERE gmt_create BETWEEN #{startTime} AND #{endTime}
     </select>
 
 

@@ -1,9 +1,6 @@
 package com.reaosen.management_system.Controller;
 
-import com.reaosen.management_system.DTO.PaginationDTO;
-import com.reaosen.management_system.DTO.ResultDTO;
-import com.reaosen.management_system.DTO.StatusTypeDTO;
-import com.reaosen.management_system.DTO.WasteDTO;
+import com.reaosen.management_system.DTO.*;
 import com.reaosen.management_system.Service.WasteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -237,6 +234,23 @@ public class WasteController {
         wasteService.disposalRecordDeleteByWasteRecordId(wasteRecordId);
 
         return ResultDTO.okOf();
+    }
+
+    @GetMapping("/waste/pieChartData")
+    @ResponseBody
+    public ResultDTO wasteTypeDistribute(HttpServletRequest request) {
+        List<PieChartDataDTO> result = wasteService.getWasteTypeDistribute();
+        return ResultDTO.okOf(result);
+    }
+
+    @GetMapping("/waste/lineChartData/{dataType}")
+    @ResponseBody
+    public ResultDTO<LineChartDataDTO> getLineChartData(@PathVariable String dataType) {
+        //TODO 未完成的index页面表格数据接口
+        LineChartDataDTO lineChartDataDTO = wasteService.getWeekDataByType(dataType);
+
+        // 返回封装后的数据
+        return ResultDTO.okOf(lineChartDataDTO);
     }
 
 

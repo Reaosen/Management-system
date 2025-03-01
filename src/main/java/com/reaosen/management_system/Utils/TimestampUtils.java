@@ -41,6 +41,25 @@ public class TimestampUtils {
         return Math.toIntExact(epochSecond);
     }
 
+    public static Integer getStartOfLastWeekTimestamp() {
+        // 获取当前日期
+        LocalDate today = LocalDate.now();
+
+        // 获取当前星期的星期一
+        LocalDate startOfWeek = today.with(TemporalAdjusters.previousOrSame(DayOfWeek.MONDAY));
+
+        // 获取上一个星期的星期一
+        LocalDate startOfLastWeek = startOfWeek.minusWeeks(1);
+
+        // 将 LocalDate 转换为 LocalDateTime（零点）
+        LocalDateTime startOfLastWeekDateTime = LocalDateTime.of(startOfLastWeek, java.time.LocalTime.MIDNIGHT);
+
+        // 将 LocalDateTime 转换为十位时间戳
+        Integer startOfLastWeekTimestamp = Math.toIntExact(startOfLastWeekDateTime.atZone(ZoneId.systemDefault()).toInstant().getEpochSecond());
+
+        return startOfLastWeekTimestamp;
+    }
+
 
 
 
