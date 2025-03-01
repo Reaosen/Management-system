@@ -782,10 +782,10 @@ public class WasteServiceImpl implements WasteService {
                 lastWeekStartTimestamp += 86400;
             }
 
-            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            // series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
             series.add(new LineSeriesDTO("本周废弃物收集", thisWeekData));
             series.add(new LineSeriesDTO("上周废弃物收集", lastWeekData));
-        }else if (dataType.equals("transport")) {
+        } else if (dataType.equals("transport")) {
             for (int i = 0; i <= index; i++) {
                 endTimestamp = startTimestamp + 86400;
                 Integer countDataByTimes = transportRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
@@ -801,10 +801,10 @@ public class WasteServiceImpl implements WasteService {
                 lastWeekStartTimestamp += 86400;
             }
 
-            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            // series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
             series.add(new LineSeriesDTO("本周废弃物运输", thisWeekData));
             series.add(new LineSeriesDTO("上周废弃物运输", lastWeekData));
-        }else {
+        } else {
             for (int i = 0; i <= index; i++) {
                 endTimestamp = startTimestamp + 86400;
                 Integer countDataByTimes = disposalRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
@@ -820,7 +820,7 @@ public class WasteServiceImpl implements WasteService {
                 lastWeekStartTimestamp += 86400;
             }
 
-            //series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
+            // series.add(new LineSeriesDTO("本周废弃物收集", List.of(110, 14, 17, 11, 9, 8, 10)));
             series.add(new LineSeriesDTO("本周废弃物处理", thisWeekData));
             series.add(new LineSeriesDTO("上周废弃物处理", lastWeekData));
         }
@@ -847,6 +847,38 @@ public class WasteServiceImpl implements WasteService {
             chartDataDTOs.add(chartDataDTO);
         }
         return chartDataDTOs;
+    }
+
+    @Override
+    public String getWOWdataByType(String type) {
+        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+        Integer endTimestamp = TimestampUtils.getCurrentTimestamp();
+        if (type.equals("collection")) {
+            Integer thisWeekData = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            Integer lastWeekData = wasteRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+            double WOW = ((thisWeekData - lastWeekData) / (double) lastWeekData) * 100;
+            return String.format("%.2f%%", WOW); // 保留两位小数并添加百分号
+        } else if (type.equals("disposal")) {
+            Integer thisWeekData = transportRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            Integer lastWeekData = transportRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+            double WOW = ((thisWeekData - lastWeekData) / (double) lastWeekData) * 100;
+            return String.format("%.2f%%", WOW); // 保留两位小数并添加百分号
+        } else if (type.equals("transport")) {
+            Integer thisWeekData = disposalRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            Integer lastWeekData = disposalRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+            double WOW = ((thisWeekData - lastWeekData) / (double) lastWeekData) * 100;
+            return String.format("%.2f%%", WOW); // 保留两位小数并添加百分号
+        } else {
+            Integer thisWeekData = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp)
+                    + transportRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp)
+                    + disposalRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+            Integer lastWeekData = wasteRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp)
+                    + transportRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp)
+                    + disposalRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
+            double WOW = ((thisWeekData - lastWeekData) / (double) lastWeekData) * 100;
+            return String.format("%.2f%%", WOW); // 保留两位小数并添加百分号
+        }
     }
 
     private Long getTotalRecords(String type) {

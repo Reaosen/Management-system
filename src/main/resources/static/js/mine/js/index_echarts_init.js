@@ -67,7 +67,7 @@ function initLineChart(chartType) {
     // 默认配置（不包含动态数据）
     var option2 = {
         title: {
-            text: 'Line Chart'
+            text: '周对比折线图'
         },
         tooltip: {
             trigger: 'axis'

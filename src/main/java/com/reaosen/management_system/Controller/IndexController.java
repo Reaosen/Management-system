@@ -2,6 +2,7 @@ package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.PieChartDataDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
+import com.reaosen.management_system.DTO.UserContributionDTO;
 import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Service.IndexService;
 import com.reaosen.management_system.Service.UserService;
@@ -37,6 +38,12 @@ public class IndexController {
         Integer allWeekTotal = wasteService.getWasteTotalByTime("week", "all");
         Integer allMonthTotal = wasteService.getWasteTotalByTime("month", "all");
         Integer todayWorkUsersCount = userService.getWorkUsersCountByTime("today");
+        String collectionWOW = wasteService.getWOWdataByType("collection");
+        String transportWOW = wasteService.getWOWdataByType("transport");
+        String disposalWOW = wasteService.getWOWdataByType("disposal");
+        String allWOW = wasteService.getWOWdataByType("all");
+
+        List<UserContributionDTO> userContributions = userService.getUsersWeeklyContribution();
 
 
         model.addAttribute("collectionTodayTotal", collectionTodayTotal);
@@ -45,6 +52,12 @@ public class IndexController {
         model.addAttribute("allWeekTotal", allWeekTotal);
         model.addAttribute("allMonthTotal", allMonthTotal);
         model.addAttribute("todayWorkUsersCount", todayWorkUsersCount);
+        model.addAttribute("collectionWOW", collectionWOW);
+        model.addAttribute("transportWOW", transportWOW);
+        model.addAttribute("disposalWOW", disposalWOW);
+        model.addAttribute("allWOW", allWOW);
+        model.addAttribute("userContributions", userContributions);
+
 
         return path;
     }

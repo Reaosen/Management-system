@@ -53,4 +53,6 @@ public interface WasteService {
     List<PieChartDataDTO> getWasteTypeDistribute();
 
     LineChartDataDTO getWeekDataByType(String timeType);
+
+    String getWOWdataByType(String type);
 }

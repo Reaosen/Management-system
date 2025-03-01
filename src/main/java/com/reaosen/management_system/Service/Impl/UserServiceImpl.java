@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Service.Impl;
 
 import com.reaosen.management_system.DTO.PaginationDTO;
+import com.reaosen.management_system.DTO.UserContributionDTO;
 import com.reaosen.management_system.DTO.UserDTO;
 import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.User;
@@ -13,7 +14,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -142,5 +146,67 @@ public class UserServiceImpl implements UserService {
             }
         }
         return result;
+    }
+
+    @Override
+    public List<UserContributionDTO> getUsersWeeklyContribution() {
+        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        Integer endTimestamp = TimestampUtils.getCurrentTimestamp();
+        List<User> users = userMapper.selectByExample(new UserExample());
+
+        Integer thisWeekCollectionCount = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+        Integer thisWeekTransportCount = transportRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+        Integer thisWeekDisposalCount = disposalRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+
+        List<UserContributionDTO> userContributionDTOs = new ArrayList<>();
+        for (User user : users) {
+            if (user.getRole().equals("收集工人")){
+                Integer countDataByTimes = wasteRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, endTimestamp);
+                double result = (double) countDataByTimes / thisWeekCollectionCount * 100;
+                int finalResult = (int) Math.round(result);
+                UserContributionDTO userContributionDTO = new UserContributionDTO();
+                BeanUtils.copyProperties(user, userContributionDTO);
+                userContributionDTO.setContribution(finalResult);
+                userContributionDTOs.add(userContributionDTO);
+            }else if (user.getRole().equals("司机")){
+                Integer countDataByTimes = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, endTimestamp);
+                double result = (double) countDataByTimes / thisWeekCollectionCount * 100;
+                int finalResult = (int) Math.round(result);
+                UserContributionDTO userContributionDTO = new UserContributionDTO();
+                BeanUtils.copyProperties(user, userContributionDTO);
+                userContributionDTO.setContribution(finalResult);
+                userContributionDTOs.add(userContributionDTO);
+            }else if (user.getRole().equals("处理工人")){
+                Integer countDataByTimes = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, endTimestamp);
+                double result = (double) countDataByTimes / thisWeekCollectionCount * 100;
+                int finalResult = (int) Math.round(result);
+                UserContributionDTO userContributionDTO = new UserContributionDTO();
+                BeanUtils.copyProperties(user, userContributionDTO);
+                userContributionDTO.setContribution(finalResult);
+                userContributionDTOs.add(userContributionDTO);
+            }
+        }
+
+        // 按 contribution 属性降序排序
+        // 按 contribution 属性降序排序
+        Collections.sort(userContributionDTOs, new Comparator<UserContributionDTO>() {
+            @Override
+            public int compare(UserContributionDTO o1, UserContributionDTO o2) {
+                // 注意：这里需要处理 contribution 为 null 的情况
+                if (o1.getContribution() == null) return (o2.getContribution() == null) ? 0 : 1;
+                if (o2.getContribution() == null) return -1;
+                return o2.getContribution().compareTo(o1.getContribution());
+            }
+        });
+
+        // 提取前五条数据
+        List<UserContributionDTO> topFive = new ArrayList<>();
+        int size = Math.min(users.size(), 5); // 防止不足五条时报错
+        for (int i = 0; i < size; i++) {
+            topFive.add(userContributionDTOs.get(i));
+        }
+
+
+        return topFive;
     }
 }
