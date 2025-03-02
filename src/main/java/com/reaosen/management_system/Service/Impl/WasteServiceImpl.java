@@ -7,7 +7,7 @@ import com.reaosen.management_system.Exception.CustomizeException;
 import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.*;
 import com.reaosen.management_system.Service.WasteService;
-import com.reaosen.management_system.Utils.TimestampUtils;
+import com.reaosen.management_system.Utils.TimeUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -562,9 +561,9 @@ public class WasteServiceImpl implements WasteService {
         List<User> users = userMapper.selectByExampleWithRowbounds(userExample, new RowBounds(offset, size));
         List userWorkDTOs = new ArrayList();
 
-        Integer todayStartTimestamp = TimestampUtils.getTodayStartTimestamp();
-        Integer monthStartTimestamp = TimestampUtils.getMonthStartTimestamp();
-        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer todayStartTimestamp = TimeUtils.getTodayStartTimestamp();
+        Integer monthStartTimestamp = TimeUtils.getMonthStartTimestamp();
+        Integer nowTimestamp = TimeUtils.getCurrentTimestamp();
 
         for (User user : users) {
             UserWorkDTO userWorkDTO = new UserWorkDTO();
@@ -611,14 +610,14 @@ public class WasteServiceImpl implements WasteService {
         User user = users.get(0);
         Integer startTimestamp = 0;
         if (type.equals("today")) {
-            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+            startTimestamp = TimeUtils.getTodayStartTimestamp();
         } else if (type.equals("month")) {
-            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+            startTimestamp = TimeUtils.getMonthStartTimestamp();
         } else if (type.equals("week")) {
-            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+            startTimestamp = TimeUtils.getWeekStartTimestamp();
         }
 
-        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer nowTimestamp = TimeUtils.getCurrentTimestamp();
         Integer countTodayData;
 
 
@@ -644,13 +643,13 @@ public class WasteServiceImpl implements WasteService {
 
         Integer startTimestamp = 0;
         if (type.equals("today")) {
-            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+            startTimestamp = TimeUtils.getTodayStartTimestamp();
         } else if (type.equals("month")) {
-            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+            startTimestamp = TimeUtils.getMonthStartTimestamp();
         } else if (type.equals("week")) {
-            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+            startTimestamp = TimeUtils.getWeekStartTimestamp();
         }
-        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer nowTimestamp = TimeUtils.getCurrentTimestamp();
 
         List wasteDTOs = new ArrayList();
         if (user.getRole().equals("收集工人")) {
@@ -727,13 +726,13 @@ public class WasteServiceImpl implements WasteService {
     public Integer getWasteTotalByTime(String timeType, String dataType) {
         Integer startTimestamp = 0;
         if (timeType.equals("today")) {
-            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+            startTimestamp = TimeUtils.getTodayStartTimestamp();
         } else if (timeType.equals("month")) {
-            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+            startTimestamp = TimeUtils.getMonthStartTimestamp();
         } else if (timeType.equals("week")) {
-            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+            startTimestamp = TimeUtils.getWeekStartTimestamp();
         }
-        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer nowTimestamp = TimeUtils.getCurrentTimestamp();
         Integer result;
         if (dataType.equals("collection")) {
             result = wasteRecordExtMapper.countDataByTimes(startTimestamp, nowTimestamp);
@@ -754,7 +753,7 @@ public class WasteServiceImpl implements WasteService {
     @Override
     public LineChartDataDTO getWeekDataByType(String dataType) {
         List<String> categories = List.of("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
-        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
+        Integer startTimestamp = TimeUtils.getWeekStartTimestamp();
         Integer endTimestamp;
         List<LineSeriesDTO> series = new ArrayList<>();
         List<Integer> thisWeekData = new ArrayList<>();
@@ -774,7 +773,7 @@ public class WasteServiceImpl implements WasteService {
                 startTimestamp += 86400;
             }
 
-            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            Integer lastWeekStartTimestamp = TimeUtils.getWeekStartTimestamp() - 604800;
             for (int i = 0; i < 7; i++) {
                 endTimestamp = lastWeekStartTimestamp + 86400;
                 Integer countDataByTimes = wasteRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
@@ -793,7 +792,7 @@ public class WasteServiceImpl implements WasteService {
                 startTimestamp += 86400;
             }
 
-            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            Integer lastWeekStartTimestamp = TimeUtils.getWeekStartTimestamp() - 604800;
             for (int i = 0; i < 7; i++) {
                 endTimestamp = lastWeekStartTimestamp + 86400;
                 Integer countDataByTimes = transportRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
@@ -812,7 +811,7 @@ public class WasteServiceImpl implements WasteService {
                 startTimestamp += 86400;
             }
 
-            Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
+            Integer lastWeekStartTimestamp = TimeUtils.getWeekStartTimestamp() - 604800;
             for (int i = 0; i < 7; i++) {
                 endTimestamp = lastWeekStartTimestamp + 86400;
                 Integer countDataByTimes = disposalRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
@@ -851,9 +850,9 @@ public class WasteServiceImpl implements WasteService {
 
     @Override
     public String getWOWdataByType(String type) {
-        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
-        Integer lastWeekStartTimestamp = TimestampUtils.getWeekStartTimestamp() - 604800;
-        Integer endTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer startTimestamp = TimeUtils.getWeekStartTimestamp();
+        Integer lastWeekStartTimestamp = TimeUtils.getWeekStartTimestamp() - 604800;
+        Integer endTimestamp = TimeUtils.getCurrentTimestamp();
         if (type.equals("collection")) {
             Integer thisWeekData = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
             Integer lastWeekData = wasteRecordExtMapper.countDataByTimes(lastWeekStartTimestamp, endTimestamp);
@@ -879,6 +878,40 @@ public class WasteServiceImpl implements WasteService {
             double WOW = ((thisWeekData - lastWeekData) / (double) lastWeekData) * 100;
             return String.format("%.2f%%", WOW); // 保留两位小数并添加百分号
         }
+    }
+
+    @Override
+    public LineChartDataDTO getWasteDataByMonth(Integer year, Integer month) {
+        List<String> daysInMonth = TimeUtils.getDaysInMonth(year, month);
+
+        List<LineSeriesDTO> series = new ArrayList<>();
+        List<Integer> collectionData = new ArrayList<>();
+        List<Integer> transportData = new ArrayList<>();
+        List<Integer> disposalData = new ArrayList<>();
+
+        Integer startOfMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(year, month);
+        Integer startTimestamp = startOfMonthTimestamp;
+        Integer endTimestamp;
+        for (int i = 0; i < daysInMonth.size(); i++) {
+            endTimestamp = startTimestamp + 86400;
+            Integer collectionDataDaily = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            collectionData.add(collectionDataDaily);
+            Integer transportDataDaily = transportRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            transportData.add(transportDataDaily);
+            Integer disposalDataDaily = disposalRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
+            disposalData.add(disposalDataDaily);
+            startTimestamp += 86400;
+        }
+        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物收集信息", collectionData));
+        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物运输信息", transportData));
+        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物处理信息", disposalData));
+
+
+
+        // 封装为 ChartData 对象
+        LineChartDataDTO chartData = new LineChartDataDTO(daysInMonth, series);
+
+        return chartData;
     }
 
     private Long getTotalRecords(String type) {

@@ -6,7 +6,7 @@ function initDonutChart() {
     var myData;
     $.ajax({
         type: "GET",
-        url: "/waste/pieChartData",
+        url: "/chart/indexPieChartData",
         contentType: "application/json",
         success: function (response) {
             if (response.code === 200) {
@@ -98,7 +98,7 @@ function initLineChart(chartType) {
     // 从后端获取数据
     $.ajax({
         type: "GET",
-        url: "/waste/lineChartData/" + dataType,
+        url: "/chart/indexLineChartData/" + dataType,
         success: function (response) {
             if (response.code === 200) {
                 var data = response.data;

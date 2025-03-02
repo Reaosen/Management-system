@@ -236,22 +236,5 @@ public class WasteController {
         return ResultDTO.okOf();
     }
 
-    @GetMapping("/waste/pieChartData")
-    @ResponseBody
-    public ResultDTO wasteTypeDistribute(HttpServletRequest request) {
-        List<PieChartDataDTO> result = wasteService.getWasteTypeDistribute();
-        return ResultDTO.okOf(result);
-    }
-
-    @GetMapping("/waste/lineChartData/{dataType}")
-    @ResponseBody
-    public ResultDTO<LineChartDataDTO> getLineChartData(@PathVariable String dataType) {
-        //TODO 未完成的index页面表格数据接口
-        LineChartDataDTO lineChartDataDTO = wasteService.getWeekDataByType(dataType);
-
-        // 返回封装后的数据
-        return ResultDTO.okOf(lineChartDataDTO);
-    }
-
 
 }

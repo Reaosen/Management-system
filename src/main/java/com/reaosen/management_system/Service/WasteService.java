@@ -55,4 +55,6 @@ public interface WasteService {
     LineChartDataDTO getWeekDataByType(String timeType);
 
     String getWOWdataByType(String type);
+
+    LineChartDataDTO getWasteDataByMonth(Integer year, Integer month);
 }

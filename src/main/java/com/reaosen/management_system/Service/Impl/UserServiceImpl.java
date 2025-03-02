@@ -7,7 +7,7 @@ import com.reaosen.management_system.Mapper.*;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.UserExample;
 import com.reaosen.management_system.Service.UserService;
-import com.reaosen.management_system.Utils.TimestampUtils;
+import com.reaosen.management_system.Utils.TimeUtils;
 import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -118,13 +117,13 @@ public class UserServiceImpl implements UserService {
     public Integer getWorkUsersCountByTime(String timeType) {
         Integer startTimestamp = 0;
         if (timeType.equals("today")) {
-            startTimestamp = TimestampUtils.getTodayStartTimestamp();
+            startTimestamp = TimeUtils.getTodayStartTimestamp();
         } else if (timeType.equals("month")) {
-            startTimestamp = TimestampUtils.getMonthStartTimestamp();
+            startTimestamp = TimeUtils.getMonthStartTimestamp();
         } else if (timeType.equals("week")) {
-            startTimestamp = TimestampUtils.getWeekStartTimestamp();
+            startTimestamp = TimeUtils.getWeekStartTimestamp();
         }
-        Integer nowTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer nowTimestamp = TimeUtils.getCurrentTimestamp();
         List<User> users = userMapper.selectByExample(new UserExample());
         Integer result = 0;
         for (User user : users) {
@@ -150,8 +149,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserContributionDTO> getUsersWeeklyContribution() {
-        Integer startTimestamp = TimestampUtils.getWeekStartTimestamp();
-        Integer endTimestamp = TimestampUtils.getCurrentTimestamp();
+        Integer startTimestamp = TimeUtils.getWeekStartTimestamp();
+        Integer endTimestamp = TimeUtils.getCurrentTimestamp();
         List<User> users = userMapper.selectByExample(new UserExample());
 
         Integer thisWeekCollectionCount = wasteRecordExtMapper.countDataByTimes(startTimestamp, endTimestamp);
@@ -170,7 +169,7 @@ public class UserServiceImpl implements UserService {
                 userContributionDTOs.add(userContributionDTO);
             }else if (user.getRole().equals("司机")){
                 Integer countDataByTimes = transportRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, endTimestamp);
-                double result = (double) countDataByTimes / thisWeekCollectionCount * 100;
+                double result = (double) countDataByTimes / thisWeekTransportCount * 100;
                 int finalResult = (int) Math.round(result);
                 UserContributionDTO userContributionDTO = new UserContributionDTO();
                 BeanUtils.copyProperties(user, userContributionDTO);
@@ -178,7 +177,7 @@ public class UserServiceImpl implements UserService {
                 userContributionDTOs.add(userContributionDTO);
             }else if (user.getRole().equals("处理工人")){
                 Integer countDataByTimes = disposalRecordExtMapper.countDataByAccountIdAndTimes(user.getAccountId(), startTimestamp, endTimestamp);
-                double result = (double) countDataByTimes / thisWeekCollectionCount * 100;
+                double result = (double) countDataByTimes / thisWeekDisposalCount * 100;
                 int finalResult = (int) Math.round(result);
                 UserContributionDTO userContributionDTO = new UserContributionDTO();
                 BeanUtils.copyProperties(user, userContributionDTO);

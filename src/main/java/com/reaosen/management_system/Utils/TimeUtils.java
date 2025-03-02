@@ -2,8 +2,10 @@ package com.reaosen.management_system.Utils;
 
 import java.time.*;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TimestampUtils {
+public class TimeUtils {
     public static Integer getTodayStartTimestamp() {
         // 获取当天的起始时间（00:00:00）
         LocalDateTime startOfDay = LocalDate.now().atStartOfDay();
@@ -60,6 +62,45 @@ public class TimestampUtils {
         return startOfLastWeekTimestamp;
     }
 
+    public static List<String> getDaysInMonth(int year, int month) {
+        // 验证月份是否在有效范围内
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Month must be between 1 and 12");
+        }
+
+        // 获取该月份的第一天
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+
+        // 获取该月份的最后一天
+        LocalDate endOfMonth = startOfMonth.with(TemporalAdjusters.lastDayOfMonth());
+
+        // 创建一个列表存储日期
+        List<String> days = new ArrayList<>();
+        for (LocalDate date = startOfMonth; !date.isAfter(endOfMonth); date = date.plusDays(1)) {
+            days.add(String.valueOf(date.getDayOfMonth())); // 添加日期的天数部分
+        }
+
+        return days;
+    }
+
+    public static Integer getStartOfMonthTimestamp(int year, int month) {
+        // 验证月份是否在有效范围内
+        if (month < 1 || month > 12) {
+            throw new IllegalArgumentException("Month must be between 1 and 12");
+        }
+
+        // 获取该月份的第一天
+        LocalDate startOfMonth = LocalDate.of(year, month, 1);
+
+        // 将 LocalDate 转换为 ZonedDateTime（在 UTC 时区）
+        ZonedDateTime zdt = startOfMonth.atStartOfDay(ZoneId.of("UTC"));
+
+        // 将 ZonedDateTime 转换为十位时间戳
+        long timestamp = zdt.toInstant().toEpochMilli() / 1000;
+
+        // 将 long 类型的时间戳转换为 int 类型
+        return Math.toIntExact(timestamp);
+    }
 
 
 
