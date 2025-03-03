@@ -28,6 +28,13 @@ public class LoginServiceImpl implements LoginService {
         if (StrUtil.isBlank(userDTO.getEmail()) || StrUtil.isBlank(userDTO.getPassword())) {
             throw new CustomizeException(CustomizeErrorCode.IS_EMPTY);
         }
+        UserExample userExample = new UserExample();
+        userExample.createCriteria().andEmailEqualTo(userDTO.getEmail());
+        List<User> users1 = userMapper.selectByExample(userExample);
+        User user1 = users1.get(0);
+        if (user1.getStatus().equals("disable")){
+            throw new CustomizeException(CustomizeErrorCode.ACCOUNT_DISABLED);
+        }
         UserExample example = new UserExample();
         example.createCriteria()
                 .andEmailEqualTo(userDTO.getEmail())

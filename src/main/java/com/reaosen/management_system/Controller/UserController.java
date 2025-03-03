@@ -3,6 +3,9 @@ package com.reaosen.management_system.Controller;
 import com.reaosen.management_system.DTO.PaginationDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.UserDTO;
+import com.reaosen.management_system.Exception.CustomizeErrorCode;
+import com.reaosen.management_system.Exception.CustomizeException;
+import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Model.WasteType;
 import com.reaosen.management_system.Service.UserService;
 import com.reaosen.management_system.Service.WasteService;
@@ -61,8 +64,11 @@ public class UserController {
 
     @PostMapping("/employee/updateStatus")
     @ResponseBody
-    public ResultDTO lockOrUnlock(@RequestBody UserDTO userDTO){
-
+    public ResultDTO lockOrUnlock(@RequestBody UserDTO userDTO, HttpServletRequest request){
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         userService.updateStatusByAccountId(userDTO);
 
         return ResultDTO.okOf();

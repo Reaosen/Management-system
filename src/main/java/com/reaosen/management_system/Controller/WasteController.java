@@ -1,6 +1,9 @@
 package com.reaosen.management_system.Controller;
 
 import com.reaosen.management_system.DTO.*;
+import com.reaosen.management_system.Exception.CustomizeErrorCode;
+import com.reaosen.management_system.Exception.CustomizeException;
+import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Service.WasteService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,7 +71,11 @@ public class WasteController {
     }
 
     @PostMapping("/waste/collection/insert")
-    public String wasteCollectionInsert(@RequestParam Integer wasteTypeId, @RequestParam Integer collectionPointId, @RequestParam BigDecimal weight, @RequestParam Integer collectionAccountId) {
+    public String wasteCollectionInsert(@RequestParam Integer wasteTypeId, @RequestParam Integer collectionPointId, @RequestParam BigDecimal weight, @RequestParam Integer collectionAccountId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("collector") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         wasteService.wasteCollectionInsert(wasteTypeId, collectionPointId, weight, collectionAccountId);
         return "redirect:/waste/collection";
     }
@@ -90,7 +97,11 @@ public class WasteController {
     }
 
     @PostMapping("/waste/disposal/insert")
-    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalMethodId, @RequestParam Integer collectionAccountId) {
+    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalMethodId, @RequestParam Integer collectionAccountId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("disposaler") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethodId, collectionAccountId);
         return "redirect:/waste/disposal";
     }
@@ -112,7 +123,11 @@ public class WasteController {
     }
 
     @PostMapping("/waste/transportation/insert")
-    public String wasteTransportationInsert(@RequestParam Integer collectionPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalPointId, @RequestParam BigDecimal weight, @RequestParam String transportVehicle, @RequestParam Integer collectionAccountId) {
+    public String wasteTransportationInsert(@RequestParam Integer collectionPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalPointId, @RequestParam BigDecimal weight, @RequestParam String transportVehicle, @RequestParam Integer collectionAccountId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("driver") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         wasteService.wasteTransportationInsert(collectionPointId, wasteRecordId, disposalPointId, weight, transportVehicle, collectionAccountId);
         return "redirect:/waste/transportation";
     }
@@ -181,7 +196,12 @@ public class WasteController {
                                                @RequestParam Integer collectionPointId,
                                                @RequestParam String collectionTime,
                                                @RequestParam Integer statusId,
-                                               @RequestParam Integer collectionAccountId) {
+                                               @RequestParam Integer collectionAccountId,
+                                               HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("collector") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
 
         wasteService.wasteRecordUpdate(wasteRecordId, wasteTypeId, weight, collectionPointId, collectionTime, statusId, collectionAccountId);
 
@@ -194,7 +214,12 @@ public class WasteController {
                                                    @RequestParam Integer disposalPointId,
                                                    @RequestParam String transportTime,
                                                    @RequestParam String transportVehicle,
-                                                   @RequestParam Integer transportAccountId) {
+                                                   @RequestParam Integer transportAccountId,
+                                                   HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("driver") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         wasteService.transportRecordUpdateByWasteRecordId(wasteRecordId, collectionPointId, disposalPointId, transportTime, transportVehicle, transportAccountId);
 
         return "redirect:/waste/" + wasteRecordId;
@@ -205,15 +230,23 @@ public class WasteController {
                                              @RequestParam Integer disposalMethodId,
                                              @RequestParam Integer disposalPointId,
                                              @RequestParam String disposalTime,
-                                             @RequestParam Integer disposalAccountId
-                                             ) {
+                                             @RequestParam Integer disposalAccountId,
+                                             HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("disposaler") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
         wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethodId, disposalPointId, disposalTime, disposalAccountId);
         return "redirect:/waste/" + wasteRecordId;
     }
 
     @DeleteMapping("/waste/collection/delete/{id}")
     @ResponseBody
-    public ResultDTO wasteProfileCollectionDelete(@PathVariable(value = "id") Integer wasteRecordId){
+    public ResultDTO wasteProfileCollectionDelete(@PathVariable(value = "id") Integer wasteRecordId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("collector") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
 
         wasteService.wasteRecordDelete(wasteRecordId);
 
@@ -222,7 +255,11 @@ public class WasteController {
 
     @DeleteMapping("/waste/transportation/delete/{id}")
     @ResponseBody
-    public ResultDTO wasteProfileTransportationDelete(@PathVariable(value = "id") Integer wasteRecordId){
+    public ResultDTO wasteProfileTransportationDelete(@PathVariable(value = "id") Integer wasteRecordId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("driver") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
 
         wasteService.transportRecordDeleteByWasteRecordId(wasteRecordId);
 
@@ -231,7 +268,11 @@ public class WasteController {
 
     @DeleteMapping("/waste/disposal/delete/{id}")
     @ResponseBody
-    public ResultDTO wasteProfileDisposalDelete(@PathVariable(value = "id") Integer wasteRecordId){
+    public ResultDTO wasteProfileDisposalDelete(@PathVariable(value = "id") Integer wasteRecordId, HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute("user");
+        if (!user.getPermission().equals("disposaler") && !user.getPermission().equals("admin")){
+            throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
+        }
 
         wasteService.disposalRecordDeleteByWasteRecordId(wasteRecordId);
 

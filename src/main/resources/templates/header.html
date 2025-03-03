@@ -7,11 +7,6 @@
     <a class="toggle-btn"><i class="fa fa-bars"></i></a>
     <!--切换按钮结束-->
 
-    <!--搜索框开始-->
-    <form class="searchform" action="index.html" method="post">
-        <input type="text" class="form-control" name="keyword" placeholder="在此搜索..."/>
-    </form>
-    <!--搜索框结束-->
 
     <!--通知菜单开始-->
     <!-- TODO 通知菜单数据完善 -->
@@ -204,7 +199,6 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-usermenu pull-right">
                     <li><a th:href="@{/user/profile/{id}(id=${session.user.getAccountId()})}"><i class="fa fa-user"></i> 个人资料</a></li>
-                    <li><a href="#"><i class="fa fa-cog"></i> 设置</a></li>
                     <li><a href="/logout"><i class="fa fa-sign-out"></i> 登出</a></li>
                 </ul>
             </li>

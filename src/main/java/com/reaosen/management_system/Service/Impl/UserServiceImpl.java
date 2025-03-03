@@ -90,6 +90,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateStatusByAccountId(UserDTO userDTO) {
+
         Integer accountId = userDTO.getAccountId();
         UserExample userExample = new UserExample();
         userExample.createCriteria()
