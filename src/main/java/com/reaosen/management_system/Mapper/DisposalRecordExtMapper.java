@@ -10,4 +10,5 @@ public interface DisposalRecordExtMapper {
     List<DisposalRecord> selectDataByTimes(@Param("startTime") Integer startTime, @Param("endTime") Integer endTime);
     Integer countDataByAccountIdAndTimes(@Param("accountId") Integer accountId, @Param("startTime") Integer startTime, @Param("endTime") Integer endTime);
     Integer countDataByTimes(@Param("startTime") Integer startTime, @Param("endTime") Integer endTime);
+    Integer countDataByDisposalMethodIdAndTimes(@Param("disposalMethodId") Integer disposalMethodId, @Param("startTime") Integer startTime, @Param("endTime") Integer endTime);
 }

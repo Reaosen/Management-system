@@ -76,7 +76,9 @@ public class WasteController {
     @GetMapping("/waste/disposal/form")
     public String wasteDisposalForm(HttpServletRequest request, Model model) {
         List disposalPoints = wasteService.getDisposalPoints();
+        List disposalMethods = wasteService.getDisposalMethods();
         model.addAttribute("disposalPoints", disposalPoints);
+        model.addAttribute("disposalMethods", disposalMethods);
         return "wasteDisposalForm";
     }
 
@@ -88,8 +90,8 @@ public class WasteController {
     }
 
     @PostMapping("/waste/disposal/insert")
-    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam String disposalMethod, @RequestParam Integer collectionAccountId) {
-        wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethod, collectionAccountId);
+    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalMethodId, @RequestParam Integer collectionAccountId) {
+        wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethodId, collectionAccountId);
         return "redirect:/waste/disposal";
     }
 
@@ -200,12 +202,12 @@ public class WasteController {
 
     @PostMapping("/waste/disposal/update/{id}")
     public String wasteProfileDisposalUpdate(@PathVariable(value = "id") Integer wasteRecordId,
-                                             @RequestParam String disposalMethod,
+                                             @RequestParam Integer disposalMethodId,
                                              @RequestParam Integer disposalPointId,
                                              @RequestParam String disposalTime,
                                              @RequestParam Integer disposalAccountId
                                              ) {
-        wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethod, disposalPointId, disposalTime, disposalAccountId);
+        wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethodId, disposalPointId, disposalTime, disposalAccountId);
         return "redirect:/waste/" + wasteRecordId;
     }
 

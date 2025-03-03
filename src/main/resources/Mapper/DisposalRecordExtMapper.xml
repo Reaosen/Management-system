@@ -38,5 +38,12 @@
         WHERE gmt_create BETWEEN #{startTime} AND #{endTime}
     </select>
 
+    <select id="countDataByDisposalMethodIdAndTimes" parameterType="map" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM disposalrecord
+        WHERE disposal_method_id = #{disposalMethodId}
+          AND gmt_create BETWEEN #{startTime} AND #{endTime}
+    </select>
+
 
 </mapper>

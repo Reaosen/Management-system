@@ -28,7 +28,6 @@ function initDonutChart() {
     var option1 = {
         title: {
             text: '废弃类型分布',
-            subtext: 'Fake Data',
             left: 'center'
         },
         tooltip: {

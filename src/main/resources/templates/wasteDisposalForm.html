@@ -86,9 +86,15 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="col-sm-2 col-sm-2 control-label" for="disposalMethod">处理方法</label>
+                        <label class="col-sm-2 col-sm-2 control-label" for="disposalMethodId">处理方法</label>
                         <div class="col-sm-10">
-                            <input type="text"  class="form-control" placeholder="请填写处理方法……" name="disposalMethod" id="disposalMethod">
+                            <select class="form-control m-bot15" name="disposalMethodId" id="disposalMethodId">
+                                <option value="">请选择处理方法</option>
+                                <!-- 使用 Thymeleaf 填充第一个下拉菜单 -->
+                                <option th:each="disposalMethod : ${disposalMethods}"
+                                        th:value="${disposalMethod.disposalMethodId}"
+                                        th:text="${disposalMethod.disposalMethod}"></option>
+                            </select>
                         </div>
                     </div>
 

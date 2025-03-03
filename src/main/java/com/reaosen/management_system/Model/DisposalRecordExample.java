@@ -284,73 +284,63 @@ public class DisposalRecordExample {
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodIsNull() {
-            addCriterion("disposal_method is null");
+        public Criteria andDisposalMethodIdIsNull() {
+            addCriterion("disposal_method_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodIsNotNull() {
-            addCriterion("disposal_method is not null");
+        public Criteria andDisposalMethodIdIsNotNull() {
+            addCriterion("disposal_method_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodEqualTo(String value) {
-            addCriterion("disposal_method =", value, "disposalMethod");
+        public Criteria andDisposalMethodIdEqualTo(Integer value) {
+            addCriterion("disposal_method_id =", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodNotEqualTo(String value) {
-            addCriterion("disposal_method <>", value, "disposalMethod");
+        public Criteria andDisposalMethodIdNotEqualTo(Integer value) {
+            addCriterion("disposal_method_id <>", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodGreaterThan(String value) {
-            addCriterion("disposal_method >", value, "disposalMethod");
+        public Criteria andDisposalMethodIdGreaterThan(Integer value) {
+            addCriterion("disposal_method_id >", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodGreaterThanOrEqualTo(String value) {
-            addCriterion("disposal_method >=", value, "disposalMethod");
+        public Criteria andDisposalMethodIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("disposal_method_id >=", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodLessThan(String value) {
-            addCriterion("disposal_method <", value, "disposalMethod");
+        public Criteria andDisposalMethodIdLessThan(Integer value) {
+            addCriterion("disposal_method_id <", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodLessThanOrEqualTo(String value) {
-            addCriterion("disposal_method <=", value, "disposalMethod");
+        public Criteria andDisposalMethodIdLessThanOrEqualTo(Integer value) {
+            addCriterion("disposal_method_id <=", value, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodLike(String value) {
-            addCriterion("disposal_method like", value, "disposalMethod");
+        public Criteria andDisposalMethodIdIn(List<Integer> values) {
+            addCriterion("disposal_method_id in", values, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodNotLike(String value) {
-            addCriterion("disposal_method not like", value, "disposalMethod");
+        public Criteria andDisposalMethodIdNotIn(List<Integer> values) {
+            addCriterion("disposal_method_id not in", values, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodIn(List<String> values) {
-            addCriterion("disposal_method in", values, "disposalMethod");
+        public Criteria andDisposalMethodIdBetween(Integer value1, Integer value2) {
+            addCriterion("disposal_method_id between", value1, value2, "disposalMethodId");
             return (Criteria) this;
         }
 
-        public Criteria andDisposalMethodNotIn(List<String> values) {
-            addCriterion("disposal_method not in", values, "disposalMethod");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisposalMethodBetween(String value1, String value2) {
-            addCriterion("disposal_method between", value1, value2, "disposalMethod");
-            return (Criteria) this;
-        }
-
-        public Criteria andDisposalMethodNotBetween(String value1, String value2) {
-            addCriterion("disposal_method not between", value1, value2, "disposalMethod");
+        public Criteria andDisposalMethodIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("disposal_method_id not between", value1, value2, "disposalMethodId");
             return (Criteria) this;
         }
 

@@ -102,6 +102,27 @@ public class TimeUtils {
         return Math.toIntExact(timestamp);
     }
 
+    public static Integer getTimestampForMonth(int year, int month) {
+        // 获取当前时间
+        LocalDateTime now = LocalDateTime.now(ZoneId.systemDefault());
+
+        // 检查给定的年份和月份是否与当前时间匹配
+        if (now.getYear() == year && now.getMonthValue() == month) {
+            // 如果是当前月份，返回当前时间的十位时间戳
+            return (int) (System.currentTimeMillis() / 1000);
+        } else {
+            // 如果不是当前月份，找到那个月的最后一天的最后一秒
+            LocalDateTime lastDayOfMonth = LocalDateTime.of(year, month, 1, 0, 0)
+                    .with(TemporalAdjusters.lastDayOfMonth())
+                    .withHour(23)
+                    .withMinute(59)
+                    .withSecond(59);
+
+            // 将最后一天的最后一秒转换为十位时间戳
+            return (int) (lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000);
+        }
+    }
+
 
 
 }

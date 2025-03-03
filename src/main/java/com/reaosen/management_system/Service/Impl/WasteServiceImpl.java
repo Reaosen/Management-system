@@ -16,9 +16,8 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.time.Year;
+import java.util.*;
 
 @Service
 public class WasteServiceImpl implements WasteService {
@@ -46,6 +45,10 @@ public class WasteServiceImpl implements WasteService {
 
     @Autowired
     private StatusTypeMapper statusTypeMapper;
+
+    @Autowired
+    private DisposalMethodMapper disposalMethodMapper;
+
     @Autowired
     private WasteRecordExtMapper wasteRecordExtMapper;
     @Autowired
@@ -94,8 +97,8 @@ public class WasteServiceImpl implements WasteService {
             criteria.andStatusEqualTo(3);
             if (sSearch != null && !sSearch.trim().isEmpty()) {
                 // 创建第一个条件
-                DisposalRecordExample.Criteria criteria1 = disposalRecordExample.createCriteria();
-                criteria1.andDisposalMethodLike("%" + sSearch + "%");
+                // DisposalRecordExample.Criteria criteria1 = disposalRecordExample.createCriteria();
+                // criteria1.andDisposalMethodLike("%" + sSearch + "%");
             }
             List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExampleWithRowbounds(disposalRecordExample, new RowBounds(offset, size));
             for (DisposalRecord disposalRecord : disposalRecords) {
@@ -164,7 +167,9 @@ public class WasteServiceImpl implements WasteService {
                     wasteDTO.setDisposalusername(users2.get(0).getUsername());
                     Long disposalTimestamp = Long.valueOf(disposalRecord.getDisposalTime());
                     wasteDTO.setDisposalTime(DateUtil.format(DateUtil.date(disposalTimestamp * 1000), "yyyy-MM-dd HH:mm:ss"));
-                    wasteDTO.setDisposalMethod(disposalRecord.getDisposalMethod());
+
+                    DisposalMethod disposalMethod = disposalMethodMapper.selectByPrimaryKey(disposalRecord.getDisposalMethodId());
+                    wasteDTO.setDisposalMethod(disposalMethod.getDisposalMethodName());
                 }
             }
 
@@ -256,12 +261,12 @@ public class WasteServiceImpl implements WasteService {
     }
 
     @Override
-    public void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId) {
+    public void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethodId, Integer collectionAccountId) {
         DisposalRecord record = new DisposalRecord();
         record.setWasteRecordId(wasteRecordId);
         record.setDisposalAccountId(collectionAccountId);
         record.setDisposalPointId(disposalPointId);
-        record.setDisposalMethod(disposalMethod);
+        record.setDisposalMethodId(disposalMethodId);
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         // 处理时间
@@ -381,7 +386,8 @@ public class WasteServiceImpl implements WasteService {
                 List<User> disposalUsers = userMapper.selectByExample(disposalUserExample);
                 User disposalUser = disposalUsers.get(0);
                 wasteDTO.setDisposalusername(disposalUser.getUsername());
-                wasteDTO.setDisposalMethod(disposalRecord.getDisposalMethod());
+                DisposalMethod disposalMethod = disposalMethodMapper.selectByPrimaryKey(disposalRecord.getDisposalMethodId());
+                wasteDTO.setDisposalMethod(disposalMethod.getDisposalMethodName());
                 wasteDTO.setDisposalPoint(disposalPoint.getAddress());
 
                 Long disposalTimestamp = Long.valueOf(disposalRecord.getDisposalTime());
@@ -475,12 +481,12 @@ public class WasteServiceImpl implements WasteService {
     }
 
     @Override
-    public void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, String disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId) {
+    public void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethodId, Integer disposalPointId, String disposalTime, Integer disposalAccountId) {
         DisposalRecord record = new DisposalRecord();
         DisposalRecord oldRecord = disposalRecordMapper.selectByPrimaryKey(wasteRecordId);
         BeanUtils.copyProperties(oldRecord, record);
         record.setDisposalPointId(disposalPointId);
-        record.setDisposalMethod(disposalMethod);
+        record.setDisposalMethodId(disposalMethodId);
         record.setDisposalPointId(disposalPointId);
         // 处理时间
         Date date = DateUtil.parse(disposalTime, "yyyy-MM-dd HH:mm:ss");
@@ -912,6 +918,232 @@ public class WasteServiceImpl implements WasteService {
         LineChartDataDTO chartData = new LineChartDataDTO(daysInMonth, series);
 
         return chartData;
+    }
+
+    @Override
+    public List getMainWasteCollectionPoints() {
+
+        HashMap<String, Integer> sourceWasteMap = new HashMap<>();
+
+        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
+        for (CollectionPoint collectionPoint : collectionPoints) {
+            WasteRecordExample example = new WasteRecordExample();
+            example.createCriteria()
+                            .andCollectionPointIdEqualTo(collectionPoint.getCollectionPointId());
+            List<WasteRecord> collectionPointRecords = wasteRecordMapper.selectByExample(example);
+            Integer collectionPointSize = collectionPointRecords.size();
+            sourceWasteMap.put(collectionPoint.getAddress(), collectionPointSize);
+        }
+
+        // 将Map.Entry转换为列表，并按废弃物量降序排序
+        List<Map.Entry<String, Integer>> sortedSources = new ArrayList<>(sourceWasteMap.entrySet());
+        sortedSources.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // 提取废弃物量最多的两个来源地
+        List<String> mainSourcesCollectionPoint = new ArrayList<>();
+        for (int i = 0; i < Math.min(2, sortedSources.size()); i++) {
+            mainSourcesCollectionPoint.add(sortedSources.get(i).getKey());
+        }
+
+        return mainSourcesCollectionPoint;
+    }
+
+    @Override
+    public List getDisposalMethods() {
+        List<DisposalMethodDTO> disposalMethodDTOs = new ArrayList<>();
+        List<DisposalMethod> disposalMethods = disposalMethodMapper.selectByExample(new DisposalMethodExample());
+        for (DisposalMethod disposalMethod : disposalMethods) {
+            DisposalMethodDTO disposalMethodDTO = new DisposalMethodDTO();
+            disposalMethodDTO.setDisposalMethodId(disposalMethod.getDisposalMethodId());
+            disposalMethodDTO.setDisposalMethod(disposalMethod.getDisposalMethodName());
+            disposalMethodDTOs.add(disposalMethodDTO);
+        }
+        return disposalMethodDTOs;
+    }
+
+    @Override
+    public List getMainDisposalMethods() {
+
+        HashMap<String, Integer> disposalMethodsMap = new HashMap<>();
+
+        List<DisposalMethod> disposalMethods = disposalMethodMapper.selectByExample(new DisposalMethodExample());
+        for (DisposalMethod disposalMethod : disposalMethods) {
+            DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+            disposalRecordExample.createCriteria()
+                            .andDisposalMethodIdEqualTo(disposalMethod.getDisposalMethodId());
+            List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
+            Integer disposalRecordSize = disposalRecords.size();
+            disposalMethodsMap.put(disposalMethod.getDisposalMethodName(), disposalRecordSize);
+        }
+        // 将Map.Entry转换为列表，并按处理记录数量降序排序
+        List<Map.Entry<String, Integer>> sortedDisposalMethods = new ArrayList<>(disposalMethodsMap.entrySet());
+        sortedDisposalMethods.sort((e1, e2) -> e2.getValue().compareTo(e1.getValue()));
+
+        // 提取使用最多的两种处理方式
+        List<String> mainDisposalMethods = new ArrayList<>();
+        for (int i = 0; i < Math.min(2, sortedDisposalMethods.size()); i++) {
+            mainDisposalMethods.add(sortedDisposalMethods.get(i).getKey());
+        }
+
+        return mainDisposalMethods;
+    }
+
+    @Override
+    public List<PieChartDataDTO> getCollectionPointsDataByMonth(Integer year, Integer month) {
+        List<PieChartDataDTO> pieChartDataDTOs = new ArrayList<>();
+        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
+        for (CollectionPoint collectionPoint : collectionPoints) {
+            Integer startOfMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(year, month);
+            Integer endTimestamp = TimeUtils.getTimestampForMonth(year, month);
+            Integer countDataByTimes = wasteRecordExtMapper.countDataByPointIdAndTimes(collectionPoint.getCollectionPointId(), startOfMonthTimestamp, endTimestamp);
+            PieChartDataDTO pieChartDataDTO = new PieChartDataDTO();
+            pieChartDataDTO.setName(collectionPoint.getAddress());
+            pieChartDataDTO.setValue(countDataByTimes);
+            pieChartDataDTOs.add(pieChartDataDTO);
+        }
+        return pieChartDataDTOs;
+    }
+
+    @Override
+    public List<PieChartDataDTO> getDisposalMethodsDataByMonth(Integer year, Integer month) {
+        List<PieChartDataDTO> pieChartDataDTOs = new ArrayList<>();
+        List<DisposalMethod> disposalMethods = disposalMethodMapper.selectByExample(new DisposalMethodExample());
+        for (DisposalMethod disposalMethod : disposalMethods) {
+            Integer startOfMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(year, month);
+            Integer endTimestamp = TimeUtils.getTimestampForMonth(year, month);
+            Integer countDataByTimes = disposalRecordExtMapper.countDataByDisposalMethodIdAndTimes(disposalMethod.getDisposalMethodId(), startOfMonthTimestamp, endTimestamp);
+            PieChartDataDTO pieChartDataDTO = new PieChartDataDTO();
+            pieChartDataDTO.setName(disposalMethod.getDisposalMethodName());
+            pieChartDataDTO.setValue(countDataByTimes);
+            pieChartDataDTOs.add(pieChartDataDTO);
+        }
+        return pieChartDataDTOs;
+    }
+
+    @Override
+    public DrilldownBarChartDTO getInitialQuarterData() {
+        DrilldownBarChartDTO drilldownBarChartDTO = new DrilldownBarChartDTO();
+        List<String> initialQuarterCategories = new ArrayList<>();
+        initialQuarterCategories.add("第一季度");
+        initialQuarterCategories.add("第二季度");
+        initialQuarterCategories.add("第三季度");
+        initialQuarterCategories.add("第四季度");
+        drilldownBarChartDTO.setCategories(initialQuarterCategories);
+
+        Integer firstQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 1);
+        Integer firstQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 4) - 1;
+        Integer firstQuarterData = wasteRecordExtMapper.countDataByTimes(firstQuarterTimestamp, firstQuarterEndTimestamp);
+
+        Integer secondQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 4);
+        Integer secondQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 7) - 1;
+        Integer secondQuarterData = wasteRecordExtMapper.countDataByTimes(secondQuarterTimestamp, secondQuarterEndTimestamp);
+
+        Integer thirdQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 7);
+        Integer thirdQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 10) - 1;
+        Integer thirdQuarterData = wasteRecordExtMapper.countDataByTimes(thirdQuarterTimestamp, thirdQuarterEndTimestamp);
+
+        Integer fourthQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 10);
+        Integer fourthQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue() + 1, 1) - 1;
+        Integer fourthQuarterData = wasteRecordExtMapper.countDataByTimes(fourthQuarterTimestamp, fourthQuarterEndTimestamp);
+
+        List<Integer> initialQuarterData = new ArrayList<>();
+        initialQuarterData.add(firstQuarterData);
+        initialQuarterData.add(secondQuarterData);
+        initialQuarterData.add(thirdQuarterData);
+        initialQuarterData.add(fourthQuarterData);
+        drilldownBarChartDTO.setSeriesData(initialQuarterData);
+
+        return drilldownBarChartDTO;
+    }
+
+    @Override
+    public DrilldownBarChartDTO getDrilldownInitialQuarterData(String groupId) {
+        Integer month1;
+        Integer month2;
+        Integer month3;
+        if (groupId.equals("第一季度")){
+            month1 = 1;
+            month2 = 2;
+            month3 = 3;
+        }else if (groupId.equals("第二季度")){
+            month1 = 4;
+            month2 = 5;
+            month3 = 6;
+        }else if (groupId.equals("第三季度")){
+            month1 = 7;
+            month2 = 8;
+            month3 = 9;
+        }else {
+            month1 = 10;
+            month2 = 11;
+            month3 = 12;
+        }
+        DrilldownBarChartDTO drilldownBarChartDTO = new DrilldownBarChartDTO();
+        List<String> initialQuarterCategories = new ArrayList<>();
+        initialQuarterCategories.add(month1 + "月");
+        initialQuarterCategories.add(month2 + "月");
+        initialQuarterCategories.add(month3 + "月");
+        drilldownBarChartDTO.setCategories(initialQuarterCategories);
+
+        Integer firstMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), month1);
+        Integer firstMonthEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), month1);
+        Integer firstMonthData = wasteRecordExtMapper.countDataByTimes(firstMonthTimestamp, firstMonthEndTimestamp);
+
+        Integer secondMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), month2);
+        Integer secondMonthEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), month2);
+        Integer secondMonthData = wasteRecordExtMapper.countDataByTimes(secondMonthTimestamp, secondMonthEndTimestamp);
+
+        Integer thirdMonthTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), month3);
+        Integer thirdMonthEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), month3);
+        Integer thirdMonthData = wasteRecordExtMapper.countDataByTimes(thirdMonthTimestamp, thirdMonthEndTimestamp);
+
+        List<Integer> initialQuarterData = new ArrayList<>();
+        initialQuarterData.add(firstMonthData);
+        initialQuarterData.add(secondMonthData);
+        initialQuarterData.add(thirdMonthData);
+        drilldownBarChartDTO.setSeriesData(initialQuarterData);
+
+        return drilldownBarChartDTO;
+    }
+
+    @Override
+    public String getmainQuarter() {
+        Integer firstQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 1);
+        Integer firstQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 4) - 1;
+        Integer firstQuarterData = wasteRecordExtMapper.countDataByTimes(firstQuarterTimestamp, firstQuarterEndTimestamp);
+
+        Integer secondQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 4);
+        Integer secondQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 7) - 1;
+        Integer secondQuarterData = wasteRecordExtMapper.countDataByTimes(secondQuarterTimestamp, secondQuarterEndTimestamp);
+
+        Integer thirdQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 7);
+        Integer thirdQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue(), 10) - 1;
+        Integer thirdQuarterData = wasteRecordExtMapper.countDataByTimes(thirdQuarterTimestamp, thirdQuarterEndTimestamp);
+
+        Integer fourthQuarterTimestamp = TimeUtils.getStartOfMonthTimestamp(Year.now().getValue(), 10);
+        Integer fourthQuarterEndTimestamp = TimeUtils.getTimestampForMonth(Year.now().getValue() + 1, 1) - 1;
+        Integer fourthQuarterData = wasteRecordExtMapper.countDataByTimes(fourthQuarterTimestamp, fourthQuarterEndTimestamp);
+
+        // 初始化最大值为第一个变量
+        Integer max = firstQuarterData;
+        String result = "第一季度";
+
+        // 比较四个变量，找出最大值
+        if (secondQuarterData > max) {
+            max = secondQuarterData;
+            result = "第二季度";
+        }
+        if (thirdQuarterData > max) {
+            max = thirdQuarterData;
+            result = "第三季度";
+        }
+        if (fourthQuarterData > max) {
+            max = fourthQuarterData;
+            result = "第四季度";
+        }
+
+
+        return result;
     }
 
     private Long getTotalRecords(String type) {

@@ -7,7 +7,7 @@ public class DisposalRecord {
 
     private Integer disposalTime;
 
-    private String disposalMethod;
+    private Integer disposalMethodId;
 
     private Integer disposalPointId;
 
@@ -41,12 +41,12 @@ public class DisposalRecord {
         this.disposalTime = disposalTime;
     }
 
-    public String getDisposalMethod() {
-        return disposalMethod;
+    public Integer getDisposalMethodId() {
+        return disposalMethodId;
     }
 
-    public void setDisposalMethod(String disposalMethod) {
-        this.disposalMethod = disposalMethod;
+    public void setDisposalMethodId(Integer disposalMethodId) {
+        this.disposalMethodId = disposalMethodId;
     }
 
     public Integer getDisposalPointId() {

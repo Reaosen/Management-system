@@ -27,7 +27,6 @@
     <!--common-->
     <link href="/css/style.css" rel="stylesheet">
     <link href="/css/style-responsive.css" rel="stylesheet">
-    <script src="../static/js/mine/js/index_echarts_init.js"></script>
 
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -220,12 +219,14 @@
                                     </div>
                                     <div class="details">
                                         <div class="title">
-                                            <a href="#">[[${userContribution.username}]]</a> - [[${userContribution.role}]]
+                                            <a th:href="@{/user/profile/{id}(id=${userContribution.getAccountId()})}">[[${userContribution.username}]]</a>
+                                            - [[${userContribution.role}]]
                                         </div>
                                         <div class="progress progress-xs">
                                             <div class="progress-bar progress-bar-info" role="progressbar"
                                                  aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
-                                                 th:style="'width:' + ${userContribution.contribution} + '%'">
+                                                 th:style="'width:' + ${userContribution.contribution} + '%'"
+                                                 th:if="${userContribution.contribution} != 0">
                                                 <span class="">[[${userContribution.contribution}]]%</span>
                                             </div>
                                         </div>

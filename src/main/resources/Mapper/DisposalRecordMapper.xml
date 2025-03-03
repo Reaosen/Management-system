@@ -5,7 +5,7 @@
     <id column="disposal_id" jdbcType="INTEGER" property="disposalId" />
     <result column="waste_record_id" jdbcType="INTEGER" property="wasteRecordId" />
     <result column="disposal_time" jdbcType="INTEGER" property="disposalTime" />
-    <result column="disposal_method" jdbcType="VARCHAR" property="disposalMethod" />
+    <result column="disposal_method_id" jdbcType="INTEGER" property="disposalMethodId" />
     <result column="disposal_point_id" jdbcType="INTEGER" property="disposalPointId" />
     <result column="disposal_account_id" jdbcType="INTEGER" property="disposalAccountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
@@ -70,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    disposal_id, waste_record_id, disposal_time, disposal_method, disposal_point_id, 
+    disposal_id, waste_record_id, disposal_time, disposal_method_id, disposal_point_id, 
     disposal_account_id, gmt_create, gmt_modified
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.DisposalRecordExample" resultMap="BaseResultMap">
@@ -105,10 +105,10 @@
   </delete>
   <insert id="insert" parameterType="com.reaosen.management_system.Model.DisposalRecord">
     insert into disposalrecord (disposal_id, waste_record_id, disposal_time, 
-      disposal_method, disposal_point_id, disposal_account_id, 
+      disposal_method_id, disposal_point_id, disposal_account_id, 
       gmt_create, gmt_modified)
     values (#{disposalId,jdbcType=INTEGER}, #{wasteRecordId,jdbcType=INTEGER}, #{disposalTime,jdbcType=INTEGER}, 
-      #{disposalMethod,jdbcType=VARCHAR}, #{disposalPointId,jdbcType=INTEGER}, #{disposalAccountId,jdbcType=INTEGER}, 
+      #{disposalMethodId,jdbcType=INTEGER}, #{disposalPointId,jdbcType=INTEGER}, #{disposalAccountId,jdbcType=INTEGER}, 
       #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.DisposalRecord">
@@ -123,8 +123,8 @@
       <if test="disposalTime != null">
         disposal_time,
       </if>
-      <if test="disposalMethod != null">
-        disposal_method,
+      <if test="disposalMethodId != null">
+        disposal_method_id,
       </if>
       <if test="disposalPointId != null">
         disposal_point_id,
@@ -149,8 +149,8 @@
       <if test="disposalTime != null">
         #{disposalTime,jdbcType=INTEGER},
       </if>
-      <if test="disposalMethod != null">
-        #{disposalMethod,jdbcType=VARCHAR},
+      <if test="disposalMethodId != null">
+        #{disposalMethodId,jdbcType=INTEGER},
       </if>
       <if test="disposalPointId != null">
         #{disposalPointId,jdbcType=INTEGER},
@@ -184,8 +184,8 @@
       <if test="record.disposalTime != null">
         disposal_time = #{record.disposalTime,jdbcType=INTEGER},
       </if>
-      <if test="record.disposalMethod != null">
-        disposal_method = #{record.disposalMethod,jdbcType=VARCHAR},
+      <if test="record.disposalMethodId != null">
+        disposal_method_id = #{record.disposalMethodId,jdbcType=INTEGER},
       </if>
       <if test="record.disposalPointId != null">
         disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
@@ -209,7 +209,7 @@
     set disposal_id = #{record.disposalId,jdbcType=INTEGER},
       waste_record_id = #{record.wasteRecordId,jdbcType=INTEGER},
       disposal_time = #{record.disposalTime,jdbcType=INTEGER},
-      disposal_method = #{record.disposalMethod,jdbcType=VARCHAR},
+      disposal_method_id = #{record.disposalMethodId,jdbcType=INTEGER},
       disposal_point_id = #{record.disposalPointId,jdbcType=INTEGER},
       disposal_account_id = #{record.disposalAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
@@ -227,8 +227,8 @@
       <if test="disposalTime != null">
         disposal_time = #{disposalTime,jdbcType=INTEGER},
       </if>
-      <if test="disposalMethod != null">
-        disposal_method = #{disposalMethod,jdbcType=VARCHAR},
+      <if test="disposalMethodId != null">
+        disposal_method_id = #{disposalMethodId,jdbcType=INTEGER},
       </if>
       <if test="disposalPointId != null">
         disposal_point_id = #{disposalPointId,jdbcType=INTEGER},
@@ -249,7 +249,7 @@
     update disposalrecord
     set waste_record_id = #{wasteRecordId,jdbcType=INTEGER},
       disposal_time = #{disposalTime,jdbcType=INTEGER},
-      disposal_method = #{disposalMethod,jdbcType=VARCHAR},
+      disposal_method_id = #{disposalMethodId,jdbcType=INTEGER},
       disposal_point_id = #{disposalPointId,jdbcType=INTEGER},
       disposal_account_id = #{disposalAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},

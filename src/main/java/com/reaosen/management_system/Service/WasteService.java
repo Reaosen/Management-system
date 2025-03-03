@@ -10,7 +10,7 @@ public interface WasteService {
 
     void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId);
 
-    void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, String disposalMethod, Integer collectionAccountId);
+    void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethod, Integer collectionAccountId);
 
     void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId);
 
@@ -34,7 +34,7 @@ public interface WasteService {
 
     void transportRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer collectionPointId, Integer disposalPointId, String transportTime, String transportVehicle, Integer transportAccountId);
 
-    void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, String disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
+    void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
 
     void wasteRecordDelete(Integer wasteRecordId);
 
@@ -57,4 +57,20 @@ public interface WasteService {
     String getWOWdataByType(String type);
 
     LineChartDataDTO getWasteDataByMonth(Integer year, Integer month);
+
+    List getMainWasteCollectionPoints();
+
+    List getMainDisposalMethods();
+
+    List getDisposalMethods();
+
+    List<PieChartDataDTO> getCollectionPointsDataByMonth(Integer year, Integer month);
+
+    List<PieChartDataDTO> getDisposalMethodsDataByMonth(Integer year, Integer month);
+
+    DrilldownBarChartDTO getInitialQuarterData();
+
+    DrilldownBarChartDTO getDrilldownInitialQuarterData(String groupId);
+
+    String getmainQuarter();
 }

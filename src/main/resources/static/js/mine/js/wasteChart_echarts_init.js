@@ -111,11 +111,9 @@ $(document).ready(function () {
     }).on('changeDate', function (e) {
         // 获取输入框的值
         const selectedDate = $('#datePickerInput').val();
-        console.log('Selected Date:', selectedDate);
 
         // 解析年份和月份
         const [year, month] = selectedDate.split('/').map(Number);
-        console.log('Year:', year, 'Month:', month);
 
         // 调用其他函数进行处理
         initLineChart(year, month);
