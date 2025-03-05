@@ -1146,6 +1146,100 @@ public class WasteServiceImpl implements WasteService {
         return result;
     }
 
+    @Override
+    public List<WasteDTO> getUnfinishedTransportTask() {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                        .andStatusEqualTo(1);
+        List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
+        List<WasteDTO> wasteDTOs= new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            WasteRecord wasteRecord = wasteRecords.get(i);
+            WasteDTO wasteDTO = new WasteDTO();
+            BeanUtils.copyProperties(wasteRecord, wasteDTO);
+            CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+            wasteDTO.setCollectionPoint(collectionPoint.getAddress());
+            WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
+            wasteDTO.setWasteType(wasteType.getTypeName());
+            wasteDTOs.add(wasteDTO);
+        }
+        return wasteDTOs;
+    }
+
+    @Override
+    public Integer getTransportTaskProportion() {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                .andStatusEqualTo(1);
+        List<WasteRecord> unfinishedWasteRecords = wasteRecordMapper.selectByExample(example);
+        Integer unfinishedSize = unfinishedWasteRecords.size();
+        List<WasteRecord> allWasteRecords = wasteRecordMapper.selectByExample(new WasteRecordExample());
+        Integer allSize = allWasteRecords.size();
+        double result = (double) (allSize - unfinishedSize) / allSize * 100;
+        int finalResult = (int) Math.round(result);
+
+        return finalResult;
+    }
+
+    @Override
+    public List<PieChartDataDTO> getDisposalPointDistribute() {
+        List<PieChartDataDTO> chartDataDTOs = new ArrayList<PieChartDataDTO>();
+        List<DisposalPoint> disposalPoints = disposalPointMapper.selectByExample(new DisposalPointExample());
+        for (DisposalPoint disposalPoint : disposalPoints) {
+            TransportRecordExample example = new TransportRecordExample();
+            example.createCriteria()
+                    .andDisposalPointIdEqualTo(disposalPoint.getDisposalPointId());
+            List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(example);
+
+            Integer size = transportRecords.size();
+            PieChartDataDTO chartDataDTO = new PieChartDataDTO();
+            chartDataDTO.setName(disposalPoint.getAddress());
+            chartDataDTO.setValue(size);
+            chartDataDTOs.add(chartDataDTO);
+        }
+
+        return chartDataDTOs;
+    }
+
+    @Override
+    public List<WasteDTO> getUnfinishedDisposalTask() {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                        .andStatusEqualTo(2);
+        List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
+        List<WasteDTO> wasteDTOs= new ArrayList<>();
+        for (int i = 0; i < 2; i++) {
+            WasteRecord wasteRecord = wasteRecords.get(i);
+            WasteDTO wasteDTO = new WasteDTO();
+            BeanUtils.copyProperties(wasteRecord, wasteDTO);
+            CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+            wasteDTO.setCollectionPoint(collectionPoint.getAddress());
+            WasteType wasteType = wasteTypeMapper.selectByPrimaryKey(wasteRecord.getWasteTypeId());
+            wasteDTO.setWasteType(wasteType.getTypeName());
+            wasteDTOs.add(wasteDTO);
+        }
+
+        return wasteDTOs;
+    }
+
+    @Override
+    public Integer getDisposalTaskProportion() {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                .andStatusEqualTo(3);
+        List<WasteRecord> finishedWasteRecords = wasteRecordMapper.selectByExample(example);
+        Integer finishedSize = finishedWasteRecords.size();
+        WasteRecordExample example1 = new WasteRecordExample();
+        example1.createCriteria()
+                .andStatusEqualTo(2);
+        List<WasteRecord> allWasteRecords = wasteRecordMapper.selectByExample(example1);
+        Integer allSize = allWasteRecords.size();
+        double result = (double) finishedSize / allSize * 100;
+        int finalResult = (int) Math.round(result);
+
+        return finalResult;
+    }
+
     private Long getTotalRecords(String type) {
         switch (type) {
             case "collection":

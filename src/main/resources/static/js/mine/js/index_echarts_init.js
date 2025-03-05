@@ -1,12 +1,12 @@
 // 初始化饼图实例
 function initDonutChart() {
-    var chartDom = document.getElementById('graph-donut');
+    var chartDom = document.getElementById('wasteType-PieChart');
     var myChart1 = echarts.init(chartDom);
 
     var myData;
     $.ajax({
         type: "GET",
-        url: "/chart/indexPieChartData",
+        url: "/chart/indexWasteTypePieChartData",
         contentType: "application/json",
         success: function (response) {
             if (response.code === 200) {
@@ -27,7 +27,6 @@ function initDonutChart() {
 
     var option1 = {
         title: {
-            text: '废弃类型分布',
             left: 'center'
         },
         tooltip: {

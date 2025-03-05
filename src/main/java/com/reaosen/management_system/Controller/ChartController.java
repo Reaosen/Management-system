@@ -25,10 +25,16 @@ public class ChartController {
     @Autowired
     private WasteService wasteService;
 
-    @GetMapping("/chart/indexPieChartData")
+    @GetMapping("/chart/indexWasteTypePieChartData")
     @ResponseBody
     public ResultDTO wasteTypeDistribute(HttpServletRequest request) {
         List<PieChartDataDTO> result = wasteService.getWasteTypeDistribute();
+        return ResultDTO.okOf(result);
+    }
+    @GetMapping("/chart/indexDisposalPointPieChartData")
+    @ResponseBody
+    public ResultDTO disposalPointDistribute(HttpServletRequest request) {
+        List<PieChartDataDTO> result = wasteService.getDisposalPointDistribute();
         return ResultDTO.okOf(result);
     }
 

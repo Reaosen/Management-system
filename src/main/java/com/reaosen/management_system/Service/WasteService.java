@@ -73,4 +73,14 @@ public interface WasteService {
     DrilldownBarChartDTO getDrilldownInitialQuarterData(String groupId);
 
     String getmainQuarter();
+
+    List<WasteDTO> getUnfinishedTransportTask();
+
+    Integer getTransportTaskProportion();
+
+    List<PieChartDataDTO> getDisposalPointDistribute();
+
+    List<WasteDTO> getUnfinishedDisposalTask();
+
+    Integer getDisposalTaskProportion();
 }

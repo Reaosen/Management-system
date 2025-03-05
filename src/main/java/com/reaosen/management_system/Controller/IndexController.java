@@ -3,7 +3,9 @@ package com.reaosen.management_system.Controller;
 import com.reaosen.management_system.DTO.PieChartDataDTO;
 import com.reaosen.management_system.DTO.ResultDTO;
 import com.reaosen.management_system.DTO.UserContributionDTO;
+import com.reaosen.management_system.DTO.WasteDTO;
 import com.reaosen.management_system.Mapper.UserMapper;
+import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Service.IndexService;
 import com.reaosen.management_system.Service.UserService;
 import com.reaosen.management_system.Service.WasteService;
@@ -31,32 +33,73 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
+        User user = (User) request.getSession().getAttribute("user");
+
         String path = indexService.index(request);
-        Integer collectionTodayTotal= wasteService.getWasteTotalByTime("today", "collection");
-        Integer disposalTodayTotal= wasteService.getWasteTotalByTime("today", "disposal");
-        Integer transportTodayTotal= wasteService.getWasteTotalByTime("today", "transport");
-        Integer allWeekTotal = wasteService.getWasteTotalByTime("week", "all");
-        Integer allMonthTotal = wasteService.getWasteTotalByTime("month", "all");
-        Integer todayWorkUsersCount = userService.getWorkUsersCountByTime("today");
+
+        // 通用接口
         String collectionWOW = wasteService.getWOWdataByType("collection");
         String transportWOW = wasteService.getWOWdataByType("transport");
         String disposalWOW = wasteService.getWOWdataByType("disposal");
         String allWOW = wasteService.getWOWdataByType("all");
-
         List<UserContributionDTO> userContributions = userService.getUsersWeeklyContribution();
-
-
-        model.addAttribute("collectionTodayTotal", collectionTodayTotal);
-        model.addAttribute("disposalTodayTotal", disposalTodayTotal);
-        model.addAttribute("transportTodayTotal", transportTodayTotal);
-        model.addAttribute("allWeekTotal", allWeekTotal);
-        model.addAttribute("allMonthTotal", allMonthTotal);
-        model.addAttribute("todayWorkUsersCount", todayWorkUsersCount);
         model.addAttribute("collectionWOW", collectionWOW);
         model.addAttribute("transportWOW", transportWOW);
         model.addAttribute("disposalWOW", disposalWOW);
         model.addAttribute("allWOW", allWOW);
         model.addAttribute("userContributions", userContributions);
+
+        // 管理员中控接口
+        if (user.getPermission().equals("admin")) {
+            Integer collectionTodayTotal = wasteService.getWasteTotalByTime("today", "collection");
+            Integer disposalTodayTotal = wasteService.getWasteTotalByTime("today", "disposal");
+            Integer transportTodayTotal = wasteService.getWasteTotalByTime("today", "transport");
+            Integer todayWorkUsersCount = userService.getWorkUsersCountByTime("today");
+            model.addAttribute("collectionTodayTotal", collectionTodayTotal);
+            model.addAttribute("disposalTodayTotal", disposalTodayTotal);
+            model.addAttribute("transportTodayTotal", transportTodayTotal);
+            model.addAttribute("todayWorkUsersCount", todayWorkUsersCount);
+
+            Integer allWeekTotal = wasteService.getWasteTotalByTime("week", "all");
+            Integer allMonthTotal = wasteService.getWasteTotalByTime("month", "all");
+            model.addAttribute("allWeekTotal", allWeekTotal);
+            model.addAttribute("allMonthTotal", allMonthTotal);
+
+        }
+
+        // 收集工人接口
+        if (user.getPermission().equals("collector")){
+            // TODO 仓储接口
+
+            Integer weekTotal = wasteService.getWasteTotalByTime("week", "collection");
+            Integer monthTotal = wasteService.getWasteTotalByTime("month", "collection");
+            model.addAttribute("weekTotal", weekTotal);
+            model.addAttribute("monthTotal", monthTotal);
+        }
+        // 司机接口
+        if (user.getPermission().equals("driver")){
+            List<WasteDTO> unfinishedTasks = wasteService.getUnfinishedTransportTask();
+            Integer taskProportion = wasteService.getTransportTaskProportion();
+            model.addAttribute("unfinishedTasks", unfinishedTasks);
+            model.addAttribute("taskProportion", taskProportion);
+
+            Integer weekTotal = wasteService.getWasteTotalByTime("week", "transport");
+            Integer monthTotal = wasteService.getWasteTotalByTime("month", "transport");
+            model.addAttribute("weekTotal", weekTotal);
+            model.addAttribute("monthTotal", monthTotal);
+        }
+        // 处理工人接口
+        if (user.getPermission().equals("disposaler")){
+            List<WasteDTO> unfinishedTasks = wasteService.getUnfinishedDisposalTask();
+            Integer taskProportion = wasteService.getDisposalTaskProportion();
+            model.addAttribute("unfinishedTasks", unfinishedTasks);
+            model.addAttribute("taskProportion", taskProportion);
+
+            Integer weekTotal = wasteService.getWasteTotalByTime("week", "disposal");
+            Integer monthTotal = wasteService.getWasteTotalByTime("month", "disposal");
+            model.addAttribute("weekTotal", weekTotal);
+            model.addAttribute("monthTotal", monthTotal);
+        }
 
 
         return path;
