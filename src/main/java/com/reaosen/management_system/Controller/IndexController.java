@@ -1,9 +1,6 @@
 package com.reaosen.management_system.Controller;
 
-import com.reaosen.management_system.DTO.PieChartDataDTO;
-import com.reaosen.management_system.DTO.ResultDTO;
-import com.reaosen.management_system.DTO.UserContributionDTO;
-import com.reaosen.management_system.DTO.WasteDTO;
+import com.reaosen.management_system.DTO.*;
 import com.reaosen.management_system.Mapper.UserMapper;
 import com.reaosen.management_system.Model.User;
 import com.reaosen.management_system.Service.IndexService;
@@ -33,10 +30,10 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpServletRequest request, Model model) {
-        User user = (User) request.getSession().getAttribute("user");
 
         String path = indexService.index(request);
 
+        User user = (User) request.getSession().getAttribute("user");
         // 通用接口
         String collectionWOW = wasteService.getWOWdataByType("collection");
         String transportWOW = wasteService.getWOWdataByType("transport");
@@ -50,7 +47,7 @@ public class IndexController {
         model.addAttribute("userContributions", userContributions);
 
         // 管理员中控接口
-        if (user.getPermission().equals("admin")) {
+        if (user != null && user.getPermission().equals("admin")) {
             Integer collectionTodayTotal = wasteService.getWasteTotalByTime("today", "collection");
             Integer disposalTodayTotal = wasteService.getWasteTotalByTime("today", "disposal");
             Integer transportTodayTotal = wasteService.getWasteTotalByTime("today", "transport");
@@ -68,8 +65,12 @@ public class IndexController {
         }
 
         // 收集工人接口
-        if (user.getPermission().equals("collector")){
+        if (user != null && user.getPermission().equals("collector")) {
             // TODO 仓储接口
+            Integer taskProportion = wasteService.getUsedCapacityProportion(user.getRegionId());
+            List<WasteTypesCapacityDTO> wasteTypesCapacityProportion = wasteService.getWasteTypesCapacityProportion(user.getRegionId());
+            model.addAttribute("taskProportion", taskProportion);
+            model.addAttribute("wasteTypesCapacityProportion", wasteTypesCapacityProportion);
 
             Integer weekTotal = wasteService.getWasteTotalByTime("week", "collection");
             Integer monthTotal = wasteService.getWasteTotalByTime("month", "collection");
@@ -77,7 +78,7 @@ public class IndexController {
             model.addAttribute("monthTotal", monthTotal);
         }
         // 司机接口
-        if (user.getPermission().equals("driver")){
+        if (user != null && user.getPermission().equals("driver")) {
             List<WasteDTO> unfinishedTasks = wasteService.getUnfinishedTransportTask();
             Integer taskProportion = wasteService.getTransportTaskProportion();
             model.addAttribute("unfinishedTasks", unfinishedTasks);
@@ -89,7 +90,7 @@ public class IndexController {
             model.addAttribute("monthTotal", monthTotal);
         }
         // 处理工人接口
-        if (user.getPermission().equals("disposaler")){
+        if (user != null && user.getPermission().equals("disposaler")) {
             List<WasteDTO> unfinishedTasks = wasteService.getUnfinishedDisposalTask();
             Integer taskProportion = wasteService.getDisposalTaskProportion();
             model.addAttribute("unfinishedTasks", unfinishedTasks);

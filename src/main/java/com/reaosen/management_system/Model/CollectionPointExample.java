@@ -1,5 +1,6 @@
 package com.reaosen.management_system.Model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -551,6 +552,186 @@ public class CollectionPointExample {
 
         public Criteria andGmtModifiedNotBetween(Integer value1, Integer value2) {
             addCriterion("gmt_modified not between", value1, value2, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityIsNull() {
+            addCriterion("storage_capacity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityIsNotNull() {
+            addCriterion("storage_capacity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityEqualTo(BigDecimal value) {
+            addCriterion("storage_capacity =", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityNotEqualTo(BigDecimal value) {
+            addCriterion("storage_capacity <>", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityGreaterThan(BigDecimal value) {
+            addCriterion("storage_capacity >", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("storage_capacity >=", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityLessThan(BigDecimal value) {
+            addCriterion("storage_capacity <", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("storage_capacity <=", value, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityIn(List<BigDecimal> values) {
+            addCriterion("storage_capacity in", values, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityNotIn(List<BigDecimal> values) {
+            addCriterion("storage_capacity not in", values, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("storage_capacity between", value1, value2, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andStorageCapacityNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("storage_capacity not between", value1, value2, "storageCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityIsNull() {
+            addCriterion("used_capacity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityIsNotNull() {
+            addCriterion("used_capacity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityEqualTo(BigDecimal value) {
+            addCriterion("used_capacity =", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityNotEqualTo(BigDecimal value) {
+            addCriterion("used_capacity <>", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityGreaterThan(BigDecimal value) {
+            addCriterion("used_capacity >", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("used_capacity >=", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityLessThan(BigDecimal value) {
+            addCriterion("used_capacity <", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("used_capacity <=", value, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityIn(List<BigDecimal> values) {
+            addCriterion("used_capacity in", values, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityNotIn(List<BigDecimal> values) {
+            addCriterion("used_capacity not in", values, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("used_capacity between", value1, value2, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andUsedCapacityNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("used_capacity not between", value1, value2, "usedCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityIsNull() {
+            addCriterion("remaining_capacity is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityIsNotNull() {
+            addCriterion("remaining_capacity is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityEqualTo(BigDecimal value) {
+            addCriterion("remaining_capacity =", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityNotEqualTo(BigDecimal value) {
+            addCriterion("remaining_capacity <>", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityGreaterThan(BigDecimal value) {
+            addCriterion("remaining_capacity >", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("remaining_capacity >=", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityLessThan(BigDecimal value) {
+            addCriterion("remaining_capacity <", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("remaining_capacity <=", value, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityIn(List<BigDecimal> values) {
+            addCriterion("remaining_capacity in", values, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityNotIn(List<BigDecimal> values) {
+            addCriterion("remaining_capacity not in", values, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("remaining_capacity between", value1, value2, "remainingCapacity");
+            return (Criteria) this;
+        }
+
+        public Criteria andRemainingCapacityNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("remaining_capacity not between", value1, value2, "remainingCapacity");
             return (Criteria) this;
         }
     }

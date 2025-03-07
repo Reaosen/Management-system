@@ -9,6 +9,9 @@
     <result column="collection_Account_id" jdbcType="INTEGER" property="collectionAccountId" />
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
+    <result column="storage_capacity" jdbcType="DECIMAL" property="storageCapacity" />
+    <result column="used_capacity" jdbcType="DECIMAL" property="usedCapacity" />
+    <result column="remaining_capacity" jdbcType="DECIMAL" property="remainingCapacity" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     collection_point_id, address, contact, responsible_person, collection_Account_id, 
-    gmt_create, gmt_modified
+    gmt_create, gmt_modified, storage_capacity, used_capacity, remaining_capacity
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">
     select
@@ -105,10 +108,12 @@
   <insert id="insert" parameterType="com.reaosen.management_system.Model.CollectionPoint">
     insert into collectionpoint (collection_point_id, address, contact, 
       responsible_person, collection_Account_id, 
-      gmt_create, gmt_modified)
+      gmt_create, gmt_modified, storage_capacity, 
+      used_capacity, remaining_capacity)
     values (#{collectionPointId,jdbcType=INTEGER}, #{address,jdbcType=VARCHAR}, #{contact,jdbcType=VARCHAR}, 
       #{responsiblePerson,jdbcType=VARCHAR}, #{collectionAccountId,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER})
+      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}, #{storageCapacity,jdbcType=DECIMAL}, 
+      #{usedCapacity,jdbcType=DECIMAL}, #{remainingCapacity,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.CollectionPoint">
     insert into collectionpoint
@@ -134,6 +139,15 @@
       <if test="gmtModified != null">
         gmt_modified,
       </if>
+      <if test="storageCapacity != null">
+        storage_capacity,
+      </if>
+      <if test="usedCapacity != null">
+        used_capacity,
+      </if>
+      <if test="remainingCapacity != null">
+        remaining_capacity,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="collectionPointId != null">
@@ -156,6 +170,15 @@
       </if>
       <if test="gmtModified != null">
         #{gmtModified,jdbcType=INTEGER},
+      </if>
+      <if test="storageCapacity != null">
+        #{storageCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="usedCapacity != null">
+        #{usedCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="remainingCapacity != null">
+        #{remainingCapacity,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -189,6 +212,15 @@
       <if test="record.gmtModified != null">
         gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
       </if>
+      <if test="record.storageCapacity != null">
+        storage_capacity = #{record.storageCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.usedCapacity != null">
+        used_capacity = #{record.usedCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="record.remainingCapacity != null">
+        remaining_capacity = #{record.remainingCapacity,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -202,7 +234,10 @@
       responsible_person = #{record.responsiblePerson,jdbcType=VARCHAR},
       collection_Account_id = #{record.collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
-      gmt_modified = #{record.gmtModified,jdbcType=INTEGER}
+      gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
+      storage_capacity = #{record.storageCapacity,jdbcType=DECIMAL},
+      used_capacity = #{record.usedCapacity,jdbcType=DECIMAL},
+      remaining_capacity = #{record.remainingCapacity,jdbcType=DECIMAL}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -228,6 +263,15 @@
       <if test="gmtModified != null">
         gmt_modified = #{gmtModified,jdbcType=INTEGER},
       </if>
+      <if test="storageCapacity != null">
+        storage_capacity = #{storageCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="usedCapacity != null">
+        used_capacity = #{usedCapacity,jdbcType=DECIMAL},
+      </if>
+      <if test="remainingCapacity != null">
+        remaining_capacity = #{remainingCapacity,jdbcType=DECIMAL},
+      </if>
     </set>
     where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
   </update>
@@ -238,7 +282,10 @@
       responsible_person = #{responsiblePerson,jdbcType=VARCHAR},
       collection_Account_id = #{collectionAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
-      gmt_modified = #{gmtModified,jdbcType=INTEGER}
+      gmt_modified = #{gmtModified,jdbcType=INTEGER},
+      storage_capacity = #{storageCapacity,jdbcType=DECIMAL},
+      used_capacity = #{usedCapacity,jdbcType=DECIMAL},
+      remaining_capacity = #{remainingCapacity,jdbcType=DECIMAL}
     where collection_point_id = #{collectionPointId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.CollectionPointExample" resultMap="BaseResultMap">

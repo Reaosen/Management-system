@@ -83,4 +83,8 @@ public interface WasteService {
     List<WasteDTO> getUnfinishedDisposalTask();
 
     Integer getDisposalTaskProportion();
+
+    Integer getUsedCapacityProportion(Integer regionId);
+
+    List<WasteTypesCapacityDTO> getWasteTypesCapacityProportion(Integer regionId);
 }

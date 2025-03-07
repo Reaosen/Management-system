@@ -1,31 +1,59 @@
 // 初始化饼图实例
-function initDonutChart() {
-    var chartDom = document.getElementById('wasteType-PieChart');
-    var myChart1 = echarts.init(chartDom);
+function initAdminPieChart() {
+    var pieChartDOM = document.getElementById('pieChart');
+    var pieChart = echarts.init(pieChartDOM);
+    var permission = pieChartDOM.getAttribute('data-permission');
+    var pieData;
+    var pieOption;
+    if (permission == 'admin' || permission == 'collector') {
+        $.ajax({
+            type: "GET",
+            url: "/chart/indexWasteTypePieChartData",
+            contentType: "application/json",
+            success: function (response) {
+                if (response.code === 200) {
+                    pieData = response.data;
+                    pieChart.setOption({
+                        series: [
+                            {
+                                data: pieData  // 使用后端返回的数据
+                            }
+                        ]
+                    });
+                } else {
+                    alert(response.message);
+                }
+            },
+            dataType: "json"
+        });
 
-    var myData;
-    $.ajax({
-        type: "GET",
-        url: "/chart/indexWasteTypePieChartData",
-        contentType: "application/json",
-        success: function (response) {
-            if (response.code === 200) {
-                myData = response.data;
-                myChart1.setOption({
-                    series: [
-                        {
-                            data: myData  // 使用后端返回的数据
-                        }
-                    ]
-                });
-            } else {
-                alert(response.message);
-            }
-        },
-        dataType: "json"
-    });
 
-    var option1 = {
+    }
+    if (permission == 'driver') {
+        $.ajax({
+            type: "GET",
+            url: "/chart/indexDisposalPointPieChartData",
+            contentType: "application/json",
+            success: function (response) {
+                if (response.code === 200) {
+                    pieData = response.data;
+                    pieChart.setOption({
+                        series: [
+                            {
+                                data: pieData  // 使用后端返回的数据
+                            }
+                        ]
+                    });
+                } else {
+                    alert(response.message);
+                }
+            },
+            dataType: "json"
+        });
+
+
+    }
+    pieOption = {
         title: {
             left: 'center'
         },
@@ -41,7 +69,7 @@ function initDonutChart() {
                 type: 'pie',
                 radius: '50%',
                 data: [
-                    myData
+                    pieData
                 ],
                 emphasis: {
                     itemStyle: {
@@ -55,15 +83,15 @@ function initDonutChart() {
     };
 
     // 使用配置项设置饼图
-    myChart1.setOption(option1);
+    pieChart.setOption(pieOption);
 }
 
 // 初始化折线图实例
 function initLineChart(chartType) {
-    var myChart2 = echarts.init(document.getElementById('main-chart-container'));
+    var lineChart = echarts.init(document.getElementById('main-chart-container'));
 
     // 默认配置（不包含动态数据）
-    var option2 = {
+    var lineOption = {
         title: {
             text: '周对比折线图'
         },
@@ -84,7 +112,7 @@ function initLineChart(chartType) {
     };
 
     // 设置默认配置
-    myChart2.setOption(option2);
+    lineChart.setOption(lineOption);
 
     var dataType = "collection";
     if (chartType === "transport") {
@@ -99,17 +127,17 @@ function initLineChart(chartType) {
         url: "/chart/indexLineChartData/" + dataType,
         success: function (response) {
             if (response.code === 200) {
-                var data = response.data;
+                var lineChartData = response.data;
 
                 // 动态更新图表配置
-                myChart2.setOption({
+                lineChart.setOption({
                     legend: {
-                        data: data.series.map(series => series.name)
+                        data: lineChartData.series.map(series => series.name)
                     },
                     xAxis: {
-                        data: data.categories
+                        data: lineChartData.categories
                     },
-                    series: data.series.map(series => ({
+                    series: lineChartData.series.map(series => ({
                         name: series.name,
                         type: 'line',
                         data: series.data,
@@ -133,7 +161,7 @@ function initLineChart(chartType) {
 
 // 在页面加载完成后初始化图表
 document.addEventListener('DOMContentLoaded', function () {
-    initDonutChart();
+    initAdminPieChart();
     initLineChart();
 });
 

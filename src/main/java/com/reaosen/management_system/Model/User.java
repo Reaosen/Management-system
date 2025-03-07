@@ -27,6 +27,8 @@ public class User {
 
     private String status;
 
+    private Integer regionId;
+
     public Integer getId() {
         return id;
     }
@@ -129,5 +131,13 @@ public class User {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getRegionId() {
+        return regionId;
+    }
+
+    public void setRegionId(Integer regionId) {
+        this.regionId = regionId;
     }
 }

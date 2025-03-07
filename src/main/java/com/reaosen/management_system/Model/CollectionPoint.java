@@ -1,5 +1,7 @@
 package com.reaosen.management_system.Model;
 
+import java.math.BigDecimal;
+
 public class CollectionPoint {
     private Integer collectionPointId;
 
@@ -14,6 +16,12 @@ public class CollectionPoint {
     private Integer gmtCreate;
 
     private Integer gmtModified;
+
+    private BigDecimal storageCapacity;
+
+    private BigDecimal usedCapacity;
+
+    private BigDecimal remainingCapacity;
 
     public Integer getCollectionPointId() {
         return collectionPointId;
@@ -69,5 +77,29 @@ public class CollectionPoint {
 
     public void setGmtModified(Integer gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public BigDecimal getStorageCapacity() {
+        return storageCapacity;
+    }
+
+    public void setStorageCapacity(BigDecimal storageCapacity) {
+        this.storageCapacity = storageCapacity;
+    }
+
+    public BigDecimal getUsedCapacity() {
+        return usedCapacity;
+    }
+
+    public void setUsedCapacity(BigDecimal usedCapacity) {
+        this.usedCapacity = usedCapacity;
+    }
+
+    public BigDecimal getRemainingCapacity() {
+        return remainingCapacity;
+    }
+
+    public void setRemainingCapacity(BigDecimal remainingCapacity) {
+        this.remainingCapacity = remainingCapacity;
     }
 }

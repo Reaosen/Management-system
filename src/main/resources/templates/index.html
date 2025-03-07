@@ -137,7 +137,6 @@
                                     </div>
                                     <div class="details">
                                         <div class="title">
-                                            <!--TODO 未完成的仓储容量显示-->
                                             <a th:href="@{/user/profile/{id}(id=${session.user.accountId})}">[[${session.user.username}]]</a>
                                             - 仓储容量
                                         </div>
@@ -151,7 +150,24 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li th:each="task : ${unfinishedTasks}">
+                                <li th:if="${session.user.permission=='collector'}" th:each="proportion : ${wasteTypesCapacityProportion}">
+                                    <div class="details">
+                                        <div class="prog-avatar">
+                                        </div>
+                                        <div class="title">
+                                            [[${proportion.wasteTypeName}]]
+                                        </div>
+                                        <div class="progress progress-xs">
+                                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                                 aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"
+                                                 th:style="'width:' + ${proportion.wasteCapacityProportion} + '%'"
+                                                 th:if="${proportion.wasteCapacityProportion} != 0">
+                                                <span class="">[[${proportion.wasteCapacityProportion}]]%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li th:each="task : ${unfinishedTasks}" th:if="${session.user.permission != 'collector'}">
                                     <div class="details">
                                         <div class="title">
                                             收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> , [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
@@ -250,8 +266,14 @@
                 <div class="col-md-4">
                     <!--饼状图-->
                     <div class="panel">
-                        <header class="panel-heading">
-                            废弃物类型分布
+                        <header class="panel-heading" th:if="${session.user.permission=='admin' || session.user.permission=='collector'}">
+                                废弃物类型分布
+                            <span class="tools pull-right">
+                                    <a href="javascript:;" class="fa fa-chevron-down"></a>
+                                </span>
+                        </header>
+                        <header class="panel-heading" th:if="${session.user.permission=='driver'}">
+                            运输终点分布
                             <span class="tools pull-right">
                                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                                 </span>
@@ -259,7 +281,7 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div id="wasteType-PieChart" class="revenue-graph"></div>
+                                    <div id="pieChart" class="revenue-graph" th:data-permission="${session.user.getPermission()}"></div>
                                 </div>
                             </div>
                         </div>

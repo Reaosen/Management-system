@@ -14,10 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class WasteServiceImpl implements WasteService {
@@ -215,6 +218,15 @@ public class WasteServiceImpl implements WasteService {
 
     @Override
     public void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId) {
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(collectionPointId);
+        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)){
+            throw new CustomizeException(CustomizeErrorCode.OFF_CAPACITY);
+        }
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        usedCapacity = usedCapacity.add(weight);
+        collectionPoint.setUsedCapacity(usedCapacity);
+        collectionPoint.setRemainingCapacity(null);
+
         WasteRecord record = new WasteRecord();
         record.setStatus(1);
         record.setCollectionAccountId(collectionAccountId);
@@ -229,6 +241,10 @@ public class WasteServiceImpl implements WasteService {
         record.setGmtCreate(timestamp);
         record.setGmtModified(timestamp);
         wasteRecordMapper.insert(record);
+        collectionPointMapper.updateByPrimaryKeySelective(collectionPoint);
+
+
+
     }
 
     @Override
@@ -324,6 +340,15 @@ public class WasteServiceImpl implements WasteService {
         // 运输时间
         record.setTransportTime(timeStamp);
 
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(collectionPointId);
+        BigDecimal remainingCapacity = collectionPoint.getRemainingCapacity();
+        remainingCapacity = remainingCapacity.add(weight);
+        collectionPoint.setRemainingCapacity(remainingCapacity);
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        usedCapacity.subtract(weight);
+        collectionPoint.setUsedCapacity(usedCapacity);
+
+
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         wasteRecord.setStatus(2);
 
@@ -335,6 +360,7 @@ public class WasteServiceImpl implements WasteService {
 
         transportRecordMapper.insertSelective(record);
         wasteRecordMapper.updateByPrimaryKeySelective(wasteRecord);
+        collectionPointMapper.updateByPrimaryKeySelective(collectionPoint);
     }
 
     @Override
@@ -428,6 +454,10 @@ public class WasteServiceImpl implements WasteService {
 
     @Override
     public void wasteRecordUpdate(Integer wasteRecordId, Integer wasteTypeId, BigDecimal weight, Integer collectionPointId, String collectionTime, Integer statusId, Integer collectionAccountId) {
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(collectionPointId);
+        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)){
+            throw new CustomizeException(CustomizeErrorCode.OFF_CAPACITY);
+        }
         WasteRecord record = new WasteRecord();
         WasteRecord oldRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
         BeanUtils.copyProperties(oldRecord, record);
@@ -443,12 +473,17 @@ public class WasteServiceImpl implements WasteService {
         record.setStatus(statusId);
         record.setCollectionAccountId(collectionAccountId);
 
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        usedCapacity = usedCapacity.add(weight.subtract(oldRecord.getWeight()));
+        collectionPoint.setUsedCapacity(usedCapacity);
+
         // TODO 公共字段填充-时间
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         record.setGmtModified(timestamp);
 
         wasteRecordMapper.updateByPrimaryKey(record);
+        collectionPointMapper.updateByPrimaryKey(collectionPoint);
     }
 
     @Override
@@ -470,6 +505,7 @@ public class WasteServiceImpl implements WasteService {
         record.setTransportTime(transportTimestamp);
         record.setTransportVehicle(transportVehicle);
         record.setTransportAccountId(transportAccountId);
+
 
         // TODO 公共字段填充-时间
         long timeMillis = System.currentTimeMillis();
@@ -508,7 +544,13 @@ public class WasteServiceImpl implements WasteService {
         if (wasteRecord.getStatus() != 1) {
             throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
         }
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        usedCapacity = usedCapacity.subtract(wasteRecord.getWeight());
+        collectionPoint.setUsedCapacity(usedCapacity);
+
         wasteRecordMapper.deleteByPrimaryKey(wasteRecordId);
+        collectionPointMapper.updateByPrimaryKey(collectionPoint);
     }
 
     @Override
@@ -517,14 +559,22 @@ public class WasteServiceImpl implements WasteService {
         if (wasteRecord.getStatus() == 3) {
             throw new CustomizeException(CustomizeErrorCode.DELETE_ERROR);
         }
+
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(wasteRecord.getCollectionPointId());
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        usedCapacity = usedCapacity.subtract(wasteRecord.getWeight());
+        collectionPoint.setUsedCapacity(usedCapacity);
+
         TransportRecordExample transportRecordExample = new TransportRecordExample();
         transportRecordExample.createCriteria()
                 .andWasteRecordIdEqualTo(wasteRecordId);
         List<TransportRecord> transportRecords = transportRecordMapper.selectByExample(transportRecordExample);
         TransportRecord transportRecord = transportRecords.get(0);
-        transportRecordMapper.deleteByPrimaryKey(transportRecord.getTransportId());
         wasteRecord.setStatus(1);
+
+        transportRecordMapper.deleteByPrimaryKey(transportRecord.getTransportId());
         wasteRecordMapper.updateByPrimaryKey(wasteRecord);
+        collectionPointMapper.updateByPrimaryKey(collectionPoint);
 
     }
 
@@ -1238,6 +1288,54 @@ public class WasteServiceImpl implements WasteService {
         int finalResult = (int) Math.round(result);
 
         return finalResult;
+    }
+
+    @Override
+    public Integer getUsedCapacityProportion(Integer regionId) {
+        CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(regionId);
+        BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
+        BigDecimal storageCapacity = collectionPoint.getStorageCapacity();
+        BigDecimal result = usedCapacity.divide(storageCapacity, new MathContext(4, RoundingMode.HALF_UP));
+        Integer finalResult = result.multiply(new BigDecimal(100)).intValue();
+        return finalResult;
+    }
+
+    @Override
+    public List<WasteTypesCapacityDTO> getWasteTypesCapacityProportion(Integer regionId) {
+        List<WasteType> wasteTypes = wasteTypeMapper.selectByExample(new WasteTypeExample());
+        List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(new WasteRecordExample());
+        BigDecimal usedCapacity = collectionPointMapper.selectByPrimaryKey(regionId).getUsedCapacity();
+        List<WasteTypesCapacityDTO> wasteTypesCapacityDTOs = new ArrayList<>();
+
+        Map<Integer, BigDecimal> totalWeights = new HashMap<>();
+
+        // 初始化所有废弃物类型为 0
+        for (WasteType type : wasteTypes) {
+            totalWeights.put(type.getWasteTypeId(), BigDecimal.valueOf(0.0));
+        }
+        // 遍历收集记录，累加重量
+        for (WasteRecord record : wasteRecords) {
+            if (totalWeights.containsKey(record.getWasteTypeId())) {
+                BigDecimal newWeight = totalWeights.get(record.getWasteTypeId()).add(record.getWeight());
+                totalWeights.put(record.getWasteTypeId(), newWeight);
+            }
+        }
+
+        for (WasteType wasteType : wasteTypes) {
+            WasteTypesCapacityDTO wasteTypesCapacityDTO = new WasteTypesCapacityDTO();
+            wasteTypesCapacityDTO.setWasteTypeName(wasteType.getTypeName());
+            BigDecimal wasteTypeWeight = totalWeights.get(wasteType.getWasteTypeId());
+            BigDecimal result = wasteTypeWeight.divide(usedCapacity, new MathContext(4, RoundingMode.HALF_UP));
+            Integer finalResult = result.multiply(new BigDecimal(100)).intValue();
+            wasteTypesCapacityDTO.setWasteCapacityProportion(finalResult);
+            wasteTypesCapacityDTOs.add(wasteTypesCapacityDTO);
+        }
+        List<WasteTypesCapacityDTO> result = new ArrayList<>();
+        result.add(wasteTypesCapacityDTOs.get(0));
+        result.add(wasteTypesCapacityDTOs.get(1));
+
+
+        return result;
     }
 
     private Long getTotalRecords(String type) {
