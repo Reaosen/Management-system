@@ -1,5 +1,7 @@
 package com.reaosen.management_system.Model;
 
+import java.math.BigDecimal;
+
 public class DisposalRecord {
     private Integer disposalId;
 
@@ -16,6 +18,8 @@ public class DisposalRecord {
     private Integer gmtCreate;
 
     private Integer gmtModified;
+
+    private BigDecimal budget;
 
     public Integer getDisposalId() {
         return disposalId;
@@ -79,5 +83,13 @@ public class DisposalRecord {
 
     public void setGmtModified(Integer gmtModified) {
         this.gmtModified = gmtModified;
+    }
+
+    public BigDecimal getBudget() {
+        return budget;
+    }
+
+    public void setBudget(BigDecimal budget) {
+        this.budget = budget;
     }
 }

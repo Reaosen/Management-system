@@ -163,6 +163,7 @@ public class WasteServiceImpl implements WasteService {
                     DisposalRecord disposalRecord = disposalRecords.get(0);
 
                     wasteDTO.setDisposalId(disposalRecord.getDisposalId());
+                    wasteDTO.setBudget(disposalRecord.getBudget());
 
                     UserExample userExample2 = new UserExample();
                     userExample2.createCriteria().andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
@@ -277,12 +278,13 @@ public class WasteServiceImpl implements WasteService {
     }
 
     @Override
-    public void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethodId, Integer collectionAccountId) {
+    public void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethodId, BigDecimal budget, Integer collectionAccountId) {
         DisposalRecord record = new DisposalRecord();
         record.setWasteRecordId(wasteRecordId);
         record.setDisposalAccountId(collectionAccountId);
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethodId(disposalMethodId);
+        record.setBudget(budget);
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         // 处理时间
@@ -406,6 +408,7 @@ public class WasteServiceImpl implements WasteService {
                 DisposalRecord disposalRecord = disposalRecords.get(0);
                 DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(disposalRecord.getDisposalPointId());
                 wasteDTO.setDisposalId(disposalRecord.getDisposalId());
+                wasteDTO.setBudget(disposalRecord.getBudget());
                 UserExample disposalUserExample = new UserExample();
                 disposalUserExample.createCriteria()
                         .andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
@@ -517,13 +520,19 @@ public class WasteServiceImpl implements WasteService {
     }
 
     @Override
-    public void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethodId, Integer disposalPointId, String disposalTime, Integer disposalAccountId) {
+    public void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethodId, BigDecimal budget, Integer disposalPointId, String disposalTime, Integer disposalAccountId) {
         DisposalRecord record = new DisposalRecord();
-        DisposalRecord oldRecord = disposalRecordMapper.selectByPrimaryKey(wasteRecordId);
-        BeanUtils.copyProperties(oldRecord, record);
+
+        DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+        disposalRecordExample.createCriteria()
+                        .andWasteRecordIdEqualTo(wasteRecordId);
+        List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
+        DisposalRecord oldRecord = disposalRecords.get(0);
+                BeanUtils.copyProperties(oldRecord, record);
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethodId(disposalMethodId);
         record.setDisposalPointId(disposalPointId);
+        record.setBudget(budget);
         // 处理时间
         Date date = DateUtil.parse(disposalTime, "yyyy-MM-dd HH:mm:ss");
         long disposalTimeStepMillis = date.getTime();
@@ -1336,6 +1345,28 @@ public class WasteServiceImpl implements WasteService {
 
 
         return result;
+    }
+
+    @Override
+    public List getBudgetsThisYear() {
+        Integer startOfYearTimestamp = TimeUtils.getStartOfYearTimestamp();
+        Integer currentTimestamp = TimeUtils.getCurrentTimestamp();
+        List<DisposalRecord> disposalRecords = disposalRecordExtMapper.selectDataByTimes(startOfYearTimestamp, currentTimestamp);
+        List<BigDecimal> budgets = new ArrayList<>();
+        budgets.add(BigDecimal.ZERO);
+        budgets.add(BigDecimal.ZERO);
+        for (DisposalRecord disposalRecord : disposalRecords) {
+            if (disposalRecord.getBudget().compareTo(BigDecimal.ZERO) >= 0) {
+                BigDecimal income = budgets.get(0);
+                income = income.add(disposalRecord.getBudget());
+                budgets.add(0, income);
+            }else {
+                BigDecimal expense = budgets.get(1);
+                expense = expense.add(disposalRecord.getBudget());
+                budgets.add(1, expense);
+            }
+        }
+        return budgets;
     }
 
     private Long getTotalRecords(String type) {

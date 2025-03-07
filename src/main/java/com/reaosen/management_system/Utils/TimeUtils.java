@@ -1,6 +1,7 @@
 package com.reaosen.management_system.Utils;
 
 import java.time.*;
+import java.time.temporal.ChronoField;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +122,23 @@ public class TimeUtils {
             // 将最后一天的最后一秒转换为十位时间戳
             return (int) (lastDayOfMonth.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli() / 1000);
         }
+    }
+
+    public static Integer getStartOfYearTimestamp() {
+        // 获取当前年份
+        int currentYear = LocalDate.now().get(ChronoField.YEAR);
+
+        // 获取当前年份1月1日
+        LocalDate startOfYear = LocalDate.of(currentYear, 1, 1);
+
+        // 将 LocalDate 转换为 ZonedDateTime（在 UTC 时区）
+        ZonedDateTime zdt = startOfYear.atStartOfDay(ZoneId.of("UTC"));
+
+        // 将 ZonedDateTime 转换为十位时间戳
+        long timestamp = zdt.toInstant().toEpochMilli() / 1000;
+
+        // 将 long 类型的时间戳转换为 int 类型
+        return Math.toIntExact(timestamp);
     }
 
 

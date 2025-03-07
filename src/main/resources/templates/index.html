@@ -63,7 +63,26 @@
                 </li>
                 <li class="active"> 我的数据</li>
             </ul>
-
+            <div class="state-info" th:if="${session.user.getPermission() == 'admin'}">
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="summary">
+                            <span>年开支</span>
+                            <h3 class="red-txt">￥ [[${income}]]</h3>
+                        </div>
+                        <div id="income" class="chart-bar"></div>
+                    </div>
+                </section>
+                <section class="panel">
+                    <div class="panel-body">
+                        <div class="summary">
+                            <span>年收入</span>
+                            <h3 class="green-txt">￥ [[${expense}]]</h3>
+                        </div>
+                        <div id="expense" class="chart-bar"></div>
+                    </div>
+                </section>
+            </div>
         </div>
         <!-- 中央页面顶部结束->
 

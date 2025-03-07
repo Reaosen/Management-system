@@ -19,6 +19,7 @@ $(document).ready(function() {
             {"mData": "wasteRecordId"},
             {"mData": "wasteType"},
             {"mData": "disposalMethod"},
+            {"mData": "budget"},
             {"mData": "disposalPoint"},
             {"mData": "disposalusername"},
             {"mData": "disposalTime"},

@@ -10,7 +10,7 @@ public interface WasteService {
 
     void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId);
 
-    void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethod, Integer collectionAccountId);
+    void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethod, BigDecimal budget, Integer collectionAccountId);
 
     void wasteTransportationInsert(Integer collectionPointId, Integer wasteRecordId, Integer disposalPointId, BigDecimal weight, String transportVehicle, Integer collectionAccountId);
 
@@ -34,7 +34,7 @@ public interface WasteService {
 
     void transportRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer collectionPointId, Integer disposalPointId, String transportTime, String transportVehicle, Integer transportAccountId);
 
-    void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethod, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
+    void disposalRecordUpdateByWasteRecordId(Integer wasteRecordId, Integer disposalMethod, BigDecimal budget, Integer disposalPointId, String disposalTime, Integer disposalAccountId);
 
     void wasteRecordDelete(Integer wasteRecordId);
 
@@ -87,4 +87,6 @@ public interface WasteService {
     Integer getUsedCapacityProportion(Integer regionId);
 
     List<WasteTypesCapacityDTO> getWasteTypesCapacityProportion(Integer regionId);
+
+    List getBudgetsThisYear();
 }

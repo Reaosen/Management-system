@@ -52,10 +52,13 @@ public class IndexController {
             Integer disposalTodayTotal = wasteService.getWasteTotalByTime("today", "disposal");
             Integer transportTodayTotal = wasteService.getWasteTotalByTime("today", "transport");
             Integer todayWorkUsersCount = userService.getWorkUsersCountByTime("today");
+            List budgets = wasteService.getBudgetsThisYear();
             model.addAttribute("collectionTodayTotal", collectionTodayTotal);
             model.addAttribute("disposalTodayTotal", disposalTodayTotal);
             model.addAttribute("transportTodayTotal", transportTodayTotal);
             model.addAttribute("todayWorkUsersCount", todayWorkUsersCount);
+            model.addAttribute("income", budgets.get(0));
+            model.addAttribute("expense", budgets.get(1));
 
             Integer allWeekTotal = wasteService.getWasteTotalByTime("week", "all");
             Integer allMonthTotal = wasteService.getWasteTotalByTime("month", "all");

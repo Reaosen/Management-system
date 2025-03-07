@@ -1,5 +1,6 @@
 package com.reaosen.management_system.Model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -581,6 +582,66 @@ public class DisposalRecordExample {
 
         public Criteria andGmtModifiedNotBetween(Integer value1, Integer value2) {
             addCriterion("gmt_modified not between", value1, value2, "gmtModified");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetIsNull() {
+            addCriterion("budget is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetIsNotNull() {
+            addCriterion("budget is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetEqualTo(BigDecimal value) {
+            addCriterion("budget =", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetNotEqualTo(BigDecimal value) {
+            addCriterion("budget <>", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetGreaterThan(BigDecimal value) {
+            addCriterion("budget >", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("budget >=", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetLessThan(BigDecimal value) {
+            addCriterion("budget <", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("budget <=", value, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetIn(List<BigDecimal> values) {
+            addCriterion("budget in", values, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetNotIn(List<BigDecimal> values) {
+            addCriterion("budget not in", values, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("budget between", value1, value2, "budget");
+            return (Criteria) this;
+        }
+
+        public Criteria andBudgetNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("budget not between", value1, value2, "budget");
             return (Criteria) this;
         }
     }

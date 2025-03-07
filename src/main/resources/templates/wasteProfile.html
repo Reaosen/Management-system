@@ -95,7 +95,6 @@
                                     <a class="btn btn-info btn-xs" type="button" style="margin: 15px"
                                        th:href="@{/waste/collection/modify/{id}(id=${wasteDTO.wasteRecordId})}">修改数据
                                         <i class="fa fa-file"></i></a>
-                                    <!--                                    TODO 删除功能-->
                                     <button class="btn btn-danger btn-xs" type="button" style="margin: 15px"
                                             th:onclick="'javascript:deleteCollection(\''+${wasteDTO.wasteRecordId}+'\');'">
                                         删除数据
@@ -197,6 +196,10 @@
                                     </div>
                                 </div>
                                 <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label class="control-label">收支(单位：元)：</label>
+                                        <span th:text="${wasteDTO.budget}"> -763</span>
+                                    </div>
                                     <div class="col-md-12">
                                         <label class="control-label">处理时间：</label>
                                         <span th:text="${wasteDTO.disposalTime}">2025/2/14</span>

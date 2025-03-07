@@ -97,12 +97,17 @@ public class WasteController {
     }
 
     @PostMapping("/waste/disposal/insert")
-    public String wasteDisposalInsert(@RequestParam Integer disposalPointId, @RequestParam Integer wasteRecordId, @RequestParam Integer disposalMethodId, @RequestParam Integer collectionAccountId, HttpServletRequest request) {
+    public String wasteDisposalInsert(@RequestParam Integer disposalPointId,
+                                      @RequestParam Integer wasteRecordId,
+                                      @RequestParam Integer disposalMethodId,
+                                      @RequestParam BigDecimal budget,
+                                      @RequestParam Integer collectionAccountId,
+                                      HttpServletRequest request) {
         User user = (User) request.getSession().getAttribute("user");
         if (!user.getPermission().equals("disposaler") && !user.getPermission().equals("admin")){
             throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
         }
-        wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethodId, collectionAccountId);
+        wasteService.wasteDisposalInsert(disposalPointId, wasteRecordId, disposalMethodId, budget, collectionAccountId);
         return "redirect:/waste/disposal";
     }
 
@@ -180,12 +185,14 @@ public class WasteController {
         List wasteTypes = wasteService.getWasteTypes();
         List disposalPoints = wasteService.getDisposalPoints();
         List disposalUsers = wasteService.getUsersByRole("处理工人");
+        List disposalMethods = wasteService.getDisposalMethods();
 
         model.addAttribute("wasteDTO", wasteDTO);
         model.addAttribute("statusTypeDTOs", statusTypeDTOs);
         model.addAttribute("wasteTypes", wasteTypes);
         model.addAttribute("disposalPoints", disposalPoints);
         model.addAttribute("disposalUsers", disposalUsers);
+        model.addAttribute("disposalMethods", disposalMethods);
         return "wasteProfileDisposalModify";
     }
 
@@ -228,6 +235,7 @@ public class WasteController {
     @PostMapping("/waste/disposal/update/{id}")
     public String wasteProfileDisposalUpdate(@PathVariable(value = "id") Integer wasteRecordId,
                                              @RequestParam Integer disposalMethodId,
+                                             @RequestParam BigDecimal budget,
                                              @RequestParam Integer disposalPointId,
                                              @RequestParam String disposalTime,
                                              @RequestParam Integer disposalAccountId,
@@ -236,7 +244,7 @@ public class WasteController {
         if (!user.getPermission().equals("disposaler") && !user.getPermission().equals("admin")){
             throw new CustomizeException(CustomizeErrorCode.NO_AUTHORITY);
         }
-        wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethodId, disposalPointId, disposalTime, disposalAccountId);
+        wasteService.disposalRecordUpdateByWasteRecordId(wasteRecordId, disposalMethodId, budget, disposalPointId, disposalTime, disposalAccountId);
         return "redirect:/waste/" + wasteRecordId;
     }
 
