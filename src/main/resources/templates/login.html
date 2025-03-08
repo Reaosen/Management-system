@@ -24,10 +24,10 @@
 
     <div class="container">
 
-        <form class="form-signin">
+        <form class="form-signin" style="margin-top: 150px;: ">
             <div class="form-signin-heading text-center">
                 <h1 class="sign-title">农业废弃物管理系统</h1>
-                <img src="/images/login-logo.png" alt="" />
+                <img src="/images/logo-login.png" alt="" />
             </div>
             <div class="login-wrap" id="login">
                 <input type="text" id="email" class="form-control" placeholder="邮箱" autofocus>
@@ -39,7 +39,7 @@
 
                 <div class="registration">
                     遇到问题？
-                    <a class="" href="registration.html">
+                    <a data-toggle="modal" href="#findUs">
                         联系我们
                     </a>
                 </div>
@@ -71,6 +71,27 @@
                         <div class="modal-footer">
                             <button data-dismiss="modal" class="btn btn-default" type="button">取消</button>
                             <button class="btn btn-primary" type="button">提交</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- modal -->
+            <!-- Modal -->
+            <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="findUs"
+                 class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4 class="modal-title">联系我们</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>您可以扫描下方二维码联系我们：</p>
+                            <img src="/images/weChat.jpg" alt="wechat" style="margin-right: 20%; margin-left: 20%;">
+
+                        </div>
+                        <div class="modal-footer">
+                            <button data-dismiss="modal" class="btn btn-default" type="button">好的</button>
                         </div>
                     </div>
                 </div>

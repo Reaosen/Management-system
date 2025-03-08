@@ -55,11 +55,11 @@
         <!-- 中央页面顶部开始-->
         <div class="page-heading">
             <h3>
-                数据监控
+                数据看板
             </h3>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">数据监控</a>
+                    <a href="#">数据看板</a>
                 </li>
                 <li class="active"> 我的数据</li>
             </ul>
@@ -91,7 +91,8 @@
             <div class="row">
                 <div class="col-md-6">
                     <!--管理员中控开始-->
-                    <div class="row state-overview" th:if="${session.user.permission=='admin'}" style="margin-bottom: 20px;margin-top: 10px;">
+                    <div class="row state-overview" th:if="${session.user.permission=='admin'}"
+                         style="margin-bottom: 20px;margin-top: 10px;">
                         <div class="col-md-6 col-xs-12 col-sm-6">
                             <div class="panel purple">
                                 <div class="symbol">
@@ -103,7 +104,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-6 col-xs-12 col-sm-6"  th:if="${session.user.permission=='admin'}">
+                        <div class="col-md-6 col-xs-12 col-sm-6" th:if="${session.user.permission=='admin'}">
                             <div class="panel red">
                                 <div class="symbol">
                                     <i class="fa fa-truck"></i>
@@ -169,9 +170,10 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li th:if="${session.user.permission=='collector'}" th:each="proportion : ${wasteTypesCapacityProportion}">
-                                    <div class="details">
-                                        <div class="prog-avatar">
+                                <li th:if="${session.user.permission=='collector'}"
+                                    th:each="proportion : ${wasteTypesCapacityProportion}">
+                                    <div class="details" style="width: 97%;margin-left: 3%;">
+                                        <div class=" prog-avatar">
                                         </div>
                                         <div class="title">
                                             [[${proportion.wasteTypeName}]]
@@ -186,10 +188,12 @@
                                         </div>
                                     </div>
                                 </li>
-                                <li th:each="task : ${unfinishedTasks}" th:if="${session.user.permission != 'collector'}">
+                                <li th:each="task : ${unfinishedTasks}"
+                                    th:if="${session.user.permission != 'collector'}">
                                     <div class="details">
                                         <div class="title">
-                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> , [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
+                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> ,
+                                            [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
                                             - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
                                         </div>
                                     </div>
@@ -230,8 +234,9 @@
                                 <li th:each="task : ${unfinishedTasks}">
                                     <div class="details">
                                         <div class="title">
-                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> , [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
-                                             - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
+                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> ,
+                                            [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
+                                            - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
                                         </div>
                                     </div>
                                 </li>
@@ -271,7 +276,8 @@
                                 <li th:each="task : ${unfinishedTasks}">
                                     <div class="details">
                                         <div class="title">
-                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> , [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
+                                            收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> ,
+                                            [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
                                             - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
                                         </div>
                                     </div>
@@ -285,8 +291,9 @@
                 <div class="col-md-4">
                     <!--饼状图-->
                     <div class="panel">
-                        <header class="panel-heading" th:if="${session.user.permission=='admin' || session.user.permission=='collector'}">
-                                废弃物类型分布
+                        <header class="panel-heading"
+                                th:if="${session.user.permission=='admin' || session.user.permission=='collector'}">
+                            废弃物类型分布
                             <span class="tools pull-right">
                                     <a href="javascript:;" class="fa fa-chevron-down"></a>
                                 </span>
@@ -300,7 +307,8 @@
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-md-12 col-sm-12 col-xs-12">
-                                    <div id="pieChart" class="revenue-graph" th:data-permission="${session.user.getPermission()}"></div>
+                                    <div id="pieChart" class="revenue-graph"
+                                         th:data-permission="${session.user.getPermission()}"></div>
                                 </div>
                             </div>
                         </div>
