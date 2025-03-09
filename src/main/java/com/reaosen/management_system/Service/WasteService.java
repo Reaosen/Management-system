@@ -89,4 +89,12 @@ public interface WasteService {
     List<WasteTypesCapacityDTO> getWasteTypesCapacityProportion(Integer regionId);
 
     List getBudgetsThisYear();
+
+    Integer getWastesCountByStatus(Integer type);
+
+    Integer getUnPaidWastesCount();
+
+    BigDecimal getStorageCapacity();
+
+    void payForDisposal(Integer id);
 }

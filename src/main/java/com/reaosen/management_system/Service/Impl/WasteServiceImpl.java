@@ -2,6 +2,7 @@ package com.reaosen.management_system.Service.Impl;
 
 import cn.hutool.core.date.DateUtil;
 import com.reaosen.management_system.DTO.*;
+import com.reaosen.management_system.Enumeration.PayStatusType;
 import com.reaosen.management_system.Exception.CustomizeErrorCode;
 import com.reaosen.management_system.Exception.CustomizeException;
 import com.reaosen.management_system.Mapper.*;
@@ -20,7 +21,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Year;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class WasteServiceImpl implements WasteService {
@@ -118,7 +118,7 @@ public class WasteServiceImpl implements WasteService {
 
 
         // 获取当前页的数据
-        wasteRecordExample.setOrderByClause("gmt_create desc");
+        wasteRecordExample.setOrderByClause("gmt_create DESC");
         List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExampleWithRowbounds(wasteRecordExample, new RowBounds(offset, size));
         List<WasteDTO> wasteDTOs = new ArrayList<>();
         for (WasteRecord wasteRecord : wasteRecords) {
@@ -164,6 +164,15 @@ public class WasteServiceImpl implements WasteService {
 
                     wasteDTO.setDisposalId(disposalRecord.getDisposalId());
                     wasteDTO.setBudget(disposalRecord.getBudget());
+                    if (disposalRecord.getPaystatus() == 1) {
+                        wasteDTO.setPayStatus(PayStatusType.UNPAID.message);
+                    }else if (disposalRecord.getPaystatus() == 2) {
+                        wasteDTO.setPayStatus(PayStatusType.PAID.message);
+                    }else if (disposalRecord.getPaystatus() == 3) {
+                        wasteDTO.setPayStatus(PayStatusType.UNPAID_PAYMENT.message);
+                    }else {
+                        wasteDTO.setPayStatus(PayStatusType.PAID_PAYMENT.message);
+                    }
 
                     UserExample userExample2 = new UserExample();
                     userExample2.createCriteria().andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
@@ -220,7 +229,7 @@ public class WasteServiceImpl implements WasteService {
     @Override
     public void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId) {
         CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(collectionPointId);
-        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)){
+        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)) {
             throw new CustomizeException(CustomizeErrorCode.OFF_CAPACITY);
         }
         BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
@@ -238,12 +247,11 @@ public class WasteServiceImpl implements WasteService {
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         // 收集时间
         record.setCollectionTime(timestamp);
-        // TODO 公共字段填充-时间
+
         record.setGmtCreate(timestamp);
         record.setGmtModified(timestamp);
         wasteRecordMapper.insert(record);
         collectionPointMapper.updateByPrimaryKeySelective(collectionPoint);
-
 
 
     }
@@ -285,6 +293,11 @@ public class WasteServiceImpl implements WasteService {
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethodId(disposalMethodId);
         record.setBudget(budget);
+        if (budget.compareTo(BigDecimal.ZERO) < 0) {
+            record.setPaystatus(1);
+        }else {
+            record.setPaystatus(4);
+        }
         long timeMillis = System.currentTimeMillis();
         Integer timestamp = Math.toIntExact(timeMillis / 1000);
         // 处理时间
@@ -349,6 +362,7 @@ public class WasteServiceImpl implements WasteService {
         BigDecimal usedCapacity = collectionPoint.getUsedCapacity();
         usedCapacity.subtract(weight);
         collectionPoint.setUsedCapacity(usedCapacity);
+        collectionPoint.setRemainingCapacity(null);
 
 
         WasteRecord wasteRecord = wasteRecordMapper.selectByPrimaryKey(wasteRecordId);
@@ -409,6 +423,15 @@ public class WasteServiceImpl implements WasteService {
                 DisposalPoint disposalPoint = disposalPointMapper.selectByPrimaryKey(disposalRecord.getDisposalPointId());
                 wasteDTO.setDisposalId(disposalRecord.getDisposalId());
                 wasteDTO.setBudget(disposalRecord.getBudget());
+                if (disposalRecord.getPaystatus() == 1) {
+                    wasteDTO.setPayStatus(PayStatusType.UNPAID.message);
+                }else if (disposalRecord.getPaystatus() == 2) {
+                    wasteDTO.setPayStatus(PayStatusType.PAID.message);
+                }else if (disposalRecord.getPaystatus() == 3) {
+                    wasteDTO.setPayStatus(PayStatusType.UNPAID_PAYMENT.message);
+                }else {
+                    wasteDTO.setPayStatus(PayStatusType.PAID_PAYMENT.message);
+                }
                 UserExample disposalUserExample = new UserExample();
                 disposalUserExample.createCriteria()
                         .andAccountIdEqualTo(disposalRecord.getDisposalAccountId());
@@ -458,7 +481,7 @@ public class WasteServiceImpl implements WasteService {
     @Override
     public void wasteRecordUpdate(Integer wasteRecordId, Integer wasteTypeId, BigDecimal weight, Integer collectionPointId, String collectionTime, Integer statusId, Integer collectionAccountId) {
         CollectionPoint collectionPoint = collectionPointMapper.selectByPrimaryKey(collectionPointId);
-        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)){
+        if (!(weight.compareTo(collectionPoint.getRemainingCapacity()) <= 0)) {
             throw new CustomizeException(CustomizeErrorCode.OFF_CAPACITY);
         }
         WasteRecord record = new WasteRecord();
@@ -525,10 +548,10 @@ public class WasteServiceImpl implements WasteService {
 
         DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
         disposalRecordExample.createCriteria()
-                        .andWasteRecordIdEqualTo(wasteRecordId);
+                .andWasteRecordIdEqualTo(wasteRecordId);
         List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
         DisposalRecord oldRecord = disposalRecords.get(0);
-                BeanUtils.copyProperties(oldRecord, record);
+        BeanUtils.copyProperties(oldRecord, record);
         record.setDisposalPointId(disposalPointId);
         record.setDisposalMethodId(disposalMethodId);
         record.setDisposalPointId(disposalPointId);
@@ -967,10 +990,9 @@ public class WasteServiceImpl implements WasteService {
             disposalData.add(disposalDataDaily);
             startTimestamp += 86400;
         }
-        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物收集信息", collectionData));
-        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物运输信息", transportData));
-        series.add(new LineSeriesDTO(year + "年" + month +"月-废弃物处理信息", disposalData));
-
+        series.add(new LineSeriesDTO(year + "年" + month + "月-废弃物收集信息", collectionData));
+        series.add(new LineSeriesDTO(year + "年" + month + "月-废弃物运输信息", transportData));
+        series.add(new LineSeriesDTO(year + "年" + month + "月-废弃物处理信息", disposalData));
 
 
         // 封装为 ChartData 对象
@@ -988,7 +1010,7 @@ public class WasteServiceImpl implements WasteService {
         for (CollectionPoint collectionPoint : collectionPoints) {
             WasteRecordExample example = new WasteRecordExample();
             example.createCriteria()
-                            .andCollectionPointIdEqualTo(collectionPoint.getCollectionPointId());
+                    .andCollectionPointIdEqualTo(collectionPoint.getCollectionPointId());
             List<WasteRecord> collectionPointRecords = wasteRecordMapper.selectByExample(example);
             Integer collectionPointSize = collectionPointRecords.size();
             sourceWasteMap.put(collectionPoint.getAddress(), collectionPointSize);
@@ -1029,7 +1051,7 @@ public class WasteServiceImpl implements WasteService {
         for (DisposalMethod disposalMethod : disposalMethods) {
             DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
             disposalRecordExample.createCriteria()
-                            .andDisposalMethodIdEqualTo(disposalMethod.getDisposalMethodId());
+                    .andDisposalMethodIdEqualTo(disposalMethod.getDisposalMethodId());
             List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
             Integer disposalRecordSize = disposalRecords.size();
             disposalMethodsMap.put(disposalMethod.getDisposalMethodName(), disposalRecordSize);
@@ -1120,19 +1142,19 @@ public class WasteServiceImpl implements WasteService {
         Integer month1;
         Integer month2;
         Integer month3;
-        if (groupId.equals("第一季度")){
+        if (groupId.equals("第一季度")) {
             month1 = 1;
             month2 = 2;
             month3 = 3;
-        }else if (groupId.equals("第二季度")){
+        } else if (groupId.equals("第二季度")) {
             month1 = 4;
             month2 = 5;
             month3 = 6;
-        }else if (groupId.equals("第三季度")){
+        } else if (groupId.equals("第三季度")) {
             month1 = 7;
             month2 = 8;
             month3 = 9;
-        }else {
+        } else {
             month1 = 10;
             month2 = 11;
             month3 = 12;
@@ -1209,9 +1231,9 @@ public class WasteServiceImpl implements WasteService {
     public List<WasteDTO> getUnfinishedTransportTask() {
         WasteRecordExample example = new WasteRecordExample();
         example.createCriteria()
-                        .andStatusEqualTo(1);
+                .andStatusEqualTo(1);
         List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
-        List<WasteDTO> wasteDTOs= new ArrayList<>();
+        List<WasteDTO> wasteDTOs = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
             WasteRecord wasteRecord = wasteRecords.get(i);
             WasteDTO wasteDTO = new WasteDTO();
@@ -1264,10 +1286,11 @@ public class WasteServiceImpl implements WasteService {
     public List<WasteDTO> getUnfinishedDisposalTask() {
         WasteRecordExample example = new WasteRecordExample();
         example.createCriteria()
-                        .andStatusEqualTo(2);
+                .andStatusEqualTo(2);
         List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
-        List<WasteDTO> wasteDTOs= new ArrayList<>();
+        List<WasteDTO> wasteDTOs = new ArrayList<>();
         for (int i = 0; i < 2; i++) {
+            if (wasteRecords.size() - i < 1) break;
             WasteRecord wasteRecord = wasteRecords.get(i);
             WasteDTO wasteDTO = new WasteDTO();
             BeanUtils.copyProperties(wasteRecord, wasteDTO);
@@ -1360,13 +1383,55 @@ public class WasteServiceImpl implements WasteService {
                 BigDecimal income = budgets.get(0);
                 income = income.add(disposalRecord.getBudget());
                 budgets.add(0, income);
-            }else {
+            } else {
                 BigDecimal expense = budgets.get(1);
                 expense = expense.add(disposalRecord.getBudget());
                 budgets.add(1, expense);
             }
         }
         return budgets;
+    }
+
+    @Override
+    public Integer getWastesCountByStatus(Integer type) {
+        WasteRecordExample example = new WasteRecordExample();
+        example.createCriteria()
+                        .andStatusEqualTo(type);
+        List<WasteRecord> wasteRecords = wasteRecordMapper.selectByExample(example);
+        Integer size = wasteRecords.size();
+        return size;
+    }
+
+    @Override
+    public Integer getUnPaidWastesCount() {
+        DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+        disposalRecordExample.createCriteria()
+                        .andPaystatusEqualTo(1);
+        List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
+        Integer size = disposalRecords.size();
+        return size;
+    }
+
+    @Override
+    public BigDecimal getStorageCapacity() {
+        List<CollectionPoint> collectionPoints = collectionPointMapper.selectByExample(new CollectionPointExample());
+        BigDecimal totalStorageCapacity = BigDecimal.ZERO;
+        for (CollectionPoint collectionPoint : collectionPoints) {
+            BigDecimal remainingCapacity = collectionPoint.getRemainingCapacity();
+            totalStorageCapacity = totalStorageCapacity.add(remainingCapacity);
+        }
+        return totalStorageCapacity;
+    }
+
+    @Override
+    public void payForDisposal(Integer id) {
+        DisposalRecordExample disposalRecordExample = new DisposalRecordExample();
+        disposalRecordExample.createCriteria()
+                        .andWasteRecordIdEqualTo(id);
+        List<DisposalRecord> disposalRecords = disposalRecordMapper.selectByExample(disposalRecordExample);
+        DisposalRecord disposalRecord = disposalRecords.get(0);
+        disposalRecord.setPaystatus(2);
+        disposalRecordMapper.updateByPrimaryKeySelective(disposalRecord);
     }
 
     private Long getTotalRecords(String type) {

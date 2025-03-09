@@ -99,8 +99,8 @@
                                     <i class="fa fa-archive"></i>
                                 </div>
                                 <div class="state-value">
-                                    <div class="value">[[${collectionTodayTotal}]]</div>
-                                    <div class="title">今日新增收集</div>
+                                    <div class="value">[[${storageCapacity}]]</div>
+                                    <div class="title">仓储剩余量(吨)</div>
                                 </div>
                             </div>
                         </div>
@@ -110,8 +110,8 @@
                                     <i class="fa fa-truck"></i>
                                 </div>
                                 <div class="state-value">
-                                    <div class="value">[[${transportTodayTotal}]]</div>
-                                    <div class="title">今日新增运输</div>
+                                    <div class="value">[[${unTransport}]]</div>
+                                    <div class="title">未运输废弃物数量</div>
                                 </div>
                             </div>
                         </div>
@@ -123,19 +123,19 @@
                                     <i class="fa fa-rotate-left"></i>
                                 </div>
                                 <div class="state-value">
-                                    <div class="value">[[${disposalTodayTotal}]]</div>
-                                    <div class="title">今日新增处理</div>
+                                    <div class="value">[[${unDisposal}]]</div>
+                                    <div class="title">未处理废弃物数量</div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-md-6 col-xs-12 col-sm-6">
                             <div class="panel green">
                                 <div class="symbol">
-                                    <i class="fa fa-user"></i>
+                                    <i class="fa fa-cny"></i>
                                 </div>
                                 <div class="state-value">
-                                    <div class="value">[[${todayWorkUsersCount}]]</div>
-                                    <div class="title">今日活跃员工</div>
+                                    <div class="value">[[${unPaid}]]</div>
+                                    <div class="title">待支付处理订单数量</div>
                                 </div>
                             </div>
                         </div>
@@ -235,13 +235,14 @@
                                     <div class="details">
                                         <div class="title">
                                             收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> ,
-                                            [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
+                                            [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集<span
+                                                class="badge badge-important">未运输</span>
                                             - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                            <p>仅显示有限数据，<a href="waste/transportation">查看所有>></a></p>
+                            <p>仅显示有限数据，<a href="waste/collection">查看所有>></a></p>
                         </div>
                     </div>
                     <!--处理工人任务清单-->
@@ -278,12 +279,13 @@
                                         <div class="title">
                                             收集编号：<span class="badge badge-info">[[${task.wasteRecordId}]]</span> ,
                                             [[${task.weight}]]吨的[[${task.wasteType}]], 由[[${task.collectionPoint}]]收集
+                                            <span class="badge badge-warning">未处理</span>
                                             - <a th:href="@{/waste/{id}(id=${task.wasteRecordId})}">查看详情>></a>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
-                            <p>仅显示有限数据，<a href="waste/disposal">查看所有>></a></p>
+                            <p>仅显示有限数据，<a href="waste/collection">查看所有>></a></p>
                         </div>
                     </div>
 

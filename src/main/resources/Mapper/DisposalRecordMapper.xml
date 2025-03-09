@@ -11,6 +11,7 @@
     <result column="gmt_create" jdbcType="INTEGER" property="gmtCreate" />
     <result column="gmt_modified" jdbcType="INTEGER" property="gmtModified" />
     <result column="budget" jdbcType="DECIMAL" property="budget" />
+    <result column="payStatus" jdbcType="INTEGER" property="paystatus" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,7 +73,7 @@
   </sql>
   <sql id="Base_Column_List">
     disposal_id, waste_record_id, disposal_time, disposal_method_id, disposal_point_id, 
-    disposal_account_id, gmt_create, gmt_modified, budget
+    disposal_account_id, gmt_create, gmt_modified, budget, payStatus
   </sql>
   <select id="selectByExample" parameterType="com.reaosen.management_system.Model.DisposalRecordExample" resultMap="BaseResultMap">
     select
@@ -107,12 +108,12 @@
   <insert id="insert" parameterType="com.reaosen.management_system.Model.DisposalRecord">
     insert into disposalrecord (disposal_id, waste_record_id, disposal_time, 
       disposal_method_id, disposal_point_id, disposal_account_id, 
-      gmt_create, gmt_modified, budget
-      )
+      gmt_create, gmt_modified, budget, 
+      payStatus)
     values (#{disposalId,jdbcType=INTEGER}, #{wasteRecordId,jdbcType=INTEGER}, #{disposalTime,jdbcType=INTEGER}, 
       #{disposalMethodId,jdbcType=INTEGER}, #{disposalPointId,jdbcType=INTEGER}, #{disposalAccountId,jdbcType=INTEGER}, 
-      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}, #{budget,jdbcType=DECIMAL}
-      )
+      #{gmtCreate,jdbcType=INTEGER}, #{gmtModified,jdbcType=INTEGER}, #{budget,jdbcType=DECIMAL}, 
+      #{paystatus,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.reaosen.management_system.Model.DisposalRecord">
     insert into disposalrecord
@@ -144,6 +145,9 @@
       <if test="budget != null">
         budget,
       </if>
+      <if test="paystatus != null">
+        payStatus,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="disposalId != null">
@@ -172,6 +176,9 @@
       </if>
       <if test="budget != null">
         #{budget,jdbcType=DECIMAL},
+      </if>
+      <if test="paystatus != null">
+        #{paystatus,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="record.budget != null">
         budget = #{record.budget,jdbcType=DECIMAL},
       </if>
+      <if test="record.paystatus != null">
+        payStatus = #{record.paystatus,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -226,7 +236,8 @@
       disposal_account_id = #{record.disposalAccountId,jdbcType=INTEGER},
       gmt_create = #{record.gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{record.gmtModified,jdbcType=INTEGER},
-      budget = #{record.budget,jdbcType=DECIMAL}
+      budget = #{record.budget,jdbcType=DECIMAL},
+      payStatus = #{record.paystatus,jdbcType=INTEGER}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -258,6 +269,9 @@
       <if test="budget != null">
         budget = #{budget,jdbcType=DECIMAL},
       </if>
+      <if test="paystatus != null">
+        payStatus = #{paystatus,jdbcType=INTEGER},
+      </if>
     </set>
     where disposal_id = #{disposalId,jdbcType=INTEGER}
   </update>
@@ -270,7 +284,8 @@
       disposal_account_id = #{disposalAccountId,jdbcType=INTEGER},
       gmt_create = #{gmtCreate,jdbcType=INTEGER},
       gmt_modified = #{gmtModified,jdbcType=INTEGER},
-      budget = #{budget,jdbcType=DECIMAL}
+      budget = #{budget,jdbcType=DECIMAL},
+      payStatus = #{paystatus,jdbcType=INTEGER}
     where disposal_id = #{disposalId,jdbcType=INTEGER}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.reaosen.management_system.Model.DisposalRecordExample" resultMap="BaseResultMap">

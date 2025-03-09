@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Controller
@@ -48,15 +49,15 @@ public class IndexController {
 
         // 管理员中控接口
         if (user != null && user.getPermission().equals("admin")) {
-            Integer collectionTodayTotal = wasteService.getWasteTotalByTime("today", "collection");
-            Integer disposalTodayTotal = wasteService.getWasteTotalByTime("today", "disposal");
-            Integer transportTodayTotal = wasteService.getWasteTotalByTime("today", "transport");
-            Integer todayWorkUsersCount = userService.getWorkUsersCountByTime("today");
+            BigDecimal storageCapacity =  wasteService.getStorageCapacity();
+            Integer unTransport = wasteService.getWastesCountByStatus(1);
+            Integer unDisposal = wasteService.getWastesCountByStatus(2);
+            Integer unPaid = wasteService.getUnPaidWastesCount();
             List budgets = wasteService.getBudgetsThisYear();
-            model.addAttribute("collectionTodayTotal", collectionTodayTotal);
-            model.addAttribute("disposalTodayTotal", disposalTodayTotal);
-            model.addAttribute("transportTodayTotal", transportTodayTotal);
-            model.addAttribute("todayWorkUsersCount", todayWorkUsersCount);
+            model.addAttribute("storageCapacity", storageCapacity);
+            model.addAttribute("unTransport", unTransport);
+            model.addAttribute("unDisposal", unDisposal);
+            model.addAttribute("unPaid", unPaid);
             model.addAttribute("income", budgets.get(0));
             model.addAttribute("expense", budgets.get(1));
 

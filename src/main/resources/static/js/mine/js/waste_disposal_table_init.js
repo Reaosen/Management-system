@@ -1,16 +1,16 @@
-$(document).ready(function() {
+$(document).ready(function () {
     var oTable = $('#waste-disposal-table').dataTable({
         "aaSorting": [[0, "asc"]],
         "bProcessing": false,
         "bServerSide": true,
         "bInfo": false,
         "sAjaxSource": "/waste/disposal/pagination",
-        "fnServerData": function(sSource, aoData, fnCallback) {
+        "fnServerData": function (sSource, aoData, fnCallback) {
             $.ajax({
                 "url": sSource,
                 "type": "GET",
                 "data": aoData,
-                "success": function(json) {
+                "success": function (json) {
                     fnCallback(json);
                 }
             });
@@ -20,6 +20,23 @@ $(document).ready(function() {
             {"mData": "wasteType"},
             {"mData": "disposalMethod"},
             {"mData": "budget"},
+            {
+                "mData": "payStatus",
+                "fnRender": function (oObj, sType, sValue) {
+                    if (oObj.aData.payStatus == "未支付"){
+                        var html = '<span class="badge badge-important">未支付</span><a href="/weChatPay/'+ oObj.aData.wasteRecordId + '">  去支付>></a>';
+                    }else if (oObj.aData.payStatus == "已支付"){
+                        var html = '<span class="badge badge-success">已支付</span>'
+                    }else if (oObj.aData.payStatus == "已入账"){
+                        var html = '<span class="badge badge-success">已入账</span>'
+                    }else if (oObj.aData.payStatus == "未入账"){
+                        var html = '<span class="badge badge-warning">未入账</span>'
+                    }
+
+
+                    return html; // 返回按钮的 HTML
+                }
+            },
             {"mData": "disposalPoint"},
             {"mData": "disposalusername"},
             {"mData": "disposalTime"},
@@ -35,7 +52,7 @@ $(document).ready(function() {
     });
 
     /* 为打开和关闭详细信息添加事件侦听器 */
-    $(document).on('click', '#waste-disposal-table tbody td img', function() {
+    $(document).on('click', '#waste-disposal-table tbody td img', function () {
         var nTr = $(this).parents('tr')[0]; // 获取当前行的 DOM 元素
         if (oTable.fnIsOpen(nTr)) {
             // 如果当前行已经展开，关闭它
@@ -58,8 +75,7 @@ $(document).ready(function() {
             type: "GET",
             url: "/waste/" + wasteRecordId,
             contentType: "application/json",
-            data: JSON.stringify({
-            }),
+            data: JSON.stringify({}),
             success: function (response) {
                 if (response.code === 200) {
 

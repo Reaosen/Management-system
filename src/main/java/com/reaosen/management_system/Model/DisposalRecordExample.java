@@ -644,6 +644,66 @@ public class DisposalRecordExample {
             addCriterion("budget not between", value1, value2, "budget");
             return (Criteria) this;
         }
+
+        public Criteria andPaystatusIsNull() {
+            addCriterion("payStatus is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusIsNotNull() {
+            addCriterion("payStatus is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusEqualTo(Integer value) {
+            addCriterion("payStatus =", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusNotEqualTo(Integer value) {
+            addCriterion("payStatus <>", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusGreaterThan(Integer value) {
+            addCriterion("payStatus >", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusGreaterThanOrEqualTo(Integer value) {
+            addCriterion("payStatus >=", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusLessThan(Integer value) {
+            addCriterion("payStatus <", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusLessThanOrEqualTo(Integer value) {
+            addCriterion("payStatus <=", value, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusIn(List<Integer> values) {
+            addCriterion("payStatus in", values, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusNotIn(List<Integer> values) {
+            addCriterion("payStatus not in", values, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusBetween(Integer value1, Integer value2) {
+            addCriterion("payStatus between", value1, value2, "paystatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andPaystatusNotBetween(Integer value1, Integer value2) {
+            addCriterion("payStatus not between", value1, value2, "paystatus");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

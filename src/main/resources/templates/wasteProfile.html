@@ -79,11 +79,12 @@
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">状态：</label>
-                                        <span class="label label-success"
+                                        <span class="badge badge-success"
                                               th:if="${wasteDTO.statusId == 3}">已处理</span>
-                                        <span class="label label-primary"
-                                              th:if="${wasteDTO.statusId == 2}">已运输</span>
-                                        <span class="label label-info" th:if="${wasteDTO.statusId == 1}">已收集</span>
+                                        <span class="badge badge-warning"
+                                              th:if="${wasteDTO.statusId == 2}">未处理</span>
+                                        <span class="badge badge-important"
+                                              th:if="${wasteDTO.statusId == 1}">未运输</span>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">废弃物收集负责人：</label>
@@ -112,6 +113,8 @@
                             废弃物运输信息 <span class="label label-success"
                                                  th:if="${wasteDTO.statusId != 1}">已运输</span><span
                                 class="label label-danger" th:if="${wasteDTO.statusId == 1}">未运输</span>
+                            <a class="btn btn-info btn-xs" type="button" th:if="${wasteDTO.statusId == 1}"
+                               href="/waste/transportation/form">新增运输 <i class="fa fa-plus"></i></a>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
@@ -168,9 +171,11 @@
                 <div class="col-md-12">
                     <section class="panel">
                         <header class="panel-heading">
-                            废弃物处理信息 <span class="label label-success"
+                            废弃物处理信息 <span class="label label-success" style="margin: 15px"
                                                  th:if="${wasteDTO.statusId == 3}">已处理</span><span
                                 class="label label-danger" th:if="${wasteDTO.statusId != 3}">未处理</span>
+                            <a class="btn btn-info btn-xs" type="button" th:if="${wasteDTO.statusId == 2}"
+                               href="/waste/disposal/form">新增处理 <i class="fa fa-plus"></i></a>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
@@ -199,6 +204,19 @@
                                     <div class="col-md-12">
                                         <label class="control-label">收支(单位：元)：</label>
                                         <span th:text="${wasteDTO.budget}"> -763</span>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <label class="control-label">支付状态：</label>
+                                        <span th:if="${wasteDTO.payStatus.equals('已支付')}"
+                                              class="badge badge-success">已支付</span>
+                                        <span th:if="${wasteDTO.payStatus.equals('未支付')}"
+                                              class="badge badge-important">未支付</span>
+                                        <a th:href="@{/weChatPay/{id}(id=${wasteDTO.wasteRecordId})}"
+                                           th:if="${wasteDTO.payStatus.equals('未支付')}">去支付>></a>
+                                        <span th:if="${wasteDTO.payStatus.equals('已入账')}"
+                                              class="badge badge-success">已入账</span>
+                                        <span th:if="${wasteDTO.payStatus.equals('未入账')}"
+                                              class="badge badge-warning">未入账</span>
                                     </div>
                                     <div class="col-md-12">
                                         <label class="control-label">处理时间：</label>

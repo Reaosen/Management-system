@@ -21,7 +21,21 @@ $(document).ready(function () {
             {"mData": "weight"},
             {"mData": "collectionTime"},
             {"mData": "collectionPoint"},
-            {"mData": "status"},
+            {
+                "mData": "status",
+                "fnRender": function (oObj, sType, sValue) {
+                    if (oObj.aData.status == "已收集"){
+                        var html = '<a class="badge badge-important">未运输</a>';
+                    }else if (oObj.aData.status == "已处理"){
+                        var html = '<span class="badge badge-success">已处理</span>'
+                    }else if (oObj.aData.status == "已运输"){
+                        var html = '<span class="badge badge-warning">未处理</span>'
+                    }
+
+
+                    return html; // 返回按钮的 HTML
+                }
+            },
             {"mData": "collectionusername"},
             {
                 "mData": null,

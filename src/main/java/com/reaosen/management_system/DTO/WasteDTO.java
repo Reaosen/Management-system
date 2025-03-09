@@ -23,6 +23,7 @@ public class WasteDTO {
     private String disposalusername;//处理人
     private String disposalMethod;//处理方法
     private BigDecimal budget;//收支
+    private String payStatus;//支付状态
     private String disposalPoint;//处理地点
     private String disposalTime;//处理时间
 }

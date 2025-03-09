@@ -21,6 +21,8 @@ public class DisposalRecord {
 
     private BigDecimal budget;
 
+    private Integer paystatus;
+
     public Integer getDisposalId() {
         return disposalId;
     }
@@ -91,5 +93,13 @@ public class DisposalRecord {
 
     public void setBudget(BigDecimal budget) {
         this.budget = budget;
+    }
+
+    public Integer getPaystatus() {
+        return paystatus;
+    }
+
+    public void setPaystatus(Integer paystatus) {
+        this.paystatus = paystatus;
     }
 }
