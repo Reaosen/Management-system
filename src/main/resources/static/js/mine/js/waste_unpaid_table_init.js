@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    var oTable = $('#waste-collection-table').dataTable({
+    var oTable = $('#waste-disposal-table').dataTable({
         "aaSorting": [[0, "asc"]],
         "bProcessing": false,
         "bServerSide": true,
         "bInfo": false,
-        "sAjaxSource": "/waste/collection/pagination",
+        "sAjaxSource": "/waste/unpaid/pagination",
         "fnServerData": function (sSource, aoData, fnCallback) {
             $.ajax({
                 "url": sSource,
@@ -18,25 +18,28 @@ $(document).ready(function () {
         "aoColumns": [
             {"mData": "wasteRecordId"},
             {"mData": "wasteType"},
-            {"mData": "weight"},
-            {"mData": "collectionTime"},
-            {"mData": "collectionPoint"},
+            {"mData": "disposalMethod"},
+            {"mData": "budget"},
             {
-                "mData": "status",
+                "mData": "payStatus",
                 "fnRender": function (oObj, sType, sValue) {
-                    if (oObj.aData.status == "已收集"){
-                        var html = '<span class="badge badge-important">未运输</span>';
-                    }else if (oObj.aData.status == "已处理"){
-                        var html = '<span class="badge badge-success">已处理</span>'
-                    }else if (oObj.aData.status == "已运输"){
-                        var html = '<span class="badge badge-warning">未处理</span>'
+                    if (oObj.aData.payStatus == "未支付"){
+                        var html = '<span class="badge badge-important">未支付</span><a href="/weChatPay/'+ oObj.aData.wasteRecordId + '">  去支付>></a>';
+                    }else if (oObj.aData.payStatus == "已支付"){
+                        var html = '<span class="badge badge-success">已支付</span>'
+                    }else if (oObj.aData.payStatus == "已入账"){
+                        var html = '<span class="badge badge-success">已入账</span>'
+                    }else if (oObj.aData.payStatus == "未入账"){
+                        var html = '<span class="badge badge-warning">未入账</span>'
                     }
 
 
                     return html; // 返回按钮的 HTML
                 }
             },
-            {"mData": "collectionusername"},
+            {"mData": "disposalPoint"},
+            {"mData": "disposalusername"},
+            {"mData": "disposalTime"},
             {
                 "mData": null,
                 "fnRender": function (oObj, sType, sValue) {
@@ -49,7 +52,7 @@ $(document).ready(function () {
     });
 
     /* 为打开和关闭详细信息添加事件侦听器 */
-    $(document).on('click', '#waste-collection-table tbody td img', function () {
+    $(document).on('click', '#waste-disposal-table tbody td img', function () {
         var nTr = $(this).parents('tr')[0]; // 获取当前行的 DOM 元素
         if (oTable.fnIsOpen(nTr)) {
             // 如果当前行已经展开，关闭它
@@ -62,7 +65,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#waste-collection-table tbody').on('click', 'button', function () {
+    $('#waste-disposal-table tbody').on('click', 'button', function () {
         var button = $(this);
         var nTr = button.closest('tr')[0];
         var aData = oTable.fnGetData(nTr); // 获取整行数据
@@ -72,14 +75,13 @@ $(document).ready(function () {
             type: "GET",
             url: "/waste/" + wasteRecordId,
             contentType: "application/json",
-            data: JSON.stringify({
-            }),
+            data: JSON.stringify({}),
             success: function (response) {
                 if (response.code === 200) {
 
                 } else {
                     // 操作失败，弹出错误信息
-                    alert(response.message);
+                    alert(response.message || '禁用用户失败');
                 }
             },
             error: function () {

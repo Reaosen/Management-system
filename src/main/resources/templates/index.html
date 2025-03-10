@@ -94,50 +94,58 @@
                     <div class="row state-overview" th:if="${session.user.permission=='admin'}"
                          style="margin-bottom: 20px;margin-top: 10px;">
                         <div class="col-md-6 col-xs-12 col-sm-6">
-                            <div class="panel purple">
-                                <div class="symbol">
-                                    <i class="fa fa-archive"></i>
+                            <a href="/waste/collection" style="color: inherit; text-decoration: none;">
+                                <div class="panel purple">
+                                    <div class="symbol">
+                                        <i class="fa fa-archive"></i>
+                                    </div>
+                                    <div class="state-value">
+                                        <div class="value">[[${storageCapacity}]]</div>
+                                        <div class="title">仓储剩余量(吨)</div>
+                                    </div>
                                 </div>
-                                <div class="state-value">
-                                    <div class="value">[[${storageCapacity}]]</div>
-                                    <div class="title">仓储剩余量(吨)</div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
-                        <div class="col-md-6 col-xs-12 col-sm-6" th:if="${session.user.permission=='admin'}">
-                            <div class="panel red">
-                                <div class="symbol">
-                                    <i class="fa fa-truck"></i>
+                        <div class="col-md-6 col-xs-12 col-sm-6">
+                            <a href="/waste/untransportation" style="color: inherit; text-decoration: none;">
+                                <div class="panel red">
+                                    <div class="symbol">
+                                        <i class="fa fa-truck"></i>
+                                    </div>
+                                    <div class="state-value">
+                                        <div class="value">[[${unTransport}]]</div>
+                                        <div class="title">未运输废弃物数量</div>
+                                    </div>
                                 </div>
-                                <div class="state-value">
-                                    <div class="value">[[${unTransport}]]</div>
-                                    <div class="title">未运输废弃物数量</div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <div class="row state-overview" th:if="${session.user.permission=='admin'}">
                         <div class="col-md-6 col-xs-12 col-sm-6">
-                            <div class="panel blue">
-                                <div class="symbol">
-                                    <i class="fa fa-rotate-left"></i>
+                            <a href="/waste/undisposal" style="color: inherit; text-decoration: none;">
+                                <div class="panel blue">
+                                    <div class="symbol">
+                                        <i class="fa fa-rotate-left"></i>
+                                    </div>
+                                    <div class="state-value">
+                                        <div class="value">[[${unDisposal}]]</div>
+                                        <div class="title">未处理废弃物数量</div>
+                                    </div>
                                 </div>
-                                <div class="state-value">
-                                    <div class="value">[[${unDisposal}]]</div>
-                                    <div class="title">未处理废弃物数量</div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                         <div class="col-md-6 col-xs-12 col-sm-6">
-                            <div class="panel green">
-                                <div class="symbol">
-                                    <i class="fa fa-cny"></i>
+                            <a href="/waste/unpaid" style="color: inherit; text-decoration: none;">
+                                <div class="panel green">
+                                    <div class="symbol">
+                                        <i class="fa fa-cny"></i>
+                                    </div>
+                                    <div class="state-value">
+                                        <div class="value">[[${unPaid}]]</div>
+                                        <div class="title">待支付处理订单数量</div>
+                                    </div>
                                 </div>
-                                <div class="state-value">
-                                    <div class="value">[[${unPaid}]]</div>
-                                    <div class="title">待支付处理订单数量</div>
-                                </div>
-                            </div>
+                            </a>
                         </div>
                     </div>
                     <!--管理员中控结束-->
@@ -242,7 +250,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <p>仅显示有限数据，<a href="waste/collection">查看所有>></a></p>
+                            <p>仅显示有限数据，<a href="waste/untransportation">查看所有>></a></p>
                         </div>
                     </div>
                     <!--处理工人任务清单-->
@@ -285,7 +293,7 @@
                                     </div>
                                 </li>
                             </ul>
-                            <p>仅显示有限数据，<a href="waste/collection">查看所有>></a></p>
+                            <p>仅显示有限数据，<a href="waste/undisposal">查看所有>></a></p>
                         </div>
                     </div>
 

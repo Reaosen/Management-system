@@ -35,6 +35,21 @@ public class WasteController {
         return "wasteTransportation";
     }
 
+    @GetMapping("/waste/untransportation")
+    public String wasteUntransportation() {
+        return "wasteUntransportation";
+    }
+
+    @GetMapping("/waste/undisposal")
+    public String wasteUndisposal() {
+        return "wasteUndisposal";
+    }
+
+    @GetMapping("/waste/unpaid")
+    public String wasteUnpaid() {
+        return "wasteUnpaid";
+    }
+
     @GetMapping("/waste/transportation/pagination")
     @ResponseBody
     public PaginationDTO wasteTransportationPagination(HttpServletRequest request, Model model, @RequestParam(value = "sEcho") Integer sEcho, @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart, @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength, @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
@@ -56,6 +71,30 @@ public class WasteController {
     public PaginationDTO wasteCollectionPagination(HttpServletRequest request, Model model, @RequestParam(value = "sEcho") Integer sEcho, @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart, @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength, @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
 
         PaginationDTO pagination = wasteService.wastePagination("collection", sEcho, iDisplayStart, iDisplayLength, sSearch);
+        return pagination;
+    }
+
+    @GetMapping("/waste/untransportation/pagination")
+    @ResponseBody
+    public PaginationDTO wasteUntransportationPagination(HttpServletRequest request, Model model, @RequestParam(value = "sEcho") Integer sEcho, @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart, @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength, @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
+
+        PaginationDTO pagination = wasteService.wastePaginationByStatus("collection", 1, sEcho, iDisplayStart, iDisplayLength, sSearch);
+        return pagination;
+    }
+
+    @GetMapping("/waste/undisposal/pagination")
+    @ResponseBody
+    public PaginationDTO wasteUndisposalPagination(HttpServletRequest request, Model model, @RequestParam(value = "sEcho") Integer sEcho, @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart, @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength, @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
+
+        PaginationDTO pagination = wasteService.wastePaginationByStatus("transportation", 2, sEcho, iDisplayStart, iDisplayLength, sSearch);
+        return pagination;
+    }
+
+    @GetMapping("/waste/unpaid/pagination")
+    @ResponseBody
+    public PaginationDTO wasteUnpaidPagination(HttpServletRequest request, Model model, @RequestParam(value = "sEcho") Integer sEcho, @RequestParam(value = "iDisplayStart", defaultValue = "0") Integer iDisplayStart, @RequestParam(value = "iDisplayLength", defaultValue = "10") Integer iDisplayLength, @RequestParam(value = "sSearch", defaultValue = "") String sSearch) {
+
+        PaginationDTO pagination = wasteService.wastePaginationByPayStatus("disposal", 1, sEcho, iDisplayStart, iDisplayLength, sSearch);
         return pagination;
     }
 
@@ -84,8 +123,24 @@ public class WasteController {
     public String wasteDisposalForm(HttpServletRequest request, Model model) {
         List disposalPoints = wasteService.getDisposalPoints();
         List disposalMethods = wasteService.getDisposalMethods();
+        List undisposalWastes = wasteService.getWastesUndisposal();
         model.addAttribute("disposalPoints", disposalPoints);
         model.addAttribute("disposalMethods", disposalMethods);
+        model.addAttribute("undisposalWastes", undisposalWastes);
+        return "wasteDisposalForm";
+    }
+
+    @GetMapping("/waste/disposal/form/{id}")
+    public String wasteDisposalFormById(HttpServletRequest request, Model model, @PathVariable Integer id) {
+        WasteDTO wasteByWasteRecord = wasteService.getWasteByWasteRecordId(id);
+        model.addAttribute("wasteByWasteRecord", wasteByWasteRecord);
+
+        List disposalPoints = wasteService.getDisposalPoints();
+        List disposalMethods = wasteService.getDisposalMethods();
+        List undisposalWastes = wasteService.getWastesUndisposal();
+        model.addAttribute("disposalPoints", disposalPoints);
+        model.addAttribute("disposalMethods", disposalMethods);
+        model.addAttribute("undisposalWastes", undisposalWastes);
         return "wasteDisposalForm";
     }
 
@@ -113,6 +168,17 @@ public class WasteController {
 
     @GetMapping("/waste/transportation/form")
     public String wasteTransportationForm(HttpServletRequest request, Model model) {
+        List collectionPoints = wasteService.getCollectionPoints();
+        List disposalPoints = wasteService.getDisposalPoints();
+        model.addAttribute("collectionPoints", collectionPoints);
+        model.addAttribute("disposalPoints", disposalPoints);
+        return "wasteTransportationForm";
+    }
+
+    @GetMapping("/waste/transportation/form/{id}")
+    public String wasteTransportationFormById(HttpServletRequest request, Model model, @PathVariable Integer id) {
+        WasteDTO wasteByWasteRecord = wasteService.getWasteByWasteRecordId(id);
+        model.addAttribute("wasteByWasteRecord", wasteByWasteRecord);
         List collectionPoints = wasteService.getCollectionPoints();
         List disposalPoints = wasteService.getDisposalPoints();
         model.addAttribute("collectionPoints", collectionPoints);

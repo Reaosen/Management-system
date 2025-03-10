@@ -7,7 +7,7 @@
   <meta name="author" content="ThemeBucket">
   <link rel="shortcut icon" href="#" type="image/png">
 
-  <title>废弃物运输</title>
+  <title>未支付废弃物处理</title>
 
   <!--dynamic table-->
   <link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet" />
@@ -41,13 +41,13 @@
         <!-- 页面起始开始-->
         <div class="page-heading">
             <h3>
-                废弃物运输
+                未支付废弃物处理
             </h3>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">废弃物管理</a>
+                    <a href="#">待办任务</a>
                 </li>
-                <li class="active">废弃物运输</li>
+                <li class="active">未支付废弃物处理</li>
             </ul>
         </div>
         <!-- 页面起始结束-->
@@ -55,29 +55,27 @@
         <!--body wrapper start-->
         <div class="wrapper">
         <div class="row">
-            <a class="btn btn-info" type="button" style="margin: 15px" href="/waste/transportation/form">新增数据 <i class="fa fa-plus"></i></a>
         <div class="col-sm-12">
         <section class="panel">
         <header class="panel-heading">
-            废弃物运输
+            未支付废弃物处理
             <span class="tools pull-right">
                 <a href="javascript:;" class="fa fa-chevron-down"></a>
              </span>
         </header>
         <div class="panel-body">
         <div class="adv-table">
-        <table  class="display table table-bordered table-striped" id="waste-transportation-table">
+        <table  class="display table table-bordered table-striped" id="waste-disposal-table">
         <thead>
         <tr>
             <th>收集编号</th>
-            <th>运输编号</th>
             <th>废弃物类型</th>
-            <th>废弃物质量(单位：吨)</th>
-            <th>运输负责人</th>
-            <th>起始地</th>
-            <th>目的地</th>
-            <th>车牌号</th>
-            <th>运输时间</th>
+            <th>处理方法</th>
+            <th>收支(单位：元)</th>
+            <th>支付状态</th>
+            <th>处理地点</th>
+            <th>处理负责人</th>
+            <th>处理时间</th>
             <th>详情</th>
         </tr>
         </thead>
@@ -85,13 +83,11 @@
         <tr class="gradeC">
 <!--            示例-->
             <td>1</td>
-            <td>示例废弃物类型</td>
-            <td>112</td>
+            <td>塑料</td>
+            <td>回收</td>
+            <td>木星回收中心</td>
             <td>test唐三</td>
             <td>2099/9/9</td>
-            <td>北京</td>
-            <td>火星</td>
-            <td>京Z9999</td>
             <td><a href="" class="btn btn-info  btn-sm" id="add-without-image">查看详情</a></td>
         </tr>
 
@@ -100,14 +96,13 @@
         <tfoot>
         <tr>
             <th>收集编号</th>
-            <th>运输编号</th>
             <th>废弃物类型</th>
-            <th>废弃物质量(单位：吨)</th>
-            <th>运输负责人</th>
-            <th>起始地</th>
-            <th>目的地</th>
-            <th>车牌号</th>
-            <th>运输时间</th>
+            <th>处理方法</th>
+            <th>收支(单位：元)</th>
+            <th>支付状态</th>
+            <th>处理地点</th>
+            <th>处理负责人</th>
+            <th>处理时间</th>
             <th>详情</th>
         </tr>
         </tfoot>
@@ -137,7 +132,7 @@
 <script type="text/javascript" src="/js/data-tables/DT_bootstrap.js"></script>
 <script type="text/javascript" src="/js/mine/js/dataTable_init.js"></script>
 <!--dynamic table initialization -->
-<script src="/js/mine/js/waste_transportation_table_init.js"></script>
+<script src="/js/mine/js/waste_unpaid_table_init.js"></script>
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>

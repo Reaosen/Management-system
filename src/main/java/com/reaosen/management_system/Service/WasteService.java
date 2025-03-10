@@ -8,6 +8,10 @@ import java.util.List;
 public interface WasteService {
     PaginationDTO wastePagination(String type, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
 
+    public PaginationDTO wastePaginationByStatus(String type, Integer STATUS, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
+
+    public PaginationDTO wastePaginationByPayStatus(String type, Integer payStatus, Integer sEcho, Integer iDisplayStart, Integer iDisplayLength, String sSearch);
+
     void wasteCollectionInsert(Integer wasteTypeId, Integer collectionPointId, BigDecimal weight, Integer collectionAccountId);
 
     void wasteDisposalInsert(Integer disposalPointId, Integer wasteRecordId, Integer disposalMethod, BigDecimal budget, Integer collectionAccountId);
@@ -97,4 +101,6 @@ public interface WasteService {
     BigDecimal getStorageCapacity();
 
     void payForDisposal(Integer id);
+
+    List getWastesUndisposal();
 }

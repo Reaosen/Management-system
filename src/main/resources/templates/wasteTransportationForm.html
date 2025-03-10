@@ -71,10 +71,11 @@
                                     <div class="col-lg-10">
                                         <select class="form-control m-bot15" name="collectionPointId"
                                                 id="collectionPointId">
-                                            <option value="">请选择起始地</option>
+                                            <option value="" th:if="${wasteByWasteRecord == null}">请选择起始地</option>
                                             <option th:each="collectionPoint : ${collectionPoints}"
                                                     th:text="${collectionPoint.address}"
-                                                    th:value="${collectionPoint.collectionPointId}"></option>
+                                                    th:value="${collectionPoint.collectionPointId}"
+                                                    th:if="${wasteByWasteRecord == null || wasteByWasteRecord.collectionPoint.equals(collectionPoint.address)}"></option>
                                         </select>
                                     </div>
                                 </div>
@@ -83,7 +84,11 @@
                                            for="wasteRecordId">废弃物收集编号</label>
                                     <div class="col-lg-10">
                                         <select class="form-control m-bot15" name="wasteRecordId" id="wasteRecordId">
-                                            <option value="">请选择收集编号</option>
+                                            <option th:value="${wasteByWasteRecord.wasteRecordId}"
+                                                    th:text="${wasteByWasteRecord.wasteRecordId}"
+                                                    th:if="${wasteByWasteRecord != null}">
+                                            </option>
+                                            <option value="" th:if="${wasteByWasteRecord == null}">请选择收集编号</option>
                                         </select>
                                     </div>
                                 </div>
@@ -103,7 +108,8 @@
                                     <label class="col-sm-2 col-sm-2 control-label" for="weight">质量</label>
                                     <div class="col-sm-10">
                                         <input type="text" class="form-control" placeholder="废弃物收集总质量"
-                                               name="weight" id="weight">
+                                               name="weight" id="weight" th:value="${wasteByWasteRecord != null ? wasteByWasteRecord.weight : null}">
+
                                     </div>
                                 </div>
                                 <div class="form-group">

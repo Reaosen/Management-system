@@ -7,7 +7,7 @@
     <meta name="author" content="ThemeBucket">
     <link rel="shortcut icon" href="#" type="image/png">
 
-    <title>员工基本信息</title>
+    <title>未运输废弃物</title>
 
     <!--dynamic table-->
     <link href="/js/advanced-datatable/css/demo_page.css" rel="stylesheet"/>
@@ -41,13 +41,13 @@
         <!-- 页面起始开始-->
         <div class="page-heading">
             <h3>
-                废弃物收集
+                未运输废弃物
             </h3>
             <ul class="breadcrumb">
                 <li>
-                    <a href="#">废弃物管理</a>
+                    <a href="#">待办任务</a>
                 </li>
-                <li class="active">废弃物收集</li>
+                <li class="active">未运输废弃物</li>
             </ul>
         </div>
         <!-- 页面起始结束-->
@@ -55,18 +55,17 @@
         <!--body wrapper start-->
         <div class="wrapper">
             <div class="row">
-                <a class="btn btn-info" type="button" style="margin: 15px" href="/waste/collection/form">新增数据 <i class="fa fa-plus"></i></a>
                 <div class="col-sm-12">
                     <section class="panel">
                         <header class="panel-heading">
                             废弃物收集
                             <span class="tools pull-right">
-                <a href="javascript:;" class="fa fa-chevron-down"></a>
-             </span>
+                                <a href="javascript:;" class="fa fa-chevron-down"></a>
+                             </span>
                         </header>
                         <div class="panel-body">
                             <div class="adv-table">
-                                <table class="display table table-bordered table-striped" id="waste-collection-table">
+                                <table class="display table table-bordered table-striped" id="waste-untransportation-table">
                                     <thead>
                                     <tr>
                                         <th>收集编号</th>
@@ -130,7 +129,7 @@
 <script type="text/javascript" src="/js/data-tables/DT_bootstrap.js"></script>
 <script type="text/javascript" src="/js/mine/js/dataTable_init.js"></script>
 <!--table initialization -->
-<script src="/js/mine/js/waste_collection_table_init.js"></script>
+<script src="/js/mine/js/waste_untransportation_table_init.js"></script>
 
 <!--common scripts for all pages-->
 <script src="/js/scripts.js"></script>

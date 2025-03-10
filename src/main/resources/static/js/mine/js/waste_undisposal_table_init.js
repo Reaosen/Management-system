@@ -1,10 +1,10 @@
 $(document).ready(function () {
-    var oTable = $('#waste-collection-table').dataTable({
+    var oTable = $('#waste-untransportation-table').dataTable({
         "aaSorting": [[0, "asc"]],
         "bProcessing": false,
         "bServerSide": true,
         "bInfo": false,
-        "sAjaxSource": "/waste/collection/pagination",
+        "sAjaxSource": "/waste/undisposal/pagination",
         "fnServerData": function (sSource, aoData, fnCallback) {
             $.ajax({
                 "url": sSource,
@@ -24,12 +24,12 @@ $(document).ready(function () {
             {
                 "mData": "status",
                 "fnRender": function (oObj, sType, sValue) {
-                    if (oObj.aData.status == "已收集"){
-                        var html = '<span class="badge badge-important">未运输</span>';
-                    }else if (oObj.aData.status == "已处理"){
+                    if (oObj.aData.status == "已收集") {
+                        var html = '<span class="badge badge-important">未运输</span> <a href="/waste/transportation/form/' + oObj.aData.wasteRecordId + '">去记录>></a>'
+                    } else if (oObj.aData.status == "已处理") {
                         var html = '<span class="badge badge-success">已处理</span>'
-                    }else if (oObj.aData.status == "已运输"){
-                        var html = '<span class="badge badge-warning">未处理</span>'
+                    } else if (oObj.aData.status == "已运输") {
+                        var html = '<span class="badge badge-warning">未处理</span> <a href="/waste/disposal/form/' + oObj.aData.wasteRecordId + '">去记录>></a>'
                     }
 
 
@@ -62,7 +62,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#waste-collection-table tbody').on('click', 'button', function () {
+    $('#waste-untransportation-table tbody').on('click', 'button', function () {
         var button = $(this);
         var nTr = button.closest('tr')[0];
         var aData = oTable.fnGetData(nTr); // 获取整行数据
@@ -72,8 +72,7 @@ $(document).ready(function () {
             type: "GET",
             url: "/waste/" + wasteRecordId,
             contentType: "application/json",
-            data: JSON.stringify({
-            }),
+            data: JSON.stringify({}),
             success: function (response) {
                 if (response.code === 200) {
 

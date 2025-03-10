@@ -114,7 +114,7 @@
                                                  th:if="${wasteDTO.statusId != 1}">已运输</span><span
                                 class="label label-danger" th:if="${wasteDTO.statusId == 1}">未运输</span>
                             <a class="btn btn-info btn-xs" type="button" th:if="${wasteDTO.statusId == 1}"
-                               href="/waste/transportation/form">新增运输 <i class="fa fa-plus"></i></a>
+                               th:href="@{/waste/transportation/form{id}(id=${wasteDTO.wasteRecordId})}">新增运输 <i class="fa fa-plus"></i></a>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
@@ -175,7 +175,7 @@
                                                  th:if="${wasteDTO.statusId == 3}">已处理</span><span
                                 class="label label-danger" th:if="${wasteDTO.statusId != 3}">未处理</span>
                             <a class="btn btn-info btn-xs" type="button" th:if="${wasteDTO.statusId == 2}"
-                               href="/waste/disposal/form">新增处理 <i class="fa fa-plus"></i></a>
+                               th:href="@{/waste/disposal/form/{id}(id=${wasteDTO.wasteRecordId})}">新增处理 <i class="fa fa-plus"></i></a>
                             <span class="tools pull-right">
                             <a class="fa fa-chevron-down" href="javascript:;"></a>
                          </span>
